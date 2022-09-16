@@ -69,17 +69,30 @@ export const FormWrapper = styled.div`
 
 const SignUp = (): JSX.Element => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+
   // typescript: handling form onSubmit event
   const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
 
     // do something
-    alert(email);
+    alert(name);
   };
   return (
     <FormContainer>
       <form onSubmit={submitSignIn}>
+        <FormWrapper>
+          <label htmlFor='userName'>이름</label>
+          <input
+            id='userName'
+            type='text'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder='이름을 입력해주세요.'
+          ></input>
+        </FormWrapper>
+
         <FormWrapper>
           <label htmlFor='userEmail'>이메일</label>
           <input
@@ -99,10 +112,20 @@ const SignUp = (): JSX.Element => {
             placeholder='비밀번호를 입력해주세요.'
           ></input>
         </FormWrapper>
+
+        <FormWrapper>
+          <label htmlFor='passwordConfirm'>비밀번호 확인</label>
+          <input
+            id='passwordConfirm'
+            type='password'
+            placeholder='비밀번호를 입력해주세요.'
+          ></input>
+        </FormWrapper>
+
         <button type='submit' className='signInBtn'>
-          로그인하기
+          회원 가입하기
         </button>
-        <Link to='/members/sign-out'>아직 회원이 아니신가요?</Link>
+        <Link to='/members/sign-in'>이미 회원이신가요?</Link>
       </form>
     </FormContainer>
   );
