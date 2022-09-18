@@ -85,7 +85,6 @@ const SignIn = (): JSX.Element => {
     // input.focus()
     inputRef.current?.focus();
   });
-
   return (
     <FormContainer>
       <form onSubmit={submitSignIn}>

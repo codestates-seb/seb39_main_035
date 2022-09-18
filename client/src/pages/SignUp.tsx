@@ -67,7 +67,11 @@ export const FormWrapper = styled.div`
     }
   }
 `;
-export const ErrMsg = styled.div``;
+export const ErrMsg = styled.div`
+  color: #ea1a7f;
+  margin-bottom: 0.5rem;
+  font-size: 0.6rem;
+`;
 
 const SignUp = (): JSX.Element => {
   const [email, setEmail] = useState('');
@@ -108,41 +112,42 @@ const SignUp = (): JSX.Element => {
     '^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$'
   );
 
-  // 커스텀 에러 메시지
-  const ERROR_MSG = {
-    required: '필수 정보입니다.',
-    invalidId: '이메일 형식에 맞게 작성해주세요.',
-    invalidPw:
-      '6자 이상 영문 대 소문자, 숫자와 특수기호(!@#$%^&*)만 사용가능합니다.',
-    invalidConfirmPw: '비밀번호가 일치하지 않습니다.',
-  };
-
   const checkRegex = (input: any) => {
     let result;
     const inputId = input.id;
+    console.log(inputId);
     const inputValue = input.value;
+    console.log(inputValue.length);
     if (inputValue.length === 0) {
-      result = 'required';
+      result = '필수 정보입니다.';
     } else {
       switch (inputId) {
+        case 'name':
+          result = true;
+          break;
         case 'email':
-          result = EMAIL_REGEX.test(inputValue) ? true : 'invalidId';
+          result = EMAIL_REGEX.test(inputValue)
+            ? true
+            : '이메일 형식에 맞게 작성해주세요.';
           console.log('inputId:', result);
           break;
         case 'pw':
-          result = PW_REGEX.test(inputValue) ? true : 'invalidPw';
+          result = PW_REGEX.test(inputValue)
+            ? true
+            : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
           console.log('pw:', result);
           break;
         case 'confirmPw':
-          result = inputValue === pw ? true : 'invalidConfirmPw';
+          result = inputValue === pw ? true : '비밀번호가 일치하지 않습니다.';
           console.log('confirmPw:', result);
           break;
         default:
           return;
       }
-      setErrorData({ ...errData, [inputId]: result });
-      console.log('errData:', errData);
     }
+    console.log(result);
+    setErrorData({ ...errData, [inputId]: result });
+    console.log('errData:', errData);
   };
   return (
     <Container>
@@ -157,8 +162,8 @@ const SignUp = (): JSX.Element => {
             placeholder='이름을 입력해주세요.'
             autoFocus={true}
             onBlur={(e) => checkRegex(e.target)}
-          ></input>
-          <ErrMsg></ErrMsg>
+          />
+          <ErrMsg>{errData.name}</ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
@@ -170,8 +175,8 @@ const SignUp = (): JSX.Element => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder='이메일을 입력해주세요.'
             onBlur={(e) => checkRegex(e.target)}
-          ></input>
-          <ErrMsg></ErrMsg>
+          />
+          <ErrMsg>{errData.email}</ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
@@ -183,8 +188,8 @@ const SignUp = (): JSX.Element => {
             placeholder='비밀번호를 입력해주세요.'
             onChange={(e) => setPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
-          ></input>
-          <ErrMsg></ErrMsg>
+          />
+          <ErrMsg>{errData.pw}</ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
@@ -196,8 +201,8 @@ const SignUp = (): JSX.Element => {
             placeholder='비밀번호를 입력해주세요.'
             onChange={(e) => setconfirmPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
-          ></input>
-          <ErrMsg></ErrMsg>
+          />
+          <ErrMsg>{errData.confirmPw}</ErrMsg>
         </FormWrapper>
 
         <button type='submit' className='signInBtn'>
