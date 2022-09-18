@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -73,28 +73,38 @@ const SignIn = (): JSX.Element => {
   const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-
     // do something
     alert(email);
   };
+
+  // autoFocus 기능 구현
+  // typescript useRef 에러 해결 => optional chaining(?.)기법 사용
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useLayoutEffect(() => {
+    // input.focus()
+    inputRef.current?.focus();
+  });
+
   return (
     <FormContainer>
       <form onSubmit={submitSignIn}>
         <FormWrapper>
-          <label htmlFor='userEmail'>이메일</label>
+          <label htmlFor='email'>이메일</label>
           <input
-            id='userEmail'
+            id='email'
             type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder='이메일을 입력해주세요.'
+            ref={inputRef}
           ></input>
         </FormWrapper>
 
         <FormWrapper>
-          <label htmlFor='password'>비밀번호</label>
+          <label htmlFor='pw'>비밀번호</label>
           <input
-            id='password'
+            id='pw'
             type='password'
             placeholder='비밀번호를 입력해주세요.'
           ></input>

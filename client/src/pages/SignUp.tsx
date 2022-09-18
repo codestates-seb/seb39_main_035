@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,11 +7,12 @@ export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Pretendard-Regular';
+  // CSS 중앙 정렬
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Pretendard-Regular';
 
   form {
     display: flex;
@@ -66,10 +67,19 @@ export const FormWrapper = styled.div`
     }
   }
 `;
+export const ErrMsg = styled.div``;
 
 const SignUp = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [pw, setPw] = useState('');
+  const [confirmPw, setconfirmPw] = useState('');
+  const [errData, setErrorData] = useState({
+    name: '',
+    email: '',
+    pw: '',
+    confirmPw: '',
+  });
 
   // typescript: handling form onSubmit event
   const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,47 +89,115 @@ const SignUp = (): JSX.Element => {
     // do something
     alert(name);
   };
+
+  // autoFocus 기능 구현
+  // typescript useRef 에러 해결 => optional chaining(?.)기법 사용
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useLayoutEffect(() => {
+    // input.focus()
+    inputRef.current?.focus();
+  });
+
+  // 이메일 유효성 검사
+  const EMAIL_REGEX = new RegExp(
+    '^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$'
+  );
+  // 비밀번호 유효성 검사
+  const PW_REGEX = new RegExp(
+    '^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$'
+  );
+
+  // 커스텀 에러 메시지
+  const ERROR_MSG = {
+    required: '필수 정보입니다.',
+    invalidId: '이메일 형식에 맞게 작성해주세요.',
+    invalidPw:
+      '6자 이상 영문 대 소문자, 숫자와 특수기호(!@#$%^&*)만 사용가능합니다.',
+    invalidConfirmPw: '비밀번호가 일치하지 않습니다.',
+  };
+
+  const checkRegex = (input: any) => {
+    let result;
+    const inputId = input.id;
+    const inputValue = input.value;
+    if (inputValue.length === 0) {
+      result = 'required';
+    } else {
+      switch (inputId) {
+        case 'email':
+          result = EMAIL_REGEX.test(inputValue) ? true : 'invalidId';
+          console.log('inputId:', result);
+          break;
+        case 'pw':
+          result = PW_REGEX.test(inputValue) ? true : 'invalidPw';
+          console.log('pw:', result);
+          break;
+        case 'confirmPw':
+          result = inputValue === pw ? true : 'invalidConfirmPw';
+          console.log('confirmPw:', result);
+          break;
+        default:
+          return;
+      }
+      setErrorData({ ...errData, [inputId]: result });
+      console.log('errData:', errData);
+    }
+  };
   return (
     <Container>
       <form onSubmit={submitSignIn}>
         <FormWrapper>
-          <label htmlFor='userName'>이름</label>
+          <label htmlFor='name'>이름</label>
           <input
-            id='userName'
+            id='name'
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder='이름을 입력해주세요.'
+            autoFocus={true}
+            onBlur={(e) => checkRegex(e.target)}
           ></input>
+          <ErrMsg></ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
-          <label htmlFor='userEmail'>이메일</label>
+          <label htmlFor='email'>이메일</label>
           <input
-            id='userEmail'
-            type='email'
+            id='email'
+            type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder='이메일을 입력해주세요.'
+            onBlur={(e) => checkRegex(e.target)}
           ></input>
+          <ErrMsg></ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
-          <label htmlFor='password'>비밀번호</label>
+          <label htmlFor='pw'>비밀번호</label>
           <input
-            id='password'
+            id='pw'
             type='password'
+            value={pw}
             placeholder='비밀번호를 입력해주세요.'
+            onChange={(e) => setPw(e.target.value)}
+            onBlur={(e) => checkRegex(e.target)}
           ></input>
+          <ErrMsg></ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
-          <label htmlFor='passwordConfirm'>비밀번호 확인</label>
+          <label htmlFor='confirmPw'>비밀번호 확인</label>
           <input
-            id='passwordConfirm'
+            id='confirmPw'
             type='password'
+            value={confirmPw}
             placeholder='비밀번호를 입력해주세요.'
+            onChange={(e) => setconfirmPw(e.target.value)}
+            onBlur={(e) => checkRegex(e.target)}
           ></input>
+          <ErrMsg></ErrMsg>
         </FormWrapper>
 
         <button type='submit' className='signInBtn'>
