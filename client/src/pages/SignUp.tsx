@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const FormContainer = styled.section`
+export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,7 +80,7 @@ const SignUp = (): JSX.Element => {
     alert(name);
   };
   return (
-    <FormContainer>
+    <Container>
       <form onSubmit={submitSignIn}>
         <FormWrapper>
           <label htmlFor='userName'>이름</label>
@@ -127,7 +127,7 @@ const SignUp = (): JSX.Element => {
         </button>
         <Link to='/members/sign-in'>이미 회원이신가요?</Link>
       </form>
-    </FormContainer>
+    </Container>
   );
 };
 
