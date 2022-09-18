@@ -12,6 +12,7 @@
 Backend(팀장) | Backend | Frontend | Frontend
 --|--|--|--
 김형섭 | 김주현 | 이슬 | 한성욱
+| | | ![한성욱](https://avatars.githubusercontent.com/u/27681985?v=4)
 
 ## 기술 스택
 
