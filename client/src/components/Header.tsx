@@ -5,6 +5,7 @@ import { TbBooks, TbCalendarStats } from 'react-icons/tb';
 import { BiBookHeart } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { GiArchiveResearch } from 'react-icons/gi';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.header`
   height: 60px;
@@ -14,7 +15,7 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
+  box-shadow: 0 4px 6px rgb(32 33 36 / 10%);
 `;
 
 const Logo = styled.div`
@@ -44,21 +45,22 @@ const Menu = styled.ul`
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   return (
     <Wrapper>
       {isLogin && (
-        <Logo>
+        <Logo onClick={() => navigate('/')}>
           <img src={logo} alt='logo_icon' />
         </Logo>
       )}
       {!isLogin && (
         <>
-          <Logo>
+          <Logo onClick={() => navigate('/books/library')}>
             <img src={logo} alt='logo_icon' />
           </Logo>
           <Menu>
-            <TbBooks />
+            <TbBooks onClick={() => navigate('/books/library')} />
             <BiBookHeart />
             <GiArchiveResearch />
             <TbCalendarStats />
