@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 export const Container = styled.section`
   position: absolute;
