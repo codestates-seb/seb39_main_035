@@ -19,11 +19,11 @@ export const Container = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--light-blue);
     padding: 1.5rem 2rem;
-    border: 2px solid #ffffff;
     border-radius: 0.25rem;
+    box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
   }
+
   // 로그인하기 버튼
   button {
     background-color: var(--misty-rose);
@@ -39,14 +39,21 @@ export const Container = styled.section`
       cursor: pointer;
     }
   }
+
   // 회원가입 링크
   a {
     font-size: 0.5rem;
     text-decoration: none;
+    color: #747474;
+
+    &:hover {
+      color: black;
+    }
   }
 `;
 
 export const FormWrapper = styled.div`
+  width: 100%;
   label {
     display: block;
     margin-bottom: 0.5rem;
@@ -60,6 +67,7 @@ export const FormWrapper = styled.div`
     border: 1px solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
+    width: 100%;
 
     &::placeholder {
       font-size: 0.8rem;
@@ -71,6 +79,7 @@ export const ErrMsg = styled.div`
   color: #ea1a7f;
   margin-bottom: 0.5rem;
   font-size: 0.6rem;
+  word-wrap: break-word;
 `;
 
 const SignUp = (): JSX.Element => {
@@ -96,12 +105,13 @@ const SignUp = (): JSX.Element => {
 
   // autoFocus 기능 구현
   // typescript useRef 에러 해결 => optional chaining(?.)기법 사용
-  const inputRef = useRef<HTMLInputElement>(null);
+  // but ref={inputRef}한 input를 제외한 다른 input이 선택되지 못하는 현상 발생.
+  // input autofocus={true}로 기능 구현
 
-  useLayoutEffect(() => {
-    // input.focus()
-    inputRef.current?.focus();
-  });
+  // const inputRef = useRef<HTMLInputElement>(null);
+  // useLayoutEffect(() => {
+  //   inputRef.current?.focus();
+  // });
 
   // 이메일 유효성 검사
   const EMAIL_REGEX = new RegExp(
@@ -128,25 +138,20 @@ const SignUp = (): JSX.Element => {
           result = EMAIL_REGEX.test(inputValue)
             ? true
             : '이메일 형식에 맞게 작성해주세요.';
-          // console.log('inputId:', result);
           break;
         case 'pw':
           result = PW_REGEX.test(inputValue)
             ? true
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
-          // console.log('pw:', result);
           break;
         case 'confirmPw':
           result = inputValue === pw ? true : '비밀번호가 일치하지 않습니다.';
-          // console.log('confirmPw:', result);
           break;
         default:
           return;
       }
     }
-    // console.log(result);
     setErrorData({ ...errData, [inputId]: result });
-    // console.log('errData:', errData);
   };
   return (
     <Container>

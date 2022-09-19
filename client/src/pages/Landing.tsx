@@ -1,17 +1,14 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
 
 export const Container = styled.section`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Pretendard-Regular';
-  background-color: var(--light-blue);
   padding: 1.5rem 2rem;
-  border: 2px solid #ffffff;
   border-radius: 0.25rem;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
 `;
 
 // 캐러셀
