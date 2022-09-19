@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './components/Header';
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 import reset from 'styled-reset';
@@ -47,6 +48,7 @@ function App() {
     <>
       <BrowserRouter>
         <GlobalStyle />
+        <Header />
         <Container>
           <Routes>
             <Route path='/' element={<Landing />}></Route>
