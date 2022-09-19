@@ -1,26 +1,20 @@
 import React from 'react';
-import { createGlobalStyle } from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import reset from 'styled-reset';
-
-const GlobalStyle = createGlobalStyle`
-  ${reset}
-  /* other styles */
-
-`;
-const Container = styled.div`
-  max-width: 640px;
-  margin: 0 auto;
-  padding-bottom: 0px;
-  min-height: 100vh;
-  background-color: #f9f9f9;
-`;
+import GlobalStyle from './GlobalStyle';
+import Header from './components/Header';
+import Landing from './pages/Landing';
 
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <Container></Container>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Header />
+        <Routes>
+          <Route path='/' element={<Landing />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
