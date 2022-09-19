@@ -85,6 +85,11 @@ const SignIn = (): JSX.Element => {
     // input.focus()
     inputRef.current?.focus();
   });
+  // 이메일 유효성 검사
+  const EMAIL_REGEX = new RegExp(
+    '^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$'
+  );
+
   return (
     <FormContainer>
       <form onSubmit={submitSignIn}>

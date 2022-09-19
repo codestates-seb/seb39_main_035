@@ -112,12 +112,11 @@ const SignUp = (): JSX.Element => {
     '^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$'
   );
 
+  // 유효성 검사
   const checkRegex = (input: any) => {
     let result;
     const inputId = input.id;
-    console.log(inputId);
     const inputValue = input.value;
-    console.log(inputValue.length);
     if (inputValue.length === 0) {
       result = '필수 정보입니다.';
     } else {
@@ -129,25 +128,25 @@ const SignUp = (): JSX.Element => {
           result = EMAIL_REGEX.test(inputValue)
             ? true
             : '이메일 형식에 맞게 작성해주세요.';
-          console.log('inputId:', result);
+          // console.log('inputId:', result);
           break;
         case 'pw':
           result = PW_REGEX.test(inputValue)
             ? true
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
-          console.log('pw:', result);
+          // console.log('pw:', result);
           break;
         case 'confirmPw':
           result = inputValue === pw ? true : '비밀번호가 일치하지 않습니다.';
-          console.log('confirmPw:', result);
+          // console.log('confirmPw:', result);
           break;
         default:
           return;
       }
     }
-    console.log(result);
+    // console.log(result);
     setErrorData({ ...errData, [inputId]: result });
-    console.log('errData:', errData);
+    // console.log('errData:', errData);
   };
   return (
     <Container>
