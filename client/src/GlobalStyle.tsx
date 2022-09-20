@@ -27,7 +27,14 @@ const GlobalStyle = createGlobalStyle`
 
   *{
     box-sizing: border-box;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
+  
+  *::-webkit-scrollbar {
+  display: none;
+  }
+
   body {
     background-color: #f9f9f9;
     font-family: 'Pretendard-Regular';
@@ -36,6 +43,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     padding-bottom: 0px;
     min-height: 100vh;
+    overflow: scroll;
     /* position: relative; */
   }
   `;

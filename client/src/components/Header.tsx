@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../assets/1.png';
 import { TbBooks, TbCalendarStats } from 'react-icons/tb';
@@ -6,7 +7,8 @@ import { BiBookHeart } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { GiArchiveResearch } from 'react-icons/gi';
 
-const Wrapper = styled.header`
+const HeaderWrapper = styled.header`
+  background-color: #f9f9f9;
   height: 60px;
   padding: 0 12px;
   position: sticky;
@@ -14,7 +16,7 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
+  box-shadow: 0 4px 6px rgb(32 33 36 / 10%);
 `;
 
 const Logo = styled.div`
@@ -44,29 +46,32 @@ const Menu = styled.ul`
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   return (
-    <Wrapper>
-      {isLogin && (
-        <Logo>
-          <img src={logo} alt='logo_icon' />
-        </Logo>
-      )}
-      {!isLogin && (
-        <>
-          <Logo>
+    <>
+      <HeaderWrapper>
+        {isLogin && (
+          <Logo onClick={() => navigate('/')}>
             <img src={logo} alt='logo_icon' />
           </Logo>
-          <Menu>
-            <TbBooks />
-            <BiBookHeart />
-            <GiArchiveResearch />
-            <TbCalendarStats />
-            <BsPersonCircle />
-          </Menu>
-        </>
-      )}
-    </Wrapper>
+        )}
+        {!isLogin && (
+          <>
+            <Logo onClick={() => navigate('/books/library')}>
+              <img src={logo} alt='logo_icon' />
+            </Logo>
+            <Menu>
+              <TbBooks onClick={() => navigate('/books/library')} />
+              <BiBookHeart />
+              <GiArchiveResearch />
+              <TbCalendarStats />
+              <BsPersonCircle />
+            </Menu>
+          </>
+        )}
+      </HeaderWrapper>
+    </>
   );
 };
 
