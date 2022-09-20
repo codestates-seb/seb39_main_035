@@ -7,6 +7,7 @@ import styled from 'styled-components';
 console.log('process.env.REACT_APP_API_KEY:', process.env.REACT_APP_API_KEY);
 // aladin API 연동
 const defaultParam = {
+  ttbkey: process.env.REACT_APP_API_KEY,
   QueryType: 'Keyword',
   MaxResults: 10,
   start: 1,
