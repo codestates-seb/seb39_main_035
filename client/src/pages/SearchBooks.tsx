@@ -5,6 +5,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Search from '../components/Search';
 import { BsPlusSquare } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const BookContents = styled.li`
   display: flex;
@@ -69,6 +70,7 @@ type GetBookResponse = {
 const SearchBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   // aladin API axios GET 요청
   const getBookList = async (paramObj: Object) => {
@@ -112,7 +114,10 @@ const SearchBooks = () => {
           </BookContents>
           {books.map((book) => {
             return (
-              <BookContents key={book.itemId}>
+              <BookContents
+                key={book.itemId}
+                onClick={() => navigate(`/books/search/${book.title}`)}
+              >
                 <BookContentImg src={book.cover} alt='책 이미지' />
                 <BookContentKeyword>
                   <div>{book.title}</div>
