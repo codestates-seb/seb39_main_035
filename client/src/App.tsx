@@ -5,7 +5,7 @@ import Landing from './pages/Landing';
 import Library from './pages/Library';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import Search from './pages/Search';
+import SearchBooks from './pages/SearchBooks';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
           <Route path='/' element={<Landing />}></Route>
           <Route path='/members/sign-in' element={<SignIn />}></Route>
           <Route path='/members/sign-up' element={<SignUp />}></Route>
-          <Route path='/books/search' element={<Search />}></Route>
+          <Route path='/books/search' element={<SearchBooks />}></Route>
           <Route path='/books/library' element={<Library />}></Route>
         </Routes>
       </BrowserRouter>
