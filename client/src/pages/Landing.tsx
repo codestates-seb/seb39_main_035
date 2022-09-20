@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 
 export const Container = styled.section`
@@ -7,12 +7,8 @@ export const Container = styled.section`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* font-family: 'Pretendard-Regular';
-  background-color: var(--light-blue);
-  border: 2px solid #ffffff; */
   padding: 1.5rem 2rem;
   border-radius: 0.25rem;
-  /* seul 추가 */
   box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
   width: 300px;
 `;
@@ -44,18 +40,12 @@ export const SignBtn = styled.div`
   } */
 `;
 
-const Landing = (): JSX.Element => {
+const Landing = () => {
   const navigate = useNavigate();
   return (
     <Container>
       <Carousel>여기는 캐러셀 영역입니다.</Carousel>
       <SignBtn>
-        {/* <button>
-          <Link to='/members/sign-in'>로그인</Link>
-        </button>
-        <button>
-          <Link to='/members/sign-up'>회원가입</Link>
-        </button> */}
         <Button color='mint' onClick={() => navigate('/members/sign-in')}>
           로그인
         </Button>
