@@ -8,11 +8,13 @@ import Modal from '../components/Modal';
 import { Book } from '../model/booktype';
 import Boxcontainer from '../components/BoxContainer';
 import BookCoverItem from '../components/BookCoverItem';
+import StarRating from '../components/StarRating';
 
 const BookDetail = () => {
   const location = useLocation();
   const book = location.state as Book;
   const [openModal, setOpenModal] = useState(false);
+  const [star, setStar] = useState<number>(0);
 
   const modalHandler = () => {
     setOpenModal(!openModal);
@@ -36,6 +38,12 @@ const BookDetail = () => {
           <p>{book.title}</p>
         </Modal>
       )}
+      <Boxcontainer containerTitle='독서 진행 상황'>
+        <p>page정보</p>
+      </Boxcontainer>
+      <Boxcontainer containerTitle='별점'>
+        <StarRating star={star} setStar={setStar} />
+      </Boxcontainer>
     </Layout>
   );
 };

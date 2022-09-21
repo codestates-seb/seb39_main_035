@@ -6,8 +6,8 @@ interface BoxContainerProps {
 }
 
 const Title = styled.h1`
-  font-size: 26px;
-  margin-bottom: 10px;
+  font-size: 22px;
+  margin: 15px 0;
 `;
 
 const Wrapper = styled.section`
