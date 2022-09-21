@@ -17,4 +17,5 @@ Backend(팀장) | Backend | Frontend | Frontend
 
 ## ✨프로젝트 아키텍쳐
 
+## ✨Git commit message
 
