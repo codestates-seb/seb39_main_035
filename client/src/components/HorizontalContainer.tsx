@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 const WindowWrapper = styled.div`
   border: 1px solid red;
   overflow: hidden;
-  width: 600px;
+  width: 100%;
 `;
 
 const ListWrapper = styled.ul`
