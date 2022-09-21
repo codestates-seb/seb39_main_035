@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Book } from '../pages/Library';
+import { Book } from '../model/booktype';
 import BookCoverItem from './BookCoverItem';
 
 type HorizontalContainerProps = {
-  title: string;
+  bookStatus: string;
   bookList: Book[];
 };
 const Wrapper = styled.div`
@@ -20,36 +20,47 @@ const WindowWrapper = styled.div`
   width: 100%;
 `;
 
-const ListWrapper = styled.ul`
+const ListWrapper = styled.div`
   width: 100%;
   display: flex;
   align-items: baseline;
   overflow-x: auto;
   white-space: nowrap;
-  li {
-    display: inline-block;
-    padding: 5px;
+`;
+
+const BookAddButton = styled.div`
+  display: flex;
+  padding: 1rem 1.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0 0 0 / 20%);
+  svg {
+    margin-right: 30px;
+  }
+  &:hover {
+    cursor: pointer;
   }
 `;
 
-const HorizontalContainer = ({ title, bookList }: HorizontalContainerProps) => {
+const HorizontalContainer = ({
+  bookStatus,
+  bookList,
+}: HorizontalContainerProps) => {
   const navigate = useNavigate();
-  const handleClick = (id: number) => {
-    navigate(`/books/library/${id}`);
+  const handleClick = (id: number, book: Book) => {
+    navigate(`/books/library/${id}`, { state: book });
   };
   return (
     <Wrapper>
-      <h1>{title}</h1>
-
+      <h1>{bookStatus}</h1>
       <WindowWrapper>
         <ListWrapper>
           {bookList.map((book) => (
-            <li key={book.itemId}>
-              <BookCoverItem
-                src={book.cover}
-                onClick={handleClick.bind(null, book.itemId)}
-              />
-            </li>
+            <BookCoverItem
+              key={book.itemId}
+              book={book}
+              onClick={handleClick.bind(null, book.itemId, book)}
+            />
           ))}
         </ListWrapper>
       </WindowWrapper>

@@ -71,7 +71,9 @@ const Header = () => {
               <BiBookHeart />
               <GiArchiveResearch />
               <TbCalendarStats />
-              <BsPersonCircle />
+              <Link to='/mypage'>
+                <BsPersonCircle />
+              </Link>
             </Menu>
           </>
         )}
