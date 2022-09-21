@@ -3,18 +3,19 @@ import { useEffect, useState } from 'react';
 import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
+import SearchBar from '../components/SearchBar';
 import useScrollTop from '../util/useScrollTop';
 
-export type Book = {
+export interface Book {
   itemId: number;
   cover: string;
   title: string;
   author: string;
-};
+}
 
-type GetBookListResponse = {
+interface GetBookListResponse {
   item: Book[];
-};
+}
 
 const Library = () => {
   const [bookList, setBookList] = useState<Book[]>([]);
@@ -40,13 +41,13 @@ const Library = () => {
     getBookListData();
   }, []);
 
-  console.log(bookList);
-
   return (
     <Layout>
       <PageTitle title='서재' />
-      <h1>읽고 있는 책</h1>
-      <HorizontalContainer bookList={bookList} />
+      <SearchBar />
+      <HorizontalContainer title='읽고 있는 책' bookList={bookList} />
+      <HorizontalContainer title='읽고 싶은 책' bookList={bookList} />
+      <HorizontalContainer title='다 읽은 책' bookList={bookList} />
     </Layout>
   );
 };
