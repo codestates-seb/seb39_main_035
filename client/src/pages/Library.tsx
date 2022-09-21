@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
-import SearchBar from '../components/SearchBar';
+import Search from '../components/Search';
 import useScrollTop from '../util/useScrollTop';
 
 export interface Book {
@@ -21,7 +21,7 @@ const Library = () => {
   const [bookList, setBookList] = useState<Book[]>([]);
   const getBookListData = async () => {
     const params = {
-      ttbkey: process.env.REACT_APP_ALADIN_API_KEY,
+      ttbkey: process.env.REACT_APP_API_KEY,
       QueryType: 'BestSeller',
       MaxResults: 20,
       start: 1,
@@ -44,7 +44,6 @@ const Library = () => {
   return (
     <Layout>
       <PageTitle title='서재' />
-      <SearchBar />
       <HorizontalContainer title='읽고 있는 책' bookList={bookList} />
       <HorizontalContainer title='읽고 싶은 책' bookList={bookList} />
       <HorizontalContainer title='다 읽은 책' bookList={bookList} />

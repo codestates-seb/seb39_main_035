@@ -16,13 +16,11 @@ const Wrapper = styled.div`
 `;
 
 const WindowWrapper = styled.div`
-  border: 1px solid red;
   overflow: hidden;
   width: 100%;
 `;
 
 const ListWrapper = styled.ul`
-  /* transform: translate(-50%, 0); */
   width: 100%;
   display: flex;
   align-items: baseline;
