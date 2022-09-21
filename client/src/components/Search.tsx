@@ -19,9 +19,11 @@ const SearchForm = styled.form`
     width: 100%;
     color: rgba(0 0 0 / 70%);
     margin-left: 0.25rem;
+    font-family: 'Pretendard-Regular';
 
     &::placeholder {
       font-size: 1rem;
+      font-family: 'Pretendard-Regular';
     }
   }
 `;
