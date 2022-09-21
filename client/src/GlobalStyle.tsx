@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
     --clear-day: #EFF7F6;
     --misty-rose: #FEE5E0;
     --pink: #FFBFC5;
+    --gray: #747474;
   }
 
   *{

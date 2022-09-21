@@ -32,7 +32,7 @@ const BookCoverItem = ({ src, text, onClick }: BookCoverItemProps) => {
       <img
         src={src}
         alt='book_cover'
-        onMouseEnter={() => console.log('hi')}
+        // onMouseEnter={() => console.log('hi')}
         onClick={onClick}
       />
       <ItemInfo>{text}</ItemInfo>
