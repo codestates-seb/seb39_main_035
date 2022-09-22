@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 export const Container = styled.section`
   display: flex;
@@ -83,7 +84,7 @@ export const ErrMsg = styled.div`
   word-wrap: break-word;
 `;
 
-const SignUp = (): JSX.Element => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [pw, setPw] = useState('');
@@ -99,11 +100,26 @@ const SignUp = (): JSX.Element => {
   const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-
-    // do something
-    alert(name);
+    try {
+      const response = axios.post(
+        'http://ec2-54-180-149-200.ap-northeast-2.compute.amazonaws.com:8080/join',
+        {
+          email: email,
+          name: name,
+          password: pw,
+        },
+        { withCredentials: true }
+      );
+      console.log(response);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('error message:', error.message);
+      } else {
+        console.log('unexpected error:', error);
+        return 'An unexpected error occurred';
+      }
+    }
   };
-
   // autoFocus 기능 구현
   // typescript useRef 에러 해결 => optional chaining(?.)기법 사용
   // but ref={inputRef}한 input를 제외한 다른 input이 선택되지 못하는 현상 발생.
@@ -154,6 +170,7 @@ const SignUp = (): JSX.Element => {
     }
     setErrorData({ ...errData, [inputId]: result });
   };
+
   return (
     <Container>
       <form onSubmit={submitSignIn}>
