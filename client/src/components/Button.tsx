@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
-export type ButtonProps = {
+export interface ButtonProps {
   color: 'pink' | 'mint' | 'skyblue';
   disabled?: boolean;
   fullWidth?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
-};
+}
 
 const COLOR = {
   pink: css`

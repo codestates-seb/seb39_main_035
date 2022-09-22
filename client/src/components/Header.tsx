@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../assets/1.png';
 import { TbBooks, TbCalendarStats } from 'react-icons/tb';
@@ -46,27 +46,34 @@ const Menu = styled.ul`
 `;
 
 const Header = () => {
-  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   return (
     <>
       <HeaderWrapper>
         {isLogin && (
-          <Logo onClick={() => navigate('/')}>
-            <img src={logo} alt='logo_icon' />
-          </Logo>
+          <Link to='/'>
+            <Logo>
+              <img src={logo} alt='logo_icon' />
+            </Logo>
+          </Link>
         )}
         {!isLogin && (
           <>
-            <Logo onClick={() => navigate('/books/library')}>
-              <img src={logo} alt='logo_icon' />
-            </Logo>
+            <Link to='/books/library'>
+              <Logo>
+                <img src={logo} alt='logo_icon' />
+              </Logo>
+            </Link>
             <Menu>
-              <TbBooks onClick={() => navigate('/books/library')} />
+              <Link to='/books/library'>
+                <TbBooks />
+              </Link>
               <BiBookHeart />
               <GiArchiveResearch />
               <TbCalendarStats />
-              <BsPersonCircle />
+              <Link to='/mypage'>
+                <BsPersonCircle />
+              </Link>
             </Menu>
           </>
         )}
