@@ -66,6 +66,7 @@ export const FormWrapper = styled.div`
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     width: 100%;
+    font-family: 'Pretendard-Regular';
 
     &::placeholder {
       font-size: 0.8rem;

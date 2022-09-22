@@ -43,7 +43,7 @@ const FirstContent = styled.div`
   font-size: 2rem;
 `;
 
-// aladin API 연동
+// aladin ItemSearch API 연동
 const defaultParam = {
   ttbkey: process.env.REACT_APP_API_KEY,
   QueryType: 'Keyword',
@@ -54,21 +54,20 @@ const defaultParam = {
   Version: 20131101,
 };
 
-type Book = {
-  itemId: number;
+export type Books = {
   title: string;
   author: string;
   cover: string;
   publisher: string;
-  // itemPage : number;
+  itemId: number;
 };
 
-type GetBookResponse = {
-  item: Book[];
+type GetBooksResponse = {
+  item: Books[];
 };
 
 const SearchBooks = () => {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Books[]>([]);
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
@@ -79,7 +78,7 @@ const SearchBooks = () => {
         ...defaultParam,
         ...paramObj,
       };
-      const { data } = await axios.get<GetBookResponse>(
+      const { data } = await axios.get<GetBooksResponse>(
         '/api/ItemSearch.aspx',
         {
           params,
@@ -98,7 +97,7 @@ const SearchBooks = () => {
 
   return (
     <Layout>
-      <PageTitle title='나만의 도서관' />
+      <PageTitle title='같이 한 번 찾아볼까요 ?' />
       <Search query={query} setQuery={setQuery} getBookList={getBookList} />
       {books.length === 0 || query === '' ? (
         <FirstContent>
@@ -116,7 +115,9 @@ const SearchBooks = () => {
             return (
               <BookContents
                 key={book.itemId}
-                onClick={() => navigate(`/books/search/${book.title}`)}
+                onClick={() =>
+                  navigate(`/books/search/${book.title}`, { state: book })
+                }
               >
                 <BookContentImg src={book.cover} alt='책 이미지' />
                 <BookContentKeyword>
