@@ -59,7 +59,7 @@ const Header = () => {
         )}
         {!isLogin && (
           <>
-            <Link to='/books/library'>
+            <Link to='/'>
               <Logo>
                 <img src={logo} alt='logo_icon' />
               </Logo>

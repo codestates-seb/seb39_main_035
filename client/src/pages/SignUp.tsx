@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { useState, useRef, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -96,12 +97,26 @@ const SignUp = (): JSX.Element => {
   });
 
   // typescript: handling form onSubmit event
-  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
 
     // do something
-    alert(name);
+    const userData = {
+      email,
+      name,
+      password: pw,
+    };
+
+    console.log(userData);
+    try {
+      const response = await axios.post('/api/join', userData, {
+        withCredentials: true,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // autoFocus 기능 구현
@@ -154,6 +169,7 @@ const SignUp = (): JSX.Element => {
     }
     setErrorData({ ...errData, [inputId]: result });
   };
+
   return (
     <Container>
       <form onSubmit={submitSignIn}>

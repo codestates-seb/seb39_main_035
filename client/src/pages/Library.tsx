@@ -27,7 +27,7 @@ const Library = () => {
       Version: 20131101,
     };
     const { data } = await axios.get<GetBookListResponse>(
-      '/api/ItemList.aspx',
+      `/aladinapi/api/ItemList.aspx`,
       { params }
     );
     setBookList(data.item);

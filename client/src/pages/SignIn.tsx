@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -81,6 +82,17 @@ export const ErrMsg = styled.div`
   font-size: 0.6rem;
 `;
 
+type User = {
+  userId: number;
+  name: string;
+  email: string;
+  location: string;
+};
+
+type GetUserResponse = {
+  item: User[];
+};
+
 const SignIn = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
@@ -89,11 +101,25 @@ const SignIn = (): JSX.Element => {
     pw: '',
   });
   // typescript: handling form onSubmit event
-  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
     // do something
-    alert(email);
+    try {
+      const response = await axios.post(
+        '/api/join',
+        {
+          email: email,
+          password: pw,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // autoFocus 기능 구현
