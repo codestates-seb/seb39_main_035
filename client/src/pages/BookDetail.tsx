@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import Modal from '../components/Modal';
-import { Book } from '../model/booktype';
+import { Book } from '../types/basic';
 import Boxcontainer from '../components/BoxContainer';
 import BookCoverItem from '../components/BookCoverItem';
 import StarRating from '../components/StarRating';

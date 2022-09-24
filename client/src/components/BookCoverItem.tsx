@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Book } from '../model/booktype';
+import { Book } from '../types/basic';
 
 type BookCoverItemProps = {
   book: Book;

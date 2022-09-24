@@ -115,7 +115,7 @@ const SearchBook = () => {
         ...paramObj,
       };
       const { data } = await axios.get<GetBookResponse>(
-        '/api/ItemLookUp.aspx',
+        '/aladinapi/api/ItemLookUp.aspx',
         {
           params,
         }

@@ -9,6 +9,8 @@ import BookDetail from './pages/BookDetail';
 import SearchBooks from './pages/SearchBooks';
 import SearchBook from './pages/SearchBook';
 import Mypage from './pages/MyPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
           <Route path='/mypage' element={<Mypage />}></Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer position='top-center' pauseOnFocusLoss theme='light' />
     </>
   );
 }
