@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PURGE } from 'redux-persist';
 
 const initialState = {
   Authorization: '',
@@ -15,13 +16,12 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.password = action.payload.password;
     },
-    logoutAccount: (state) => {
-      state.Authorization = '';
-      state.email = '';
-      state.password = '';
-    },
+  },
+  // 초기화하고 싶은 state가 있는 slice마다 아래를 추가한다.
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 
-export const { loginAccount, logoutAccount } = userSlice.actions;
+export const { loginAccount } = userSlice.actions;
 export default userSlice.reducer;

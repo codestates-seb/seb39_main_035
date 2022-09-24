@@ -88,23 +88,22 @@ export const ErrMsg = styled.div`
 `;
 
 const SignIn = (): JSX.Element => {
+  // redux-toolkit 활용 코드
   const userEmail = useAppSelector((state: RootState) => state.user.email);
   const userPassword = useAppSelector(
     (state: RootState) => state.user.password
   );
   const dispatch = useAppDispatch();
 
+  // 기존 코드
   const navigate = useNavigate();
-  // state로 회원가입 후 로그인 input에 자동으로 입력되는 코드 작성 중
-  // state: null일때 에러 발생
-  // const { state } = useLocation();
-
   const [email, setEmail] = useState(userEmail);
   const [password, setPassword] = useState(userPassword);
   const [errData, setErrorData] = useState({
     email: '',
     pw: '',
   });
+
   // typescript: handling form onSubmit event
   const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
@@ -115,13 +114,6 @@ const SignIn = (): JSX.Element => {
         { email: email, password: password },
         { withCredentials: true }
       );
-      console.log('response:', response);
-
-      // token이 필요한 API 요청 시 header Authorization에 token 달아서 보내기
-      // axios.defaults.headers.common[
-      //   'Authorization'
-      // ] = `Bearer ${response.headers.authorization}`;
-
       dispatch(
         loginAccount({
           Authorization: `${response.headers.authorization}`,
@@ -140,16 +132,6 @@ const SignIn = (): JSX.Element => {
     }
   };
 
-  // autoFocus 기능 구현
-  // typescript useRef 에러 해결 => optional chaining(?.)기법 사용
-  // but ref={inputRef}한 input를 제외한 다른 input이 선택되지 못하는 현상 발생.
-  // input autofocus={true}로 기능 구현
-
-  // const inputRef = useRef<HTMLInputElement>(null);
-  // useLayoutEffect(() => {
-  //   inputRef.current?.focus();
-  // });
-
   // 이메일 유효성 검사
   const EMAIL_REGEX = new RegExp(
     '^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$'
@@ -158,6 +140,7 @@ const SignIn = (): JSX.Element => {
   const PW_REGEX = new RegExp(
     '^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$'
   );
+
   // 유효성 검사
   const checkRegex = (input: any) => {
     let result;

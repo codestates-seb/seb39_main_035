@@ -7,6 +7,9 @@ import BoxContainer from '../components/BoxContainer';
 import axios from 'axios';
 import { useAppSelector } from '../store';
 import { RootState } from '../store';
+import { useAppDispatch } from '../store';
+import { useNavigate } from 'react-router-dom';
+import { persistor } from '..';
 
 type Member = {
   email: string;
@@ -35,6 +38,8 @@ const ButtonContainer = styled.div`
 `;
 
 const Mypage = () => {
+  const navigate = useNavigate();
+
   const useAuthorization = useAppSelector(
     (state: RootState) => state.user.Authorization
   );
@@ -43,6 +48,12 @@ const Mypage = () => {
     email: '',
     name: '',
   });
+
+  // 초기화 함수
+  const purge = async () => {
+    await persistor.purge();
+  };
+
   const getMembersMe = async () => {
     try {
       const response = await axios.get(
@@ -91,7 +102,13 @@ const Mypage = () => {
             <Button color='mint' onClick={() => setEditMode(true)}>
               수정하기
             </Button>
-            <Button color='pink' onClick={() => alert('로그아웃')}>
+            <Button
+              color='pink'
+              onClick={async () => {
+                await navigate('/');
+                await setTimeout(() => purge(), 200);
+              }}
+            >
               로그아웃
             </Button>
           </ButtonContainer>
