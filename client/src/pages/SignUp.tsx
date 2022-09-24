@@ -1,6 +1,6 @@
 import React from 'react';
-import { useState, useRef, useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -85,35 +85,35 @@ export const ErrMsg = styled.div`
 `;
 
 const SignUp = () => {
-  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [pw, setPw] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPw, setconfirmPw] = useState('');
   const [errData, setErrorData] = useState({
     name: '',
     email: '',
-    pw: '',
+    password: '',
     confirmPw: '',
   });
 
+  const navigate = useNavigate();
   // typescript: handling form onSubmit event
-  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
     try {
-      const response = axios.post(
-        'http://ec2-54-180-149-200.ap-northeast-2.compute.amazonaws.com:8080/join',
-        {
-          email: email,
-          name: name,
-          password: pw,
-        },
+      const response = await axios.post(
+        'http://ec2-43-200-180-183.ap-northeast-2.compute.amazonaws.com:8080/join',
+        // 404 에러 발생 process.env.REACT_APP_API_BASE_URL + '/join',
+        { name: name, email: email, password: password },
         { withCredentials: true }
       );
-      console.log(response);
+      alert(response.data);
+      navigate('/members/sign-in');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('error message:', error.message);
+        alert('이미 가입된 회원입니다.');
       } else {
         console.log('unexpected error:', error);
         return 'An unexpected error occurred';
@@ -156,13 +156,14 @@ const SignUp = () => {
             ? true
             : '이메일 형식에 맞게 작성해주세요.';
           break;
-        case 'pw':
+        case 'password':
           result = PW_REGEX.test(inputValue)
             ? true
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
           break;
         case 'confirmPw':
-          result = inputValue === pw ? true : '비밀번호가 일치하지 않습니다.';
+          result =
+            inputValue === password ? true : '비밀번호가 일치하지 않습니다.';
           break;
         default:
           return;
@@ -202,16 +203,16 @@ const SignUp = () => {
         </FormWrapper>
 
         <FormWrapper>
-          <label htmlFor='pw'>비밀번호</label>
+          <label htmlFor='password'>비밀번호</label>
           <input
-            id='pw'
+            id='password'
             type='password'
-            value={pw}
+            value={password}
             placeholder='비밀번호를 입력해주세요.'
-            onChange={(e) => setPw(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />
-          <ErrMsg>{errData.pw}</ErrMsg>
+          <ErrMsg>{errData.password}</ErrMsg>
         </FormWrapper>
 
         <FormWrapper>

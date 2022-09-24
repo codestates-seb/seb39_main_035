@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import BoxContainer from '../components/BoxContainer';
+import axios from 'axios';
+import { useAppSelector } from '../store';
+import { RootState } from '../store';
 
-interface Member {
+type Member = {
   email: string;
   name: string;
-}
+};
 
 const InfoTitle = styled.h1`
   margin-bottom: 5px;
@@ -32,12 +35,42 @@ const ButtonContainer = styled.div`
 `;
 
 const Mypage = () => {
+  const useAuthorization = useAppSelector(
+    (state: RootState) => state.user.Authorization
+  );
   const [editMode, setEditMode] = useState(false);
   const [memberInfo, setMemberInfo] = useState<Member>({
-    email: 'book@google.com',
-    name: '독서왕 설렘이',
+    email: '',
+    name: '',
   });
-
+  const getMembersMe = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/members/me',
+        {
+          headers: {
+            Authorization: useAuthorization,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+      setMemberInfo({
+        email: response.data.email,
+        name: response.data.name,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('error message:', error.message);
+      } else {
+        console.log('unexpected error:', error);
+        return 'An unexpected error occurred';
+      }
+    }
+  };
+  useEffect(() => {
+    getMembersMe();
+  }, []);
   return (
     <Layout>
       <PageTitle title='마이 페이지' />

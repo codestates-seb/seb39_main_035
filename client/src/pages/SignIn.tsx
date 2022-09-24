@@ -2,6 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../store';
+import { useAppDispatch } from '../store';
+import { loginAccount } from '../store/feature/userSlice';
+import { RootState } from '../store';
 
 export const Container = styled.section`
   display: flex;
@@ -82,18 +88,56 @@ export const ErrMsg = styled.div`
 `;
 
 const SignIn = (): JSX.Element => {
-  const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
+  const userEmail = useAppSelector((state: RootState) => state.user.email);
+  const userPassword = useAppSelector(
+    (state: RootState) => state.user.password
+  );
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+  // state로 회원가입 후 로그인 input에 자동으로 입력되는 코드 작성 중
+  // state: null일때 에러 발생
+  // const { state } = useLocation();
+
+  const [email, setEmail] = useState(userEmail);
+  const [password, setPassword] = useState(userPassword);
   const [errData, setErrorData] = useState({
     email: '',
     pw: '',
   });
   // typescript: handling form onSubmit event
-  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-    // do something
-    alert(email);
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_API_BASE_URL + '/login',
+        { email: email, password: password },
+        { withCredentials: true }
+      );
+      console.log('response:', response);
+
+      // token이 필요한 API 요청 시 header Authorization에 token 달아서 보내기
+      // axios.defaults.headers.common[
+      //   'Authorization'
+      // ] = `Bearer ${response.headers.authorization}`;
+
+      dispatch(
+        loginAccount({
+          Authorization: `${response.headers.authorization}`,
+          email: email,
+          password: password,
+        })
+      );
+      navigate('/books/library');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('error message:', error.message);
+      } else {
+        console.log('unexpected error:', error);
+        return 'An unexpected error occurred';
+      }
+    }
   };
 
   // autoFocus 기능 구현
@@ -160,9 +204,9 @@ const SignIn = (): JSX.Element => {
           <input
             id='pw'
             type='password'
-            value={pw}
+            value={password}
             placeholder='비밀번호를 입력해주세요.'
-            onChange={(e) => setPw(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />
           <ErrMsg>{errData.pw}</ErrMsg>
