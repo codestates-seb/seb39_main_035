@@ -5,9 +5,9 @@ import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import BoxContainer from '../components/BoxContainer';
 import axios from 'axios';
-import { useAppSelector } from '../store';
-import { RootState } from '../store';
-import { useAppDispatch } from '../store';
+import { useAppSelector } from '../stores/store';
+import { RootState } from '../stores/store';
+import { useAppDispatch } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
 import { persistor } from '..';
 

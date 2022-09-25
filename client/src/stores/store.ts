@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import userReducer from './feature/userSlice';
+import userReducer from './user/userSlice';
 import storage from 'redux-persist/lib/storage/session';
 import { persistReducer } from 'redux-persist';
 import { useDispatch, useSelector } from 'react-redux';

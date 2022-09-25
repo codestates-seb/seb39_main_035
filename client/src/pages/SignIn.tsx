@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../store';
-import { useAppDispatch } from '../store';
-import { loginAccount } from '../store/feature/userSlice';
-import { RootState } from '../store';
+import { useAppSelector } from '../stores/store';
+import { useAppDispatch } from '../stores/store';
+import { loginAccount } from '../stores/user/userSlice';
+import { RootState } from '../stores/store';
 
 export const Container = styled.section`
   display: flex;
