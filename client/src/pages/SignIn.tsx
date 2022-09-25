@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../stores/store';
-import { useAppDispatch } from '../stores/store';
-import { loginAccount } from '../stores/user/userSlice';
-import { RootState } from '../stores/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../stores/store';
+import { login, reset } from '../stores/user/userSlice';
+
 
 export const Container = styled.section`
   display: flex;
@@ -88,47 +86,36 @@ export const ErrMsg = styled.div`
 `;
 
 const SignIn = (): JSX.Element => {
-  // redux-toolkit 활용 코드
-  const userEmail = useAppSelector((state: RootState) => state.user.email);
-  const userPassword = useAppSelector(
-    (state: RootState) => state.user.password
-  );
-  const dispatch = useAppDispatch();
-
   // 기존 코드
-  const navigate = useNavigate();
-  const [email, setEmail] = useState(userEmail);
-  const [password, setPassword] = useState(userPassword);
+  const [email, setEmail] = useState('');
+  const [pw, setPw] = useState('');
   const [errData, setErrorData] = useState({
     email: '',
     pw: '',
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoggedIn, isError } = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/books/library');
+    }
+    if (isError) {
+      dispatch(reset());
+    }
+  }, [isError, isLoggedIn, navigate, dispatch]);
 
   // typescript: handling form onSubmit event
   const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-    try {
-      const response = await axios.post(
-        process.env.REACT_APP_API_BASE_URL + '/login',
-        { email: email, password: password },
-        { withCredentials: true }
-      );
-      dispatch(
-        loginAccount({
-          Authorization: `${response.headers.authorization}`,
-          email: email,
-          password: password,
-        })
-      );
-      navigate('/books/library');
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('error message:', error.message);
-      } else {
-        console.log('unexpected error:', error);
-        return 'An unexpected error occurred';
-      }
+    // 로그인 요청 보내는 부분
+    const loginData = {
+      email,
+      password: pw,
+    };
+    if (!errData.email && !errData.pw) {
+      dispatch(login(loginData));
     }
   };
 
@@ -152,12 +139,12 @@ const SignIn = (): JSX.Element => {
       switch (inputId) {
         case 'email':
           result = EMAIL_REGEX.test(inputValue)
-            ? true
+            ? '' // true에서 수정
             : '이메일 형식에 맞게 작성해주세요.';
           break;
         case 'pw':
           result = PW_REGEX.test(inputValue)
-            ? true
+            ? '' // true에서 수정
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
           break;
         default:
@@ -187,9 +174,9 @@ const SignIn = (): JSX.Element => {
           <input
             id='pw'
             type='password'
-            value={password}
+            value={pw}
             placeholder='비밀번호를 입력해주세요.'
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />
           <ErrMsg>{errData.pw}</ErrMsg>

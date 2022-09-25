@@ -5,9 +5,8 @@ import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import BoxContainer from '../components/BoxContainer';
 import axios from 'axios';
-import { useAppSelector } from '../stores/store';
+import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
-import { useAppDispatch } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
 import { persistor } from '..';
 
@@ -38,50 +37,47 @@ const ButtonContainer = styled.div`
 `;
 
 const Mypage = () => {
-  const navigate = useNavigate();
-
-  const useAuthorization = useAppSelector(
-    (state: RootState) => state.user.Authorization
-  );
-  const [editMode, setEditMode] = useState(false);
+const [editMode, setEditMode] = useState(false);
   const [memberInfo, setMemberInfo] = useState<Member>({
     email: '',
     name: '',
   });
+  const navigate = useNavigate();
+  const { token, isLoggedIn } = useSelector((state: RootState) => state.user);
 
-  // 초기화 함수
-  const purge = async () => {
+  const getUserInfo = async () => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_BASE_URL + '/members/me',
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    setMemberInfo(data);
+  };
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/');
+    } else {
+      getUserInfo();
+    }
+  }, [isLoggedIn, navigate]);
+
+   // 초기화 함수
+   const purge = async () => {
     await persistor.purge();
   };
 
-  const getMembersMe = async () => {
+  const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_API_BASE_URL + '/members/me',
-        {
-          headers: {
-            Authorization: useAuthorization,
-          },
-          withCredentials: true,
-        }
-      );
-      console.log(response);
-      setMemberInfo({
-        email: response.data.email,
-        name: response.data.name,
-      });
+      await navigate('/');
+      await setTimeout(() => purge(), 200);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('error message:', error.message);
-      } else {
-        console.log('unexpected error:', error);
-        return 'An unexpected error occurred';
-      }
+      console.log(error);
     }
   };
-  useEffect(() => {
-    getMembersMe();
-  }, []);
+
   return (
     <Layout>
       <PageTitle title='마이 페이지' />
@@ -102,13 +98,7 @@ const Mypage = () => {
             <Button color='mint' onClick={() => setEditMode(true)}>
               수정하기
             </Button>
-            <Button
-              color='pink'
-              onClick={async () => {
-                await navigate('/');
-                await setTimeout(() => purge(), 200);
-              }}
-            >
+            <Button color='pink' onClick={handleLogout}>
               로그아웃
             </Button>
           </ButtonContainer>

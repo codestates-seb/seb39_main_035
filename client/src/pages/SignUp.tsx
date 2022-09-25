@@ -1,8 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { register, reset } from '../stores/user/userSlice';
+import { AppDispatch, RootState } from '../stores/store';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Container = styled.section`
   display: flex;
@@ -87,37 +90,42 @@ export const ErrMsg = styled.div`
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [pw, setPw] = useState('');
   const [confirmPw, setconfirmPw] = useState('');
   const [errData, setErrorData] = useState({
     name: '',
     email: '',
-    password: '',
+    pw: '',
     confirmPw: '',
   });
-
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isError, isSuccess, isLoading } = useSelector(
+    (state: RootState) => state.user
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/members/sign-in');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, navigate, dispatch]);
+
   // typescript: handling form onSubmit event
   const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-    try {
-      const response = await axios.post(
-        'http://ec2-43-200-180-183.ap-northeast-2.compute.amazonaws.com:8080/join',
-        // 404 에러 발생 process.env.REACT_APP_API_BASE_URL + '/join',
-        { name: name, email: email, password: password },
-        { withCredentials: true }
-      );
-      alert(response.data);
-      navigate('/members/sign-in');
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('error message:', error.message);
-        alert('이미 가입된 회원입니다.');
-      } else {
-        console.log('unexpected error:', error);
-        return 'An unexpected error occurred';
-      }
+
+    // 회원가입 요청
+    const userData = {
+      name,
+      email,
+      password: pw,
+    };
+
+    if (!errData.confirmPw && !errData.email && !errData.name && !errData.pw) {
+      dispatch(register(userData));
     }
   };
   // autoFocus 기능 구현
@@ -149,21 +157,20 @@ const SignUp = () => {
     } else {
       switch (inputId) {
         case 'name':
-          result = true;
+          result = ''; // true에서 수정
           break;
         case 'email':
           result = EMAIL_REGEX.test(inputValue)
-            ? true
+            ? ''
             : '이메일 형식에 맞게 작성해주세요.';
           break;
         case 'password':
           result = PW_REGEX.test(inputValue)
-            ? true
+            ? ''
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
           break;
         case 'confirmPw':
-          result =
-            inputValue === password ? true : '비밀번호가 일치하지 않습니다.';
+          result = inputValue === pw ? '' : '비밀번호가 일치하지 않습니다.';
           break;
         default:
           return;
@@ -207,12 +214,12 @@ const SignUp = () => {
           <input
             id='password'
             type='password'
-            value={password}
+            value={pw}
             placeholder='비밀번호를 입력해주세요.'
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />
-          <ErrMsg>{errData.password}</ErrMsg>
+          <ErrMsg>{errData.pw}</ErrMsg>
         </FormWrapper>
 
         <FormWrapper>
