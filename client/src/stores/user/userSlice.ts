@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { User } from '../../types/basic';
+import { PURGE } from 'redux-persist';
 
 export interface UserReducer {
   user: null | User;
@@ -12,13 +13,10 @@ export interface UserReducer {
   isLoading: boolean;
 }
 
-const token = localStorage.getItem('token') || '';
-const isLoggedIn = token ? true : false;
-
 const initialState: UserReducer = {
   user: null,
-  token,
-  isLoggedIn,
+  token: '',
+  isLoggedIn: false,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -58,7 +56,6 @@ export const login = createAsyncThunk<string, User, { rejectValue: string }>(
         userData,
         { withCredentials: true }
       );
-      localStorage.setItem('token', response.headers.authorization);
       return response.headers.authorization;
     } catch (error: any) {
       if (error.response.data.status) {
@@ -69,15 +66,6 @@ export const login = createAsyncThunk<string, User, { rejectValue: string }>(
     }
   }
 );
-
-//로그아웃
-// export const logout = createAsyncThunk<string, User, { rejectValue: string }>(
-//   'user/logout',
-//   async () => {
-//     //callback function
-
-//   }
-// );
 
 // 로그인 유저 정보 조회
 // export const getUserInfo = createAsyncThunk(
@@ -134,7 +122,8 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         toast.error(action.payload);
-      });
+      })
+      .addCase(PURGE, () => initialState);
   },
 });
 

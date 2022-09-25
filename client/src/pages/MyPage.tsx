@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
+import { persistor } from '..';
 
 interface Member {
   email: string;
@@ -63,10 +64,13 @@ const Mypage = () => {
     }
   }, [isLoggedIn, navigate]);
 
+  const purge = async () => {
+    await persistor.purge();
+  };
   const handleLogout = async () => {
     try {
-      localStorage.removeItem('token');
-      navigate('/');
+      await navigate('/');
+      await setTimeout(() => purge(), 200);
     } catch (error) {
       console.log(error);
     }

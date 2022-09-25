@@ -127,26 +127,6 @@ const SignUp = () => {
     if (!errData.confirmPw && !errData.email && !errData.name && !errData.pw) {
       dispatch(register(userData));
     }
-
-    // try {
-    //   const response = axios.post(
-    //     process.env.REACT_APP_API_BASE_URL + '/join',
-    //     {
-    //       email: email,
-    //       name: name,
-    //       password: pw,
-    //     },
-    //     { withCredentials: true }
-    //   );
-    //   console.log(response);
-    // } catch (error) {
-    //   // if (axios.isAxiosError(error)) {
-    //   //   console.log('error message:', error.message);
-    //   // } else {
-    //   //   console.log('unexpected error:', error);
-    //   //   return 'An unexpected error occurred';
-    //   // }
-    // }
   };
   // autoFocus 기능 구현
   // typescript useRef 에러 해결 => optional chaining(?.)기법 사용

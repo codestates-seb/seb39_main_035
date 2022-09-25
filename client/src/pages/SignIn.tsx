@@ -116,21 +116,6 @@ const SignIn = (): JSX.Element => {
     if (!errData.email && !errData.pw) {
       dispatch(login(loginData));
     }
-
-    // try {
-    //   const { headers } = await axios.post(
-    //     process.env.REACT_APP_API_BASE_URL + '/login',
-    //     loginData,
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   if (headers.authorization) {
-    //     localStorage.setItem('token', headers.authorization);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   // autoFocus 기능 구현
