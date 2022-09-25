@@ -1,3 +1,4 @@
+import { RootState } from './../store';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -5,7 +6,7 @@ import { User } from '../../types/basic';
 import { PURGE } from 'redux-persist';
 
 export interface UserReducer {
-  user: null | User;
+  user: User;
   token: string;
   isLoggedIn: boolean;
   isError: boolean;
@@ -14,7 +15,7 @@ export interface UserReducer {
 }
 
 const initialState: UserReducer = {
-  user: null,
+  user: { email: '', name: '' },
   token: '',
   isLoggedIn: false,
   isError: false,
@@ -68,28 +69,39 @@ export const login = createAsyncThunk<string, User, { rejectValue: string }>(
 );
 
 // 로그인 유저 정보 조회
-// export const getUserInfo = createAsyncThunk(
-//   'user/getUserInfo',
-//   async (_, thunkAPI) => {
-//     try {
-
-//     } catch (error: any) {
-//       if (error.response.data.status) {
-//         return thunkAPI.rejectWithValue(error.response.data.message);
-//       } else {
-//         return thunkAPI.rejectWithValue(error.message);
-//       }
-//     }
-//   }
-// );
-
-// 회원 정보 수정
+// state의 토큰을 가져오기 getState()
 export const getUserInfo = createAsyncThunk(
   'user/getUserInfo',
-  async (token, thunkAPI) => {
-    //
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/members/me',
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response.data.status) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
   }
 );
+
+// 회원 정보 수정
+// export const editUserInfo = createAsyncThunk(
+//   'user/getUserInfo',
+//   async (token, thunkAPI) => {
+//     //
+//   }
+// );
 
 export const userSlice = createSlice({
   name: 'user',
@@ -131,7 +143,20 @@ export const userSlice = createSlice({
         state.isError = true;
         toast.error(action.payload);
       })
-      .addCase(PURGE, () => initialState);
+      .addCase(PURGE, () => initialState)
+      .addCase(getUserInfo.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = { ...action.payload };
+      })
+      .addCase(getUserInfo.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
+      });
   },
 });
 

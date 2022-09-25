@@ -5,19 +5,18 @@ import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import BoxContainer from '../components/BoxContainer';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserInfo } from '../stores/user/userSlice';
+import { AppDispatch, RootState } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
 import { persistor } from '..';
-import { User } from '../types/basic';
 import { toast } from 'react-toastify';
 import Modal from '../components/Modal';
 
-// interface Member {
-//   email: string;
-//   name: string;
-// }
-interface Member extends User {
+interface Member {
+  email: string;
+  name: string;
+  password?: string;
   confirmPassword?: string;
 }
 
@@ -82,24 +81,17 @@ const Mypage = () => {
     confirmPassword: '',
   });
   const navigate = useNavigate();
-  const { token, isLoggedIn } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const { token, isLoggedIn, user } = useSelector(
+    (state: RootState) => state.user
+  );
 
-  const getUserInfo = async () => {
-    const { data } = await axios.get(
-      process.env.REACT_APP_API_BASE_URL + '/members/me',
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    setMemberInfo({ ...memberInfo, ...data });
-  };
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/');
     } else {
-      getUserInfo();
+      dispatch(getUserInfo());
+      setMemberInfo({ ...memberInfo, ...user });
     }
   }, [isLoggedIn, navigate, editMode]);
 
@@ -126,7 +118,9 @@ const Mypage = () => {
       '^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$'
     );
     if (!PW_REGEX.test(memberInfo.password!)) {
-      toast.error('6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.');
+      toast.error(
+        '비밀번호는 6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.'
+      );
       return;
     }
     if (memberInfo.password !== memberInfo.confirmPassword) {
@@ -178,6 +172,8 @@ const Mypage = () => {
             value={memberInfo.name}
             onChange={handleChange}
           />
+          <InfoTitle>E-mail</InfoTitle>
+          <InfoText>{memberInfo.email}</InfoText>
           <InfoTitle>비밀번호 변경</InfoTitle>
           <InputEdit
             name='password'
