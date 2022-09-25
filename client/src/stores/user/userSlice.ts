@@ -59,9 +59,9 @@ export const login = createAsyncThunk<string, User, { rejectValue: string }>(
       return response.headers.authorization;
     } catch (error: any) {
       if (error.response.data.status) {
-        return rejectWithValue(error.response.data.message);
+        return rejectWithValue('아이디와 비밀번호를 확인하세요');
       } else {
-        return rejectWithValue(error.message);
+        return rejectWithValue('아이디와 비밀번호를 확인하세요');
       }
     }
   }

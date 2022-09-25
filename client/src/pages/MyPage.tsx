@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { persistor } from '..';
 import { User } from '../types/basic';
 import { toast } from 'react-toastify';
+import Modal from '../components/Modal';
 
 // interface Member {
 //   email: string;
@@ -39,6 +40,9 @@ const InputEdit = styled.input`
   padding: 10px;
   margin-bottom: 10px;
   width: 100%;
+  height: 40px;
+  font-size: 18px;
+  color: var(--gray);
 `;
 
 const ButtonContainer = styled.div`
@@ -50,9 +54,27 @@ const ButtonContainer = styled.div`
     margin: 0px;
   }
 `;
+// 회원 탈퇴하기 버튼
+const LinkDelete = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #747474;
+  text-align: right;
+
+  &:hover {
+    color: black;
+  }
+`;
 
 const Mypage = () => {
   const [editMode, setEditMode] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const modalHandler = () => {
+    setOpenModal(!openModal);
+  };
   const [memberInfo, setMemberInfo] = useState<Member>({
     email: '',
     name: '',
@@ -79,7 +101,7 @@ const Mypage = () => {
     } else {
       getUserInfo();
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, editMode]);
 
   const purge = async () => {
     await persistor.purge();
@@ -116,7 +138,7 @@ const Mypage = () => {
       password: memberInfo.password,
     };
     try {
-      const { data } = await axios.patch(
+      await axios.patch(
         process.env.REACT_APP_API_BASE_URL + '/members/me',
         editUserData,
         {
@@ -125,8 +147,21 @@ const Mypage = () => {
           },
         }
       );
-      console.log(data);
       setEditMode(false);
+    } catch (error: any) {
+      toast.error(error);
+    }
+  };
+  const handleDelete = async () => {
+    try {
+      await axios.delete(process.env.REACT_APP_API_BASE_URL + '/members/me', {
+        headers: {
+          Authorization: token,
+        },
+      });
+      toast.success('🥲 회원 탈퇴되었습니다');
+      await navigate('/');
+      await setTimeout(() => purge(), 200);
     } catch (error: any) {
       toast.error(error);
     }
@@ -143,23 +178,42 @@ const Mypage = () => {
             value={memberInfo.name}
             onChange={handleChange}
           />
-          <InfoTitle>비밀번호</InfoTitle>
+          <InfoTitle>비밀번호 변경</InfoTitle>
           <InputEdit
             name='password'
             type='password'
             value={memberInfo.password}
             onChange={handleChange}
           />
-          <InfoTitle>비밀번호 확인</InfoTitle>
+          <InfoTitle>비밀번호 변경 확인</InfoTitle>
           <InputEdit
             name='confirmPassword'
             type='password'
             value={memberInfo.confirmPassword}
             onChange={handleChange}
           />
-          <Button color='skyblue' onClick={handleEdit}>
-            저장하기
-          </Button>
+          <ButtonContainer>
+            <Button color='skyblue' onClick={() => setEditMode(false)}>
+              취소하기
+            </Button>
+            <Button color='mint' onClick={handleEdit}>
+              저장하기
+            </Button>
+          </ButtonContainer>
+          <LinkDelete onClick={modalHandler}>회원 탈퇴하기</LinkDelete>
+          {openModal && (
+            <Modal closeModal={modalHandler}>
+              <p>🥲정말 탈퇴하시겠습니끼?</p>
+              <ButtonContainer>
+                <Button color='skyblue' onClick={modalHandler}>
+                  취소하기
+                </Button>
+                <Button color='pink' onClick={handleDelete}>
+                  탈퇴하기
+                </Button>
+              </ButtonContainer>
+            </Modal>
+          )}
         </BoxContainer>
       ) : (
         <BoxContainer>
