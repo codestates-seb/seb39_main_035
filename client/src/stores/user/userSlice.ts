@@ -83,6 +83,14 @@ export const login = createAsyncThunk<string, User, { rejectValue: string }>(
 //   }
 // );
 
+// 회원 정보 수정
+export const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
+  async (token, thunkAPI) => {
+    //
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
