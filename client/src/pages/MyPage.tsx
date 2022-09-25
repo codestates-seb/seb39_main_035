@@ -6,17 +6,15 @@ import Button from '../components/Button';
 import BoxContainer from '../components/BoxContainer';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserInfo } from '../stores/user/userSlice';
+import { editUserInfo, getUserInfo, reset } from '../stores/user/userSlice';
 import { AppDispatch, RootState } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
 import { persistor } from '..';
 import { toast } from 'react-toastify';
 import Modal from '../components/Modal';
+import { User } from '../types/basic';
 
-interface Member {
-  email: string;
-  name: string;
-  password?: string;
+interface Member extends User {
   confirmPassword?: string;
 }
 
@@ -93,7 +91,8 @@ const Mypage = () => {
       dispatch(getUserInfo());
       setMemberInfo({ ...memberInfo, ...user });
     }
-  }, [isLoggedIn, navigate, editMode]);
+    dispatch(reset());
+  }, [isLoggedIn]);
 
   const purge = async () => {
     await persistor.purge();
@@ -128,20 +127,13 @@ const Mypage = () => {
       return;
     }
     const editUserData = {
-      name: memberInfo.name,
-      password: memberInfo.password,
+      name: memberInfo.name!,
+      password: memberInfo.password!,
     };
     try {
-      await axios.patch(
-        process.env.REACT_APP_API_BASE_URL + '/members/me',
-        editUserData,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      dispatch(editUserInfo(editUserData));
       setEditMode(false);
+      setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
     } catch (error: any) {
       toast.error(error);
     }
@@ -173,7 +165,9 @@ const Mypage = () => {
             onChange={handleChange}
           />
           <InfoTitle>E-mail</InfoTitle>
-          <InfoText>{memberInfo.email}</InfoText>
+          <InfoText onClick={() => toast.error('e-mail은 변경할 수 없습니다')}>
+            {memberInfo.email}
+          </InfoText>
           <InfoTitle>비밀번호 변경</InfoTitle>
           <InputEdit
             name='password'
