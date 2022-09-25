@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import BoxContainer from '../components/BoxContainer';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import { useNavigate } from 'react-router-dom';
+import { persistor } from '..';
 
 interface Member {
   email: string;
@@ -34,9 +39,42 @@ const ButtonContainer = styled.div`
 const Mypage = () => {
   const [editMode, setEditMode] = useState(false);
   const [memberInfo, setMemberInfo] = useState<Member>({
-    email: 'book@google.com',
-    name: '독서왕 설렘이',
+    email: '',
+    name: '',
   });
+  const navigate = useNavigate();
+  const { token, isLoggedIn } = useSelector((state: RootState) => state.user);
+
+  const getUserInfo = async () => {
+    const { data } = await axios.get(
+      process.env.REACT_APP_API_BASE_URL + '/members/me',
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    setMemberInfo(data);
+  };
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/');
+    } else {
+      getUserInfo();
+    }
+  }, [isLoggedIn, navigate]);
+
+  const purge = async () => {
+    await persistor.purge();
+  };
+  const handleLogout = async () => {
+    try {
+      await navigate('/');
+      await setTimeout(() => purge(), 200);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Layout>
@@ -58,7 +96,7 @@ const Mypage = () => {
             <Button color='mint' onClick={() => setEditMode(true)}>
               수정하기
             </Button>
-            <Button color='pink' onClick={() => alert('로그아웃')}>
+            <Button color='pink' onClick={handleLogout}>
               로그아웃
             </Button>
           </ButtonContainer>

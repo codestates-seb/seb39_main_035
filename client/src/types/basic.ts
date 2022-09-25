@@ -5,3 +5,9 @@ export interface Book {
   cover: string;
   publisher: string;
 }
+
+export interface User {
+  name?: string;
+  email: string;
+  password?: string;
+}

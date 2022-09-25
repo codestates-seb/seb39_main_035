@@ -5,7 +5,7 @@ import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import useScrollTop from '../util/useScrollTop';
-import { Book } from '../model/booktype';
+import { Book } from '../types/basic';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ const Library = () => {
       Version: 20131101,
     };
     const { data } = await axios.get<GetBookListResponse>(
-      '/api/ItemList.aspx',
+      '/aladinapi/api/ItemList.aspx',
       { params }
     );
     setBookList(data.item);

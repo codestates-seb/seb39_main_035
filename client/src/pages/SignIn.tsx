@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../stores/store';
+import { login, reset } from '../stores/user/userSlice';
 
 export const Container = styled.section`
   display: flex;
@@ -88,12 +91,31 @@ const SignIn = (): JSX.Element => {
     email: '',
     pw: '',
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoggedIn, isError } = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/books/library');
+    }
+    if (isError) {
+      dispatch(reset());
+    }
+  }, [isError, isLoggedIn, navigate, dispatch]);
+
   // typescript: handling form onSubmit event
-  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-    // do something
-    alert(email);
+
+    // 로그인 요청 보내는 부분
+    const loginData = {
+      email,
+      password: pw,
+    };
+    if (!errData.email && !errData.pw) {
+      dispatch(login(loginData));
+    }
   };
 
   // autoFocus 기능 구현
@@ -125,12 +147,12 @@ const SignIn = (): JSX.Element => {
       switch (inputId) {
         case 'email':
           result = EMAIL_REGEX.test(inputValue)
-            ? true
+            ? '' // true에서 수정
             : '이메일 형식에 맞게 작성해주세요.';
           break;
         case 'pw':
           result = PW_REGEX.test(inputValue)
-            ? true
+            ? '' // true에서 수정
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
           break;
         default:

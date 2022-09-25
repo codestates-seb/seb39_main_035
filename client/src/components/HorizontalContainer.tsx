@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Book } from '../model/booktype';
+import { Book } from '../types/basic';
 import BookCoverItem from './BookCoverItem';
 
 type HorizontalContainerProps = {

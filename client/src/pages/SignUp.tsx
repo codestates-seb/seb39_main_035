@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState, useRef, useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { register, reset } from '../stores/user/userSlice';
+import { AppDispatch, RootState } from '../stores/store';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Container = styled.section`
   display: flex;
@@ -95,29 +98,34 @@ const SignUp = () => {
     pw: '',
     confirmPw: '',
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isError, isSuccess, isLoading } = useSelector(
+    (state: RootState) => state.user
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/members/sign-in');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, navigate, dispatch]);
 
   // typescript: handling form onSubmit event
-  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-    try {
-      const response = axios.post(
-        'http://ec2-54-180-149-200.ap-northeast-2.compute.amazonaws.com:8080/join',
-        {
-          email: email,
-          name: name,
-          password: pw,
-        },
-        { withCredentials: true }
-      );
-      console.log(response);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('error message:', error.message);
-      } else {
-        console.log('unexpected error:', error);
-        return 'An unexpected error occurred';
-      }
+
+    // 회원가입 요청
+    const userData = {
+      name,
+      email,
+      password: pw,
+    };
+
+    if (!errData.confirmPw && !errData.email && !errData.name && !errData.pw) {
+      dispatch(register(userData));
     }
   };
   // autoFocus 기능 구현
@@ -149,20 +157,20 @@ const SignUp = () => {
     } else {
       switch (inputId) {
         case 'name':
-          result = true;
+          result = ''; // true에서 수정
           break;
         case 'email':
           result = EMAIL_REGEX.test(inputValue)
-            ? true
+            ? ''
             : '이메일 형식에 맞게 작성해주세요.';
           break;
         case 'pw':
           result = PW_REGEX.test(inputValue)
-            ? true
+            ? ''
             : '6자 이상 영문 대 소문자, 숫자와 특수기호만 사용가능합니다.';
           break;
         case 'confirmPw':
-          result = inputValue === pw ? true : '비밀번호가 일치하지 않습니다.';
+          result = inputValue === pw ? '' : '비밀번호가 일치하지 않습니다.';
           break;
         default:
           return;
