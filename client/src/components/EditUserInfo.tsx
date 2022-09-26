@@ -26,6 +26,7 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
   const modalHandler = () => {
     setOpenModal(!openModal);
   };
+  const [openPasswordInput, setOpenPasswordInput] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user, token } = useSelector((state: RootState) => state.user);
@@ -70,6 +71,19 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
       toast.error(error);
     }
   };
+  const handleEditUsername = async () => {
+    const editUserData = {
+      name: memberInfo.name!,
+    };
+    try {
+      dispatch(editUserInfo(editUserData));
+      toast.success('회원 정보가 변경되었습니다');
+      exitEditMode();
+      setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
+    } catch (error: any) {
+      toast.error(error);
+    }
+  };
 
   const purge = async () => {
     await persistor.purge();
@@ -98,31 +112,46 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
       <InfoText onClick={() => toast.error('e-mail은 변경할 수 없습니다')}>
         {memberInfo.email}
       </InfoText>
-      <InfoTitle>비밀번호 변경</InfoTitle>
-      <InputEdit
-        name='password'
-        type='password'
-        value={memberInfo.password}
-        onChange={handleChange}
-      />
-      <InfoTitle>비밀번호 변경 확인</InfoTitle>
-      <InputEdit
-        name='confirmPassword'
-        type='password'
-        value={memberInfo.confirmPassword}
-        onChange={handleChange}
-      />
+      <LinkButton>
+        <span onClick={() => setOpenPasswordInput(!openPasswordInput)}>
+          비밀번호도 변경하기
+        </span>
+      </LinkButton>
+      {openPasswordInput && (
+        <>
+          <InfoTitle>비밀번호 변경</InfoTitle>
+          <InputEdit
+            name='password'
+            type='password'
+            value={memberInfo.password}
+            onChange={handleChange}
+          />
+          <InfoTitle>비밀번호 변경 확인</InfoTitle>
+          <InputEdit
+            name='confirmPassword'
+            type='password'
+            value={memberInfo.confirmPassword}
+            onChange={handleChange}
+          />
+        </>
+      )}
       <ButtonContainer>
         <Button color='skyblue' onClick={exitEditMode}>
           취소하기
         </Button>
-        <Button color='mint' onClick={handleEdit}>
-          저장하기
-        </Button>
+        {openPasswordInput ? (
+          <Button color='mint' onClick={handleEdit}>
+            저장하기
+          </Button>
+        ) : (
+          <Button color='mint' onClick={handleEditUsername}>
+            저장하기
+          </Button>
+        )}
       </ButtonContainer>
-      <LinkDelete>
+      <LinkButton>
         <span onClick={modalHandler}>회원 탈퇴하기</span>
-      </LinkDelete>
+      </LinkButton>
       {openModal && (
         <Modal closeModal={modalHandler}>
           <p>🥲정말 탈퇴하시겠습니까?</p>
@@ -155,7 +184,7 @@ const InputEdit = styled.input`
 `;
 
 // 회원 탈퇴하기 버튼
-const LinkDelete = styled.div`
+const LinkButton = styled.div`
   font-size: 14px;
   width: 100%;
   margin-top: 20px;

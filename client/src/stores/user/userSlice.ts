@@ -7,7 +7,7 @@ import { PURGE } from 'redux-persist';
 
 type editUserParams = {
   name: string;
-  password: string;
+  password?: string;
 };
 
 export interface UserReducer {
