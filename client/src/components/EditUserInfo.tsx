@@ -62,27 +62,22 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
       name: memberInfo.name!,
       password: memberInfo.password!,
     };
-    try {
-      dispatch(editUserInfo(editUserData));
-      toast.success('회원 정보가 변경되었습니다');
-      exitEditMode();
-      setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
-    } catch (error: any) {
-      toast.error(error);
-    }
+
+    dispatch(editUserInfo(editUserData));
+    toast.success('회원 정보가 변경되었습니다');
+    exitEditMode();
+    setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
   };
+
   const handleEditUsername = async () => {
     const editUserData = {
       name: memberInfo.name!,
     };
-    try {
-      dispatch(editUserInfo(editUserData));
-      toast.success('회원 정보가 변경되었습니다');
-      exitEditMode();
-      setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
-    } catch (error: any) {
-      toast.error(error);
-    }
+
+    dispatch(editUserInfo(editUserData));
+    toast.success('회원 정보가 변경되었습니다');
+    exitEditMode();
+    setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
   };
 
   const purge = async () => {
