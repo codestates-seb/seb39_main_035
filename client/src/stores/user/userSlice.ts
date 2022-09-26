@@ -1,11 +1,17 @@
+import { RootState } from './../store';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { User } from '../../types/basic';
 import { PURGE } from 'redux-persist';
 
+type editUserParams = {
+  name: string;
+  password: string;
+};
+
 export interface UserReducer {
-  user: null | User;
+  user: User;
   token: string;
   isLoggedIn: boolean;
   isError: boolean;
@@ -14,7 +20,7 @@ export interface UserReducer {
 }
 
 const initialState: UserReducer = {
-  user: null,
+  user: { email: '', name: '' },
   token: '',
   isLoggedIn: false,
   isError: false,
@@ -59,29 +65,66 @@ export const login = createAsyncThunk<string, User, { rejectValue: string }>(
       return response.headers.authorization;
     } catch (error: any) {
       if (error.response.data.status) {
-        return rejectWithValue(error.response.data.message);
+        return rejectWithValue('아이디와 비밀번호를 확인하세요');
       } else {
-        return rejectWithValue(error.message);
+        return rejectWithValue('아이디와 비밀번호를 확인하세요');
       }
     }
   }
 );
 
-// 로그인 유저 정보 조회
-// export const getUserInfo = createAsyncThunk(
-//   'user/getUserInfo',
-//   async (_, thunkAPI) => {
-//     try {
+// 로그인한 유저 정보 조회
+export const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/members/me',
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response.data.status) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
 
-//     } catch (error: any) {
-//       if (error.response.data.status) {
-//         return thunkAPI.rejectWithValue(error.response.data.message);
-//       } else {
-//         return thunkAPI.rejectWithValue(error.message);
-//       }
-//     }
-//   }
-// );
+// 회원 정보 수정
+export const editUserInfo = createAsyncThunk(
+  'user/editUserInfo',
+  async (editUserData: editUserParams, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.patch(
+        process.env.REACT_APP_API_BASE_URL + '/members/me',
+        editUserData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return { email: data.email, name: data.name };
+    } catch (error: any) {
+      if (error.response.data.status) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -123,7 +166,33 @@ export const userSlice = createSlice({
         state.isError = true;
         toast.error(action.payload);
       })
-      .addCase(PURGE, () => initialState);
+      .addCase(PURGE, () => initialState)
+      .addCase(getUserInfo.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = { ...action.payload };
+      })
+      .addCase(getUserInfo.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
+      })
+      .addCase(editUserInfo.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(editUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = { ...action.payload };
+      })
+      .addCase(editUserInfo.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
+      });
   },
 });
 
