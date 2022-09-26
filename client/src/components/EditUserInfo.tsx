@@ -114,7 +114,7 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
       </InfoText>
       <LinkButton>
         <span onClick={() => setOpenPasswordInput(!openPasswordInput)}>
-          비밀번호도 변경하기
+          비밀번호 변경하기
         </span>
       </LinkButton>
       {openPasswordInput && (

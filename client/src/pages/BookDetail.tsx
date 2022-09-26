@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
@@ -9,12 +9,37 @@ import { Book } from '../types/basic';
 import Boxcontainer from '../components/BoxContainer';
 import BookCoverItem from '../components/BookCoverItem';
 import StarRating from '../components/StarRating';
+import axios from 'axios';
+
+interface BookResponse {
+  bookId: number;
+  title: string;
+  cover: string;
+  author: string;
+  publisher: string;
+  createdAt: string;
+  start: number;
+  currentPage: number;
+  itempPage: number;
+  bookStatus: number;
+}
 
 const BookDetail = () => {
   const location = useLocation();
   const book = location.state as Book;
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(0);
+
+  useEffect(() => {
+    try {
+      const response = axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/books/library'
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const modalHandler = () => {
     setOpenModal(!openModal);
