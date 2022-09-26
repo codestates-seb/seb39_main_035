@@ -5,31 +5,21 @@ import styled from 'styled-components';
 import Button from '../components/Button';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Books } from './SearchBooks';
+import { Books } from '../types/basic';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../stores/store';
+import { register } from '../stores/book/bookSlice';
 
 const BookContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: orange; */
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
 `;
-const FirstForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* background-color: yellow; */
-  width: 100%;
-`;
-const SecondForm = styled.form`
-  display: flex;
-  /* background-color: orange; */
-  width: 100%;
-`;
+
 const BookContentImg = styled.img`
   border-radius: 0.4rem;
   margin-bottom: 1rem;
@@ -53,23 +43,21 @@ export const FormWrapper = styled.div`
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
     font-family: 'Pretendard-Regular';
+    width: 100%;
     &::placeholder {
       font-size: 0.8rem;
       font-family: 'Pretendard-Regular';
     }
-    &#title,
-    &#author,
-    &#publisher {
-      width: 100%;
-    }
   }
   select {
+    margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
     font-family: 'Pretendard-Regular';
+    width: 100%;
   }
 `;
 
@@ -81,33 +69,36 @@ const defaultParam = {
   Version: 20131101,
 };
 
-type Book = Books & {
-  currentPage: number;
-  bookStatus: string;
-  readStartDate: number;
-  redEndDate: number;
-  subInfo: { itemPage: number };
-};
-
-type GetBookResponse = {
-  item: Book[];
-};
+interface GetBookResponse {
+  item: Books[];
+}
 const SearchBook = () => {
   const { state } = useLocation();
-  console.log('state:', state);
+  // console.log('state:', state);
   const itemId = state.itemId;
-  console.log('itemId:', itemId);
-  const [book, setBook] = useState<Book[]>([]);
-  console.log('book:', book);
+  // console.log('itemId:', itemId);
+  const [book, setBook] = useState<Books[]>([]);
+  // console.log('book:', book);
 
-  const [title, setTitle] = useState<string>(state.title);
-  const [author, setAuthor] = useState<string>(state.author);
-  const [publisher, setPublisher] = useState<string>(state.publisher);
-  const [itemPage, setItemPage] = useState<number>();
-  const [bookStatus, setBookStatus] = useState<string>();
-
+  const [cover, setCover] = useState(state.cover);
+  const [title, setTitle] = useState(state.title);
+  const [author, setAuthor] = useState(state.author);
+  const [publisher, setPublisher] = useState(state.publisher);
+  const [itemPage, setItemPage] = useState(0);
+  const [bookStatus, setBookStatus] = useState('📖 읽기 상태를 선택해주세요');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [readStartDate, setReadStartDate] = useState<string | null>(null);
+  const [readEndDate, setReadEndDate] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
   console.log('itemPage:', itemPage);
 
+  const selectList = [
+    '📖 읽기 상태를 선택해주세요',
+    // 숫자로도 가능
+    'YET', // '읽고 싶은 책',
+    'ING', // '읽고 있는 책',
+    'DONE', // '다 읽은 책',
+  ];
   const getBookContents = async (paramObj: object) => {
     try {
       const params = {
@@ -121,7 +112,6 @@ const SearchBook = () => {
         }
       );
       setBook(data.item);
-      setItemPage(data.item[0].subInfo.itemPage);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('error message:', error.message);
@@ -132,18 +122,43 @@ const SearchBook = () => {
     }
   };
 
+  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setBookStatus(e.target.value);
+  };
+
   useEffect(() => {
     getBookContents({
       itemId: state.itemId,
     });
   }, []);
 
+  // typescript: handling form onSubmit event
+  const registerBook = async (event: React.FormEvent<HTMLFormElement>) => {
+    // 새로고침 막기
+    event.preventDefault();
+
+    // 책 상세 내용
+    const bookData = {
+      title,
+      author,
+      cover,
+      itemPage,
+      currentPage,
+      publisher,
+      bookStatus,
+      readStartDate,
+      readEndDate,
+    };
+    console.log('bookData:', bookData);
+    dispatch(register(bookData));
+  };
+
   return (
     <Layout>
       <PageTitle title='같이 한 번 등록해볼까요 ?' />
       <BookContainer>
-        <BookContentImg src={state.cover} alt='책 이미지' />
-        <FirstForm>
+        <form onSubmit={registerBook}>
+          <BookContentImg src={cover} alt='책 이미지' />
           <FormWrapper>
             <label htmlFor='title'>책 제목</label>
             <input
@@ -175,8 +190,6 @@ const SearchBook = () => {
               placeholder='이름을 입력해주세요.'
             />
           </FormWrapper>
-        </FirstForm>
-        <SecondForm>
           <FormWrapper>
             <label htmlFor='itemPage'>전체 페이지</label>
             <input
@@ -195,15 +208,51 @@ const SearchBook = () => {
           </FormWrapper>
           <FormWrapper>
             <label htmlFor='bookStatus'>읽기 상태</label>
-            <select name='bookStatus' id='bookStatus'>
-              <option value=''>📖 읽기 상태를 선택해주세요</option>
-              <option value='읽고 싶은 책'>읽고 싶은 책</option>
-              <option value='읽고 있는 책'>읽고 있는 책</option>
-              <option value='다 읽은 책'>다 읽은 책</option>
+            <select
+              id='bookStatus'
+              onChange={handleChangeSelect}
+              value={bookStatus}
+            >
+              {selectList.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
             </select>
           </FormWrapper>
-        </SecondForm>
-        <Button color='pink'>등록하기</Button>
+          {bookStatus === 'ING' ? (
+            <FormWrapper>
+              <label htmlFor='readStartDate'>읽기 시작한 날 </label>
+              <input
+                id='readStartDate'
+                type='datetime-local'
+                onChange={(e) => setReadStartDate(`${e.target.value}:00`)}
+              />
+            </FormWrapper>
+          ) : null}
+          {bookStatus === 'DONE' ? (
+            <>
+              <FormWrapper>
+                <label htmlFor='readStartDate'>읽기 시작한 날</label>
+                <input
+                  id='readStartDate'
+                  type='datetime-local'
+                  onChange={(e) => setReadStartDate(`${e.target.value}:00`)}
+                />
+              </FormWrapper>
+              <FormWrapper>
+                <label htmlFor='readEndDate'>다 읽은 날</label>
+                <input
+                  id='readEndDate'
+                  type='datetime-local'
+                  onChange={(e) => setReadEndDate(`${e.target.value}:00`)}
+                />
+              </FormWrapper>
+            </>
+          ) : null}
+
+          <Button color='pink'>등록하기</Button>
+        </form>
       </BookContainer>
     </Layout>
   );

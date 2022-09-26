@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Search from '../components/Search';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { Book } from '../types/basic';
 
 const BookContents = styled.li`
   display: flex;
@@ -54,20 +55,12 @@ const defaultParam = {
   Version: 20131101,
 };
 
-export type Books = {
-  title: string;
-  author: string;
-  cover: string;
-  publisher: string;
-  itemId: number;
-};
-
-type GetBooksResponse = {
-  item: Books[];
-};
+interface GetBooksResponse {
+  item: Book[];
+}
 
 const SearchBooks = () => {
-  const [books, setBooks] = useState<Books[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
