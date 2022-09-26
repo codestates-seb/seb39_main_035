@@ -35,8 +35,8 @@ const Mypage = () => {
       toast.success('로그아웃 되었습니다.');
       await navigate('/');
       await setTimeout(() => purge(), 200);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error);
     }
   };
   const exitEditMode = () => {
