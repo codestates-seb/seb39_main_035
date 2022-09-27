@@ -47,9 +47,9 @@ const HorizontalContainer = ({
   bookList,
 }: HorizontalContainerProps) => {
   const navigate = useNavigate();
-  const handleClick = (id: number, book: Book) => {
-    navigate(`/books/library/${id}`, { state: book });
-  };
+  // const handleClick = (id: number, book: Book) => {
+  //   navigate(`/books/library/${id}`, { state: book });
+  // };
   return (
     <Wrapper>
       <h1>{bookStatus}</h1>
@@ -58,8 +58,9 @@ const HorizontalContainer = ({
           {bookList.map((book) => (
             <BookCoverItem
               key={book.itemId}
-              book={book}
-              onClick={handleClick.bind(null, book.itemId, book)}
+              src='https://image.aladin.co.kr/product/28494/9/coversum/8956594317_1.jpg'
+              // book={book}
+              // onClick={handleClick.bind(null, book.itemId, book)}
             />
           ))}
         </ListWrapper>

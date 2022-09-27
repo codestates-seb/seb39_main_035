@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Book } from '../types/basic';
 
 type BookCoverItemProps = {
-  book: Book;
+  book?: Book;
+  src: string;
   onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
 };
 
@@ -28,11 +29,11 @@ const Wrapper = styled.div`
 //   }
 // `;
 
-const BookCoverItem = ({ book, onClick }: BookCoverItemProps) => {
+const BookCoverItem = ({ src, onClick }: BookCoverItemProps) => {
   return (
     <Wrapper>
       <img
-        src={book.cover}
+        src={src}
         alt='book_cover'
         // onMouseEnter={() => console.log('hi')}
         onClick={onClick}
