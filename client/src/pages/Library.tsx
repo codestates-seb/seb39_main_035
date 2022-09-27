@@ -1,41 +1,32 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import useScrollTop from '../util/useScrollTop';
-import { Book } from '../types/basic';
+import { BookDetail } from '../types/basic';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { getBookListData } from '../stores/book/bookSlice';
+import { useDispatch } from 'react-redux';
 
 interface GetBookListResponse {
-  item: Book[];
+  item: BookDetail[];
 }
-
+interface Params {
+  page: number;
+  size: number;
+  bookStatus: string;
+}
 const Library = () => {
   const navigate = useNavigate();
-  const [bookList, setBookList] = useState<Book[]>([]);
-  const getBookListData = async () => {
-    const params = {
-      ttbkey: process.env.REACT_APP_API_KEY,
-      QueryType: 'BestSeller',
-      MaxResults: 20,
-      start: 1,
-      SearchTarget: 'Book',
-      output: 'JS',
-      Version: 20131101,
-    };
-    const { data } = await axios.get<GetBookListResponse>(
-      '/aladinapi/api/ItemList.aspx',
-      { params }
-    );
-    setBookList(data.item);
-  };
+  const [bookList, setBookList] = useState<BookDetail[]>([]);
+  const dispatch = useDispatch();
+
   useScrollTop();
 
   useEffect(() => {
-    getBookListData();
+    dispatch(getBookListData());
   }, []);
 
   return (
