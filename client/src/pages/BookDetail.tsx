@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
@@ -25,11 +25,12 @@ interface BookResponse {
 }
 
 const BookDetail = () => {
-  const location = useLocation();
-  const book = location.state as BooksDetail;
-  console.log('location:', location);
-  console.log('location.state:', location.state);
-  console.log('book:', book);
+  // const location = useLocation();
+  // const book = location.state as BooksDetail;
+  const { id } = useParams();
+  // console.log('location:', location);
+  // console.log('location.state:', location.state);
+  // console.log('book:', book);
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(0);
 
@@ -49,12 +50,12 @@ const BookDetail = () => {
   };
   return (
     <Layout>
-      <PageTitle title={book.title} />
+      <PageTitle title='title' />
       <Boxcontainer>
-        <BookCoverItem book={book} />
+        {/* <BookCoverItem src='https://image.aladin.co.kr/product/28494/9/coversum/8956594317_1.jpg' /> */}
         <BookSummary>
-          <p>{book.author}</p>
-          <p>{book.publisher}</p>
+          {/* <p>{book.author}</p>
+          <p>{book.publisher}</p> */}
           <p>읽기 상태</p>
         </BookSummary>
       </Boxcontainer>
@@ -63,7 +64,7 @@ const BookDetail = () => {
       </Button>
       {openModal && (
         <Modal closeModal={modalHandler}>
-          <p>{book.title}</p>
+          <p>책 제목</p>
         </Modal>
       )}
       <Boxcontainer containerTitle='독서 진행 상황'>
