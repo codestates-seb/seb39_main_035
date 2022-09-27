@@ -18,6 +18,20 @@ export interface Books {
   readEndDate: string | null;
 }
 
+// 책 상세 페이지 type
+export interface BookDetail {
+  itemId: number;
+  title: string;
+  author: string;
+  cover: string;
+  createdAt: string;
+  publisher: string;
+  star: number;
+  itemPage: number;
+  currentPage: number;
+  bookStatus: string;
+}
+
 export interface User {
   name?: string;
   email: string;

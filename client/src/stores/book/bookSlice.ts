@@ -30,6 +30,12 @@ const initialState: BookReducer = {
   isLoading: false,
 };
 
+interface BookQuery {
+  page: number;
+  size: number;
+  bookStatus: string;
+  Authorization: String;
+}
 // 책 등록하기
 export const register = createAsyncThunk(
   //action name
@@ -47,6 +53,35 @@ export const register = createAsyncThunk(
           headers: {
             Authorization: token,
           },
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+// 서재 전체 뷰 조회
+export const getBookListData = createAsyncThunk(
+  //action name
+  'book/library',
+  //callback function
+  async (BookQuery: BookQuery, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/books/library',
+        {
+          headers: {
+            Authorization: token,
+          },
+          ...BookQuery,
         }
       );
       return data;
