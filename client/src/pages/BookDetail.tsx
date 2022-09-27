@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import Modal from '../components/Modal';
-import { BookDetail } from '../types/basic';
+import { BooksDetail } from '../types/basic';
 import Boxcontainer from '../components/BoxContainer';
 import BookCoverItem from '../components/BookCoverItem';
 import StarRating from '../components/StarRating';
@@ -26,7 +26,7 @@ interface BookResponse {
 
 const BookDetail = () => {
   const location = useLocation();
-  const book = location.state as BookDetail;
+  const book = location.state as BooksDetail;
   console.log('location:', location);
   console.log('location.state:', location.state);
   console.log('book:', book);

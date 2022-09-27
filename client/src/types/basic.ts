@@ -19,7 +19,7 @@ export interface Books {
 }
 
 // 책 상세 페이지 type
-export interface BookDetail {
+export interface BooksDetail {
   itemId: number;
   title: string;
   author: string;

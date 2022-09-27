@@ -4,14 +4,14 @@ import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import useScrollTop from '../util/useScrollTop';
-import { BookDetail } from '../types/basic';
+import { BooksDetail } from '../types/basic';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { getBookListData } from '../stores/book/bookSlice';
 import { useDispatch } from 'react-redux';
 
 interface GetBookListResponse {
-  item: BookDetail[];
+  item: BooksDetail[];
 }
 interface Params {
   page: number;
@@ -20,14 +20,10 @@ interface Params {
 }
 const Library = () => {
   const navigate = useNavigate();
-  const [bookList, setBookList] = useState<BookDetail[]>([]);
+  const [bookList, setBookList] = useState<BooksDetail[]>([]);
   const dispatch = useDispatch();
 
   useScrollTop();
-
-  useEffect(() => {
-    dispatch(getBookListData());
-  }, []);
 
   return (
     <Layout>
