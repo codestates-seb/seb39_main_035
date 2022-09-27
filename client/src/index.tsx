@@ -5,11 +5,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { store } from './stores/store';
 import App from './App';
-// import { worker } from './mocks/browser';
-
-// if (process.env.NODE_ENV === 'development') {
-//   worker.start();
-// }
 
 export let persistor = persistStore(store);
 
