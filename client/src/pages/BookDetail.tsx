@@ -30,16 +30,16 @@ const BookDetail = () => {
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(0);
 
-  useEffect(() => {
-    try {
-      const response = axios.get(
-        process.env.REACT_APP_API_BASE_URL + '/books/library'
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     const response = axios.get(
+  //       process.env.REACT_APP_API_BASE_URL + '/books/library'
+  //     );
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
 
   const modalHandler = () => {
     setOpenModal(!openModal);
