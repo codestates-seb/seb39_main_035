@@ -18,6 +18,7 @@ const ModalBackground = styled.div`
 `;
 const ModatContainer = styled.div`
   padding: 30px;
+  padding-top: 50px;
   border-radius: 5px;
   position: relative;
   display: flex;
