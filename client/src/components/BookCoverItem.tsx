@@ -8,17 +8,13 @@ type BookCoverItemProps = {
   onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
 };
 
-const Wrapper = styled.div`
-  display: inline-block;
-  padding: 5px;
-  > img {
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgb(32 33 36 / 28%);
-    cursor: pointer;
-    transition: transfrom 300ms ease-in;
-    /* margin: 10px; */
-  }
-  > img:hover {
+const Img = styled.img`
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgb(32 33 36 / 28%);
+  cursor: pointer;
+  transition: transfrom 300ms ease-in;
+  /* margin: 10px; */
+  &:hover {
     transform: scale(1.02);
   }
 `;
@@ -31,14 +27,14 @@ const Wrapper = styled.div`
 
 const BookCoverItem = ({ src, onClick }: BookCoverItemProps) => {
   return (
-    <Wrapper>
-      <img
+    <>
+      <Img
         src={src}
         alt='book_cover'
         // onMouseEnter={() => console.log('hi')}
         onClick={onClick}
       />
-    </Wrapper>
+    </>
   );
 };
 

@@ -6,7 +6,6 @@ import { Books } from '../../types/basic';
 
 export interface BookReducer {
   book: Books;
-  token: string;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;
@@ -20,11 +19,10 @@ const initialState: BookReducer = {
     itemPage: 0,
     currentPage: 0,
     publisher: '',
-    bookStatus: 'YET',
+    bookStatus: '',
     readStartDate: null,
     readEndDate: null,
   },
-  token: '',
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -34,13 +32,12 @@ interface BookQuery {
   page: number;
   size: number;
   bookStatus: string;
-  Authorization: String;
 }
 // 책 등록하기
 export const register = createAsyncThunk(
   //action name
   'book/register',
-  //callback function
+  //callback function`
   async (bookData: Books, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as RootState;
