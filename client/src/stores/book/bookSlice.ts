@@ -3,27 +3,52 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Books } from '../../types/basic';
-import { BooksDetail } from '../../types/basic';
+import { EditBookDetail } from '../../types/basic';
 import { BookDetail } from '../../types/basic';
 
 export interface BookReducer {
   book: Books;
+  bookDetail: BookDetail;
+  editBookDetail: EditBookDetail;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;
 }
-
 const initialState: BookReducer = {
   book: {
     title: '',
     author: '',
     cover: '',
+    publisher: '',
+    itemPage: 0,
+    currentPage: 0,
+    bookStatus: '',
+    readStartDate: null,
+    readEndDate: null,
+  },
+  bookDetail: {
+    bookId: '',
+    title: '',
+    cover: '',
+    author: '',
+    publisher: '',
+    createdAt: '',
+    star: 0,
+    currentPage: 0,
+    itemPage: 0,
+    bookStatus: '',
+    readStartDate: null,
+    readEndDate: null,
+  },
+  editBookDetail: {
+    author: '',
     itemPage: 0,
     currentPage: 0,
     publisher: '',
     bookStatus: '',
     readStartDate: null,
     readEndDate: null,
+    star: 0,
   },
   isError: false,
   isSuccess: false,
@@ -61,7 +86,7 @@ export const register = createAsyncThunk(
 
 // 책 상세페이지 조회
 export const getBookDetailData = createAsyncThunk<
-  BooksDetail,
+  BookDetail,
   string | undefined,
   { rejectValue: string }
 >(
@@ -96,7 +121,7 @@ export const editBookDetail = createAsyncThunk(
   //action name
   'books/editBookDetailData',
   //callback function
-  async (editBookDetailData: BookDetail, thunkAPI) => {
+  async (editBookDetailData: EditBookDetail, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as RootState;
       const { token } = state.user;
@@ -151,7 +176,7 @@ export const bookSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         toast.success('📖 책 상세 페이지에 온 걸 환영해요.');
-        state.book = { ...action.payload };
+        state.bookDetail = { ...action.payload };
       })
       .addCase(
         getBookDetailData.rejected,
@@ -167,8 +192,8 @@ export const bookSlice = createSlice({
       .addCase(editBookDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.book = { ...action.payload };
-        console.log('state:', state);
+        // state.editBookDetail = { ...action.payload };
+        state.bookDetail = { ...state.bookDetail, ...action.payload };
       })
       .addCase(editBookDetail.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;

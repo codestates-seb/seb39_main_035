@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Books } from '../types/basic';
 import BookCoverItem from './BookCoverItem';
 import useLibraryData from '../util/useLibraryData';
+import { useDispatch } from 'react-redux';
+import { reset } from '../stores/book/bookSlice';
 
 type HorizontalContainerProps = {
   bookStatus: 'YET' | 'ING' | 'DONE';
@@ -15,8 +17,10 @@ const HorizontalContainer = ({
   bookStatus,
 }: HorizontalContainerProps) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const handleClick = (id: number) => {
+    dispatch(reset());
     navigate(`/books/library/${id}`);
   };
 
