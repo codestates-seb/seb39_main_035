@@ -173,7 +173,7 @@ export const userSlice = createSlice({
       .addCase(getUserInfo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = { ...action.payload };
+        state.user = action.payload;
       })
       .addCase(getUserInfo.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
@@ -186,7 +186,7 @@ export const userSlice = createSlice({
       .addCase(editUserInfo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = { ...action.payload };
+        state.user = action.payload;
       })
       .addCase(editUserInfo.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;

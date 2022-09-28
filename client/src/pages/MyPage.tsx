@@ -25,7 +25,7 @@ const Mypage = () => {
       navigate('/');
     }
     dispatch(reset());
-  }, [isLoggedIn, dispatch]);
+  }, [isLoggedIn, dispatch, navigate]);
 
   const purge = async () => {
     await persistor.purge();

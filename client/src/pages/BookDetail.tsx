@@ -27,6 +27,7 @@ const BookDetail = () => {
   // console.log('book:', book);
 
   const { id } = useParams();
+
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(0);
   const dispatch = useDispatch<AppDispatch>();

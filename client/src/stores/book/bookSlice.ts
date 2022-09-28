@@ -21,7 +21,7 @@ const initialState: BookReducer = {
     itemPage: 0,
     currentPage: 0,
     publisher: '',
-    bookStatus: 'YET',
+    bookStatus: '',
     readStartDate: null,
     readEndDate: null,
   },
@@ -34,7 +34,7 @@ const initialState: BookReducer = {
 export const register = createAsyncThunk(
   //action name
   'book/register',
-  //callback function
+  //callback function`
   async (bookData: Books, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as RootState;

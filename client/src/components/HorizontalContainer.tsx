@@ -1,12 +1,57 @@
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Book } from '../types/basic';
+import { Books } from '../types/basic';
 import BookCoverItem from './BookCoverItem';
+import useLibraryData from '../util/useLibraryData';
 
 type HorizontalContainerProps = {
-  bookStatus: string;
-  bookList: Book[];
+  bookStatus: 'YET' | 'ING' | 'DONE';
+  title: string;
 };
+
+const HorizontalContainer = ({
+  title,
+  bookStatus,
+}: HorizontalContainerProps) => {
+  const navigate = useNavigate();
+  const [pageNumber, setPageNumber] = useState(1);
+  const handleClick = (id: number) => {
+    navigate(`/books/library/${id}`);
+  };
+
+  const { isLoading, error, bookList, hasMoreData } = useLibraryData(
+    pageNumber,
+    bookStatus
+  );
+  const observer = React.useRef();
+  // const lastItemRef = useCallback(node => {
+  //   if(isLoading) return
+  //   if(observer.current) observer.current.disconnect()
+  // })
+
+  return (
+    <Wrapper>
+      <h1>{title}</h1>
+      <WindowWrapper>
+        <ListWrapper>
+          {bookList.map((book, index) => (
+            <ImgWrapper key={book.bookId}>
+              <BookCoverItem
+                src={book.cover}
+                // book={book}
+                onClick={handleClick.bind(null, book.bookId)}
+              />
+            </ImgWrapper>
+          ))}
+        </ListWrapper>
+      </WindowWrapper>
+    </Wrapper>
+  );
+};
+
+export default HorizontalContainer;
+
 const Wrapper = styled.div`
   margin-bottom: 20px;
   h1 {
@@ -28,6 +73,11 @@ const ListWrapper = styled.div`
   white-space: nowrap;
 `;
 
+const ImgWrapper = styled.div`
+  display: inline-block;
+  padding: 5px;
+`;
+
 const BookAddButton = styled.div`
   display: flex;
   padding: 1rem 1.5rem;
@@ -41,32 +91,3 @@ const BookAddButton = styled.div`
     cursor: pointer;
   }
 `;
-
-const HorizontalContainer = ({
-  bookStatus,
-  bookList,
-}: HorizontalContainerProps) => {
-  const navigate = useNavigate();
-  // const handleClick = (id: number, book: Book) => {
-  //   navigate(`/books/library/${id}`, { state: book });
-  // };
-  return (
-    <Wrapper>
-      <h1>{bookStatus}</h1>
-      <WindowWrapper>
-        <ListWrapper>
-          {bookList.map((book) => (
-            <BookCoverItem
-              key={book.itemId}
-              src='https://image.aladin.co.kr/product/28494/9/coversum/8956594317_1.jpg'
-              // book={book}
-              // onClick={handleClick.bind(null, book.itemId, book)}
-            />
-          ))}
-        </ListWrapper>
-      </WindowWrapper>
-    </Wrapper>
-  );
-};
-
-export default HorizontalContainer;
