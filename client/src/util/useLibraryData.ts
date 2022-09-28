@@ -15,9 +15,9 @@ const useLibraryData = (pageNumber: number, bookStatus: bookStatus) => {
   const [error, setError] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(false);
 
-  useEffect(() => {
-    setBookList([]);
-  }, [bookStatus, pageNumber]);
+  // useEffect(() => {
+  //   setBookList([]);
+  // }, [bookStatus, pageNumber]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,20 +29,21 @@ const useLibraryData = (pageNumber: number, bookStatus: bookStatus) => {
         },
         params: {
           page: pageNumber,
-          size: 10,
+          size: 3,
           bookStatus: bookStatus,
         },
       })
       .then((res) => {
-        setBookList([...res.data.item]);
+        setBookList([...res.data.item]); //기존 불러온 데이터 + 중복값 삭제(새로 불러온 데이터 )
         setHasMoreData(pageNumber < res.data.pageInfo.totalPages);
         setIsLoading(false);
+        console.log(res.data.pageInfo);
       })
       .catch((e) => {
         if (axios.isCancel(e)) return;
         setError(true);
       });
-  }, [bookStatus]);
+  }, [bookStatus, hasMoreData, pageNumber]);
 
   return { isLoading, error, bookList, hasMoreData };
 };
