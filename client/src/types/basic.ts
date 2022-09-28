@@ -19,16 +19,30 @@ export interface Books {
 }
 
 // 책 상세 페이지 type
-export interface BooksDetail {
-  itemId: number;
-  title: string;
+export interface BookDetail {
   author: string;
+  publisher: string;
+  itemPage: number;
+  readStartDate: string | null;
+  readEndDate: string | null;
+  bookStatus: string;
+  star: number;
+  currentPage: number;
+  bookId?: string;
+}
+
+export interface BooksDetail {
+  author: string;
+  publisher: string;
+  itemPage: number;
+  readStartDate: string | null;
+  readEndDate: string | null;
+  star: number;
+  currentPage: number;
+  bookId: number;
+  title: string;
   cover: string;
   createdAt: string;
-  publisher: string;
-  star: number;
-  itemPage: number;
-  currentPage: number;
   bookStatus: string;
 }
 

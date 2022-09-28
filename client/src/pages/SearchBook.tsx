@@ -9,6 +9,7 @@ import { Books } from '../types/basic';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { register } from '../stores/book/bookSlice';
+import { reset } from '../stores/book/bookSlice';
 
 const BookContainer = styled.section`
   display: flex;
@@ -74,11 +75,9 @@ interface GetBookResponse {
 }
 const SearchBook = () => {
   const { state } = useLocation();
-  // console.log('state:', state);
   const itemId = state.itemId;
   // console.log('itemId:', itemId);
   const [book, setBook] = useState<Books[]>([]);
-  // console.log('book:', book);
 
   const [cover, setCover] = useState(state.cover);
   const [title, setTitle] = useState(state.title);
@@ -90,7 +89,6 @@ const SearchBook = () => {
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  console.log('itemPage:', itemPage);
 
   const selectList = [
     '📖 읽기 상태를 선택해주세요',
@@ -133,7 +131,7 @@ const SearchBook = () => {
   }, []);
 
   // typescript: handling form onSubmit event
-  const registerBook = async (event: React.FormEvent<HTMLFormElement>) => {
+  const registerBook = (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
 
@@ -149,7 +147,6 @@ const SearchBook = () => {
       readStartDate,
       readEndDate,
     };
-    console.log('bookData:', bookData);
     dispatch(register(bookData));
   };
 

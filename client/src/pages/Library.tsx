@@ -1,27 +1,21 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import useScrollTop from '../util/useScrollTop';
-import { BooksDetail } from '../types/basic';
+import { Book } from '../types/basic';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { getBookListData } from '../stores/book/bookSlice';
-import { useDispatch } from 'react-redux';
 
 interface GetBookListResponse {
-  item: BooksDetail[];
+  item: Book[];
 }
-interface Params {
-  page: number;
-  size: number;
-  bookStatus: string;
-}
+
 const Library = () => {
   const navigate = useNavigate();
-  const [bookList, setBookList] = useState<BooksDetail[]>([]);
-  const dispatch = useDispatch();
+  const [bookList, setBookList] = useState<Book[]>([]);
 
   useScrollTop();
 
