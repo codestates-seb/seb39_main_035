@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BookDetail, Books } from '../types/basic';
+import { Books } from '../types/basic';
 import BookCoverItem from './BookCoverItem';
-import useLibraryData from '../util/useLibraryData';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
@@ -27,7 +26,9 @@ const HorizontalContainer = ({
     navigate(`/books/library/${id}`);
   };
   const [bookList, setBookList] = useState<BookListItem[]>([]);
+  const [hasMore, setHasMore] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
+
   const fetchBookData = async (pageNumber: number) => {
     await axios
       .get(process.env.REACT_APP_API_BASE_URL + '/books/library', {
@@ -36,56 +37,57 @@ const HorizontalContainer = ({
         },
         params: {
           page: pageNumber,
-          size: 10,
+          size: 4,
           bookStatus: bookStatus,
         },
       })
       .then((res) => {
         setBookList((prev) => [...prev, ...res.data.item]);
+        setHasMore(pageNumber < res.data.pageInfo.totalPages);
       })
       .catch((e) => {
         if (axios.isCancel(e)) return;
-        console.log(e);
       });
   };
 
   useEffect(() => {
     fetchBookData(pageNumber);
   }, [pageNumber]);
-  // const { isLoading, error, bookList, hasMoreData } = useLibraryData(
-  //   pageNumber,
-  //   bookStatus
-  // );
-  const observer = React.useRef();
-  // const lastItemRef = useCallback(node => {
-  //   if(isLoading) return
-  //   if(observer.current) observer.current.disconnect()
-  // })
-  // const handleAddList = useCallback(() => {
-  //   //
-  //   if (hasMoreData) {
-  //     setPageNumber((prevPageNumber) => prevPageNumber + 1);
-  //   }
-  // }, [hasMoreData]);
+  const loader = useRef(null);
+  const handleObserver = useCallback(
+    (entries: any) => {
+      const target = entries[0];
+      if (target.isIntersecting && hasMore) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    },
+    [hasMore]
+  );
 
-  const handleAddList = () => {
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-  };
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+  }, [handleObserver]);
 
   return (
     <Wrapper>
       <h1>{title}</h1>
-      <button onClick={handleAddList}>리스트 추가 요청</button>
+      {/* <button onClick={handleAddList}>리스트 추가 요청</button> */}
       <WindowWrapper>
         <ListWrapper>
           {bookList.map((book, index) => (
             <BookCoverItem
               key={book.bookId}
               src={book.cover}
-              // book={book}
               onClick={handleClick.bind(null, book.bookId)}
             />
           ))}
+          <div ref={loader} />
         </ListWrapper>
       </WindowWrapper>
     </Wrapper>
@@ -100,12 +102,12 @@ const Wrapper = styled.div`
   h1 {
     font-weight: 600;
     font-size: 18px;
-    margin-bottom: 10px; // 추가
   }
 `;
 
 const WindowWrapper = styled.div`
   overflow: hidden;
+  height: 160px;
   width: 100%;
 `;
 
@@ -115,18 +117,4 @@ const ListWrapper = styled.div`
   align-items: baseline;
   overflow-x: auto;
   white-space: nowrap;
-`;
-
-const BookAddButton = styled.div`
-  display: flex;
-  padding: 1rem 1.5rem;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(0 0 0 / 20%);
-  svg {
-    margin-right: 30px;
-  }
-  &:hover {
-    cursor: pointer;
-  }
 `;
