@@ -15,7 +15,10 @@ import { RootState } from '../stores/store';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import EditBookInfo from '../components/EditBookInfo';
-import { reset } from '../stores/book/bookSlice';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../components/Modal';
 
 const BookDetail = () => {
   // const location = useLocation();
@@ -23,20 +26,14 @@ const BookDetail = () => {
   // console.log('location:', location);
   // console.log('location.state:', location.state);
   // console.log('book:', book);
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const { bookDetail } = useSelector((state: RootState) => state.book);
-  console.log('bookDetail:', bookDetail);
-  const { editBookDetail } = useSelector((state: RootState) => state.book);
+  const { token } = useSelector((state: RootState) => state.user);
+  const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(bookDetail.star);
-  // const [bookStatus, setBookStatus] = useState(bookDetail.bookStatus);
-  // const [readStartDate, setReadStartDate] = useState<string | null>(
-  //   bookDetail.readStartDate
-  // );
-  // const [readEndDate, setReadEndDate] = useState<string | null>(
-  //   bookDetail.readEndDate
-  // );
+
   const [currentPage, setCurrentPage] = useState<number>(
     bookDetail.currentPage
   );
@@ -61,6 +58,22 @@ const BookDetail = () => {
 
   const exitEditMode = () => {
     setEditMode(!editMode);
+  };
+  const modalHandler = () => {
+    setOpenModal(!openModal);
+  };
+  const handleBookDelete = async () => {
+    try {
+      await axios.delete(process.env.REACT_APP_API_BASE_URL + `/books/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      toast.success('🗑️ 등록하신 책이 삭제되었어요');
+      await navigate('/books/library');
+    } catch (error: any) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -145,9 +158,27 @@ const BookDetail = () => {
                   </Boxcontainer>
                 </>
               ) : null}
-              <Button color='pink' onClick={exitEditMode}>
-                변경하기
-              </Button>
+              <ButtonContainer>
+                <Button color='pink' onClick={exitEditMode}>
+                  변경하기
+                </Button>
+                <Button color='mint' onClick={modalHandler}>
+                  삭제하기
+                </Button>
+              </ButtonContainer>
+              {openModal && (
+                <Modal closeModal={modalHandler}>
+                  <p>🥲정말 삭제하시겠습니까?</p>
+                  <ButtonContainer>
+                    <Button color='skyblue' onClick={modalHandler}>
+                      취소하기
+                    </Button>
+                    <Button color='pink' onClick={handleBookDelete}>
+                      삭제하기
+                    </Button>
+                  </ButtonContainer>
+                </Modal>
+              )}
             </>
           )}
         </BookSummary>

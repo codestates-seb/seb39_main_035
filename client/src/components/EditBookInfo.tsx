@@ -108,7 +108,7 @@ const EditBookInfo = () => {
                 id='currentPage'
                 type='range'
                 min='0'
-                max={bookDetail.itemPage}
+                max='300'
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
               />
@@ -150,7 +150,7 @@ const EditBookInfo = () => {
                 id='currentPage'
                 type='range'
                 min='0'
-                max={bookDetail.itemPage}
+                max='300'
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
               />
@@ -159,11 +159,11 @@ const EditBookInfo = () => {
         </>
       ) : null}
       <ButtonContainer>
-        <Button color='mint' onClick={modalHandler}>
+        <Button color='pink' onClick={modalHandler}>
           저장하기
         </Button>
         <Button
-          color='mint'
+          color='skyblue'
           onClick={() => {
             return window.location.reload();
           }}
@@ -173,18 +173,13 @@ const EditBookInfo = () => {
       </ButtonContainer>
       {openModal && (
         <Modal closeModal={modalHandler}>
-          <p>🐛 수정하실 건가요?</p>
+          <p>🐛 정말 수정하시겠습니까?</p>
           <ButtonContainer>
-            <Button
-              color='skyblue'
-              onClick={() => {
-                return modalHandler();
-              }}
-            >
+            <Button color='pink' onClick={modalHandler}>
               취소하기
             </Button>
             <Button
-              color='pink'
+              color='skyblue'
               onClick={() => {
                 return handleEditBookData(), modalHandler();
               }}
