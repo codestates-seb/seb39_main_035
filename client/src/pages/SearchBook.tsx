@@ -62,29 +62,17 @@ export const FormWrapper = styled.div`
   }
 `;
 
-// aladin ItemLookUp API 연동
-const defaultParam = {
-  ttbkey: process.env.REACT_APP_API_KEY,
-  itemIdType: 'ItemId',
-  output: 'js',
-  Version: 20131101,
-};
-
-interface GetBookResponse {
-  item: Books[];
-}
 const SearchBook = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const itemId = state.itemId;
-  // console.log('itemId:', itemId);
+
   const [book, setBook] = useState<Books[]>([]);
 
   const [cover, setCover] = useState(state.cover);
   const [title, setTitle] = useState(state.title);
   const [author, setAuthor] = useState(state.author);
   const [publisher, setPublisher] = useState(state.publisher);
-  const [itemPage, setItemPage] = useState(0);
+  const [itemPage, setItemPage] = useState(state.itemPage);
   const [bookStatus, setBookStatus] = useState('📖 읽기 상태를 선택해주세요');
   const [currentPage, setCurrentPage] = useState(0);
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
@@ -98,19 +86,12 @@ const SearchBook = () => {
     'ING', // '읽고 있는 책',
     'DONE', // '다 읽은 책',
   ];
-  const getBookContents = async (paramObj: object) => {
+  const getBookContents = async (path: string) => {
     try {
-      const params = {
-        ...defaultParam,
-        ...paramObj,
-      };
-      const { data } = await axios.get<GetBookResponse>(
-        '/aladinapi/api/ItemLookUp.aspx',
-        {
-          params,
-        }
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + `/ext-lib/${path}`
       );
-      setBook(data.item);
+      setBook(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('error message:', error.message);
@@ -126,9 +107,7 @@ const SearchBook = () => {
   };
 
   useEffect(() => {
-    getBookContents({
-      itemId: state.itemId,
-    });
+    getBookContents(title);
   }, []);
 
   // typescript: handling form onSubmit event

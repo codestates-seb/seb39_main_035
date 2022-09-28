@@ -45,40 +45,17 @@ const FirstContent = styled.div`
   line-height: 2.5rem;
 `;
 
-// aladin ItemSearch API 연동
-const defaultParam = {
-  ttbkey: process.env.REACT_APP_API_KEY,
-  QueryType: 'Keyword',
-  MaxResults: 10,
-  start: 1,
-  SearchTarget: 'Book',
-  output: 'js',
-  Version: 20131101,
-};
-
-interface GetBooksResponse {
-  item: Book[];
-}
-
 const SearchBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [query, setQuery] = useState('');
+  const [path, setPath] = useState('');
   const navigate = useNavigate();
 
-  // aladin API axios GET 요청
-  const getBookList = async (paramObj: Object) => {
+  const getBookList = async (path: string) => {
     try {
-      const params = {
-        ...defaultParam,
-        ...paramObj,
-      };
-      const { data } = await axios.get<GetBooksResponse>(
-        '/aladinapi/api/ItemSearch.aspx',
-        {
-          params,
-        }
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + `/ext-lib/${path}`
       );
-      setBooks(data.item);
+      setBooks(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('error message:', error.message);
@@ -92,8 +69,8 @@ const SearchBooks = () => {
   return (
     <Layout>
       <PageTitle title='같이 한 번 찾아볼까요?' />
-      <Search query={query} setQuery={setQuery} getBookList={getBookList} />
-      {books.length === 0 || query === '' ? (
+      <Search path={path} setPath={setPath} getBookList={getBookList} />
+      {books.length === 0 || path === '' ? (
         <FirstContent>
           <p>찾으시는 책이 없네요😅</p>
           <p>다시 검색해보세요</p>
@@ -106,10 +83,10 @@ const SearchBooks = () => {
               찾으시는 책이 없으시면 직접 등록해보세요
             </div>
           </BookContents>
-          {books.map((book) => {
+          {books.map((book, idx) => {
             return (
               <BookContents
-                key={book.itemId}
+                key={idx}
                 onClick={() =>
                   navigate(`/books/search/${book.title}`, { state: book })
                 }
