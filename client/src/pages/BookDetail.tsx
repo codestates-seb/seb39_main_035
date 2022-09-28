@@ -31,14 +31,14 @@ const BookDetail = () => {
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(0);
   const dispatch = useDispatch<AppDispatch>();
-  const bookDetail = useSelector((state: RootState) => state.book).book;
+  const { book } = useSelector((state: RootState) => state.book);
   const [editMode, setEditMode] = useState(false);
-  const [bookStatus, setBookStatus] = useState(bookDetail.bookStatus);
+  const [bookStatus, setBookStatus] = useState(book.bookStatus);
   const [readStartDate, setReadStartDate] = useState<string | null>(
-    bookDetail.readStartDate
+    book.readStartDate
   );
   const [readEndDate, setReadEndDate] = useState<string | null>(
-    bookDetail.readEndDate
+    book.readEndDate
   );
   const [currentPage, setCurrentPage] = useState<number>(0);
 
@@ -71,9 +71,9 @@ const BookDetail = () => {
 
   const handleEditBookData = async () => {
     const editBookDetailData = {
-      author: bookDetail.author,
-      publisher: bookDetail.publisher,
-      itemPage: bookDetail.itemPage,
+      author: book.author,
+      publisher: book.publisher,
+      itemPage: book.itemPage,
       readStartDate,
       readEndDate,
       bookStatus,
@@ -87,12 +87,12 @@ const BookDetail = () => {
   };
   return (
     <Layout>
-      <PageTitle title={bookDetail.title} />
+      <PageTitle title={book.title} />
       <BookWrapper>
-        <BookCoverItem src={bookDetail.cover} />
+        <BookCoverItem src={book.cover} />
         <BookSummary>
-          <p>저자 : {bookDetail.author}</p>
-          <p>출판사 : {bookDetail.publisher}</p>
+          <p>저자 : {book.author}</p>
+          <p>출판사 : {book.publisher}</p>
           {editMode ? (
             <>
               <BookStateBox>
@@ -127,7 +127,7 @@ const BookDetail = () => {
                   <Boxcontainer containerTitle='독서 진행 상황'>
                     <BookStatusBox>
                       <label htmlFor='currentPage'>
-                        {currentPage} page / {bookDetail.itemPage} page
+                        {currentPage} page / {book.itemPage} page
                       </label>
                       <input
                         id='currentPage'
@@ -169,7 +169,7 @@ const BookDetail = () => {
                   <Boxcontainer containerTitle='독서 진행 상황'>
                     <BookStatusBox>
                       <label htmlFor='currentPage'>
-                        {currentPage} page / {bookDetail.itemPage} page
+                        {currentPage} page / {book.itemPage} page
                       </label>
                       <input
                         id='currentPage'
@@ -213,7 +213,7 @@ const BookDetail = () => {
                   <Boxcontainer containerTitle='독서 진행 상황'>
                     <BookStatusBox>
                       <label htmlFor='currentPage'>
-                        {currentPage} page / {bookDetail.itemPage} page
+                        {currentPage} page / {book.itemPage} page
                       </label>
                       <input
                         id='currentPage'
@@ -244,7 +244,7 @@ const BookDetail = () => {
                   <Boxcontainer containerTitle='독서 진행 상황'>
                     <BookStatusBox>
                       <label htmlFor='currentPage'>
-                        {currentPage} page / {bookDetail.itemPage} page
+                        {currentPage} page / {book.itemPage} page
                       </label>
                       <input
                         id='currentPage'

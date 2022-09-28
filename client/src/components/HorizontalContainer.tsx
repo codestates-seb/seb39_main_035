@@ -36,13 +36,12 @@ const HorizontalContainer = ({
       <WindowWrapper>
         <ListWrapper>
           {bookList.map((book, index) => (
-            <ImgWrapper key={book.bookId}>
-              <BookCoverItem
-                src={book.cover}
-                // book={book}
-                onClick={handleClick.bind(null, book.bookId)}
-              />
-            </ImgWrapper>
+            <BookCoverItem
+              key={book.bookId}
+              src={book.cover}
+              // book={book}
+              onClick={handleClick.bind(null, book.bookId)}
+            />
           ))}
         </ListWrapper>
       </WindowWrapper>
@@ -71,11 +70,6 @@ const ListWrapper = styled.div`
   align-items: baseline;
   overflow-x: auto;
   white-space: nowrap;
-`;
-
-const ImgWrapper = styled.div`
-  display: inline-block;
-  padding: 5px;
 `;
 
 const BookAddButton = styled.div`
