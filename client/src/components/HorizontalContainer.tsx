@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { RootState } from '../stores/store';
 import { Books } from '../types/basic';
+import styled from 'styled-components';
 import BookCoverItem from './BookCoverItem';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import Carousel from './Carousel';
 
 type HorizontalContainerProps = {
   bookStatus: 'YET' | 'ING' | 'DONE';
@@ -22,12 +23,12 @@ const HorizontalContainer = ({
 }: HorizontalContainerProps) => {
   const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(1);
-  const handleClick = (id: number) => {
-    navigate(`/books/library/${id}`);
-  };
   const [bookList, setBookList] = useState<BookListItem[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
+  const handleClick = (id: number) => {
+    navigate(`/books/library/${id}`);
+  };
 
   const fetchBookData = async (pageNumber: number) => {
     await axios
@@ -37,7 +38,7 @@ const HorizontalContainer = ({
         },
         params: {
           page: pageNumber,
-          size: 4,
+          size: 10,
           bookStatus: bookStatus,
         },
       })
@@ -77,9 +78,8 @@ const HorizontalContainer = ({
   return (
     <Wrapper>
       <h1>{title}</h1>
-      {/* <button onClick={handleAddList}>리스트 추가 요청</button> */}
       <WindowWrapper>
-        <ListWrapper>
+        <Carousel>
           {bookList.map((book, index) => (
             <BookCoverItem
               key={book.bookId}
@@ -88,7 +88,7 @@ const HorizontalContainer = ({
             />
           ))}
           <div ref={loader} />
-        </ListWrapper>
+        </Carousel>
       </WindowWrapper>
     </Wrapper>
   );
