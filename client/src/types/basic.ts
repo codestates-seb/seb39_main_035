@@ -18,6 +18,15 @@ export interface Books {
   readEndDate: string | null;
 }
 
+//책 베스트셀러 조회 resoponse type
+export interface RecommendBooks {
+  title: string;
+  author: string;
+  cover: string;
+  publisher: string;
+  itemPage: number;
+}
+
 // 책 수정 response type
 export interface EditBookDetail {
   author: string;
@@ -30,7 +39,7 @@ export interface EditBookDetail {
   star: number;
   bookId?: string;
 }
-// 책 상세 페이지 response type
+// 책 상세 페이지 조회 response type
 export interface BookDetail {
   bookId?: string;
   title: string;

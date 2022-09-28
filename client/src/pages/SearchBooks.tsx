@@ -42,6 +42,7 @@ const FirstContent = styled.div`
   transform: translate(-50%, -50%);
   font-weight: 700;
   font-size: 2rem;
+  line-height: 2.5rem;
 `;
 
 // aladin ItemSearch API 연동
@@ -90,18 +91,19 @@ const SearchBooks = () => {
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 찾아볼까요 ?' />
+      <PageTitle title='같이 한 번 찾아볼까요?' />
       <Search query={query} setQuery={setQuery} getBookList={getBookList} />
       {books.length === 0 || query === '' ? (
         <FirstContent>
-          찾으시는 책이 없습니다. 다시 검색해보세요 :D
+          <p>찾으시는 책이 없네요😅</p>
+          <p>다시 검색해보세요</p>
         </FirstContent>
       ) : (
         <ul>
           <BookContents>
             <BsPlusSquare />
             <div className='noResults'>
-              찾으시는 책이 없으면 직접 등록해보세요 :D
+              찾으시는 책이 없으시면 직접 등록해보세요
             </div>
           </BookContents>
           {books.map((book) => {

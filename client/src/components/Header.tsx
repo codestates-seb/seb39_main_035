@@ -70,8 +70,12 @@ const Header = () => {
               <Link to='/books/library'>
                 <TbBooks />
               </Link>
-              <BiBookHeart />
-              <GiArchiveResearch />
+              <Link to='/books/recommend'>
+                <BiBookHeart />
+              </Link>
+              <Link to='/books/search'>
+                <GiArchiveResearch />
+              </Link>
               <TbCalendarStats />
               <Link to='/mypage'>
                 <BsPersonCircle />

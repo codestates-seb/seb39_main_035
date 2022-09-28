@@ -9,7 +9,7 @@ import { Books } from '../types/basic';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { register } from '../stores/book/bookSlice';
-import { reset } from '../stores/book/bookSlice';
+import { useNavigate } from 'react-router-dom';
 
 const BookContainer = styled.section`
   display: flex;
@@ -75,6 +75,7 @@ interface GetBookResponse {
 }
 const SearchBook = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const itemId = state.itemId;
   // console.log('itemId:', itemId);
   const [book, setBook] = useState<Books[]>([]);
@@ -152,7 +153,7 @@ const SearchBook = () => {
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 등록해볼까요 ?' />
+      <PageTitle title='같이 한 번 등록해볼까요?' />
       <BookContainer>
         <form onSubmit={registerBook}>
           <BookContentImg src={cover} alt='책 이미지' />
@@ -248,7 +249,9 @@ const SearchBook = () => {
             </>
           ) : null}
 
-          <Button color='pink'>등록하기</Button>
+          <Button color='pink' onClick={() => navigate('/books/library')}>
+            등록하기
+          </Button>
         </form>
       </BookContainer>
     </Layout>
