@@ -3,10 +3,11 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Books } from '../../types/basic';
+import { BooksDetail } from '../../types/basic';
+import { BookDetail } from '../../types/basic';
 
 export interface BookReducer {
   book: Books;
-  token: string;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;
@@ -24,18 +25,11 @@ const initialState: BookReducer = {
     readStartDate: null,
     readEndDate: null,
   },
-  token: '',
   isError: false,
   isSuccess: false,
   isLoading: false,
 };
 
-interface BookQuery {
-  page: number;
-  size: number;
-  bookStatus: string;
-  Authorization: String;
-}
 // 책 등록하기
 export const register = createAsyncThunk(
   //action name
@@ -44,7 +38,6 @@ export const register = createAsyncThunk(
   async (bookData: Books, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as RootState;
-      console.log(state);
       const { token } = state.user;
       const { data } = await axios.post(
         process.env.REACT_APP_API_BASE_URL + '/books',
@@ -66,22 +59,55 @@ export const register = createAsyncThunk(
   }
 );
 
-// 서재 전체 뷰 조회
-export const getBookListData = createAsyncThunk(
+// 책 상세페이지 조회
+export const getBookDetailData = createAsyncThunk<
+  BooksDetail,
+  string | undefined,
+  { rejectValue: string }
+>(
   //action name
-  'book/library',
+  'books/bookDetailData',
   //callback function
-  async (BookQuery: BookQuery, thunkAPI) => {
+  async (bookId, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as RootState;
       const { token } = state.user;
       const { data } = await axios.get(
-        process.env.REACT_APP_API_BASE_URL + '/books/library',
+        process.env.REACT_APP_API_BASE_URL + `/books/${bookId}`,
         {
           headers: {
             Authorization: token,
           },
-          ...BookQuery,
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+// 책 상세 페이지 수정
+export const editBookDetail = createAsyncThunk(
+  //action name
+  'books/editBookDetailData',
+  //callback function
+  async (editBookDetailData: BookDetail, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.patch(
+        process.env.REACT_APP_API_BASE_URL +
+          `/books/${editBookDetailData.bookId}`,
+        editBookDetailData,
+        {
+          headers: {
+            Authorization: token,
+          },
         }
       );
       return data;
@@ -99,11 +125,7 @@ export const bookSlice = createSlice({
   name: 'book',
   initialState,
   reducers: {
-    reset: (state) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = false;
-    },
+    reset: () => initialState,
   },
   extraReducers: (builder) => {
     //pending, fulfilled, rejected
@@ -114,16 +136,46 @@ export const bookSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        toast.success('📖 책 등록에 성공하셨습니다.'); // "책 등록 성공"
-        console.log('action:', action);
-        console.log('action.payload:', action.payload);
+        toast.success('📖 책 등록에 성공했어요.'); // "책 등록 성공"
+        state.book = { ...action.payload };
       })
       .addCase(register.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
+      })
+      .addCase(getBookDetailData.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(getBookDetailData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        toast.success('📖 책 상세 페이지에 온 걸 환영해요.');
+        // state.book = { ...action.payload };
+      })
+      .addCase(
+        getBookDetailData.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.isLoading = false;
+          state.isError = true;
+          toast.error(action.payload);
+        }
+      )
+      .addCase(editBookDetail.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(editBookDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.book = { ...action.payload };
+        console.log('state:', state);
+      })
+      .addCase(editBookDetail.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
         toast.error(action.payload);
       });
   },
 });
-
+export const { reset } = bookSlice.actions;
 export default bookSlice.reducer;
