@@ -30,30 +30,30 @@ const HorizontalContainer = ({
     navigate(`/books/library/${id}`);
   };
 
-  const fetchBookData = async (pageNumber: number) => {
-    await axios
-      .get(process.env.REACT_APP_API_BASE_URL + '/books/library', {
-        headers: {
-          Authorization: token,
-        },
-        params: {
-          page: pageNumber,
-          size: 5,
-          bookStatus: bookStatus,
-        },
-      })
-      .then((res) => {
-        setBookList((prev) => [...prev, ...res.data.item]);
-        setHasMore(pageNumber < res.data.pageInfo.totalPages);
-      })
-      .catch((e) => {
-        if (axios.isCancel(e)) return;
-      });
-  };
-
   useEffect(() => {
+    const fetchBookData = async (pageNumber: number) => {
+      await axios
+        .get(process.env.REACT_APP_API_BASE_URL + '/books/library', {
+          headers: {
+            Authorization: token,
+          },
+          params: {
+            page: pageNumber,
+            size: 5,
+            bookStatus: bookStatus,
+          },
+        })
+        .then((res) => {
+          setBookList((prev) => [...prev, ...res.data.item]);
+          setHasMore(pageNumber < res.data.pageInfo.totalPages);
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
+    };
     fetchBookData(pageNumber);
-  }, [pageNumber]);
+  }, [pageNumber, bookStatus, token]);
+
   const loader = useRef(null);
   const handleObserver = useCallback(
     (entries: any) => {
