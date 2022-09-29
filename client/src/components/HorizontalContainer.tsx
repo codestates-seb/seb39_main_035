@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import BookCoverItem from './BookCoverItem';
 import axios from 'axios';
 import Carousel from './Carousel';
+import Loading from './Loading';
 
 type HorizontalContainerProps = {
   bookStatus: 'YET' | 'ING' | 'DONE';
@@ -25,6 +26,8 @@ const HorizontalContainer = ({
   const [pageNumber, setPageNumber] = useState(1);
   const [bookList, setBookList] = useState<BookListItem[]>([]);
   const [hasMore, setHasMore] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
   const handleClick = (id: number) => {
     navigate(`/books/library/${id}`);
@@ -44,11 +47,12 @@ const HorizontalContainer = ({
           },
         })
         .then((res) => {
+          setIsLoading(false);
           setBookList((prev) => [...prev, ...res.data.item]);
           setHasMore(pageNumber < res.data.pageInfo.totalPages);
         })
         .catch((e) => {
-          if (axios.isCancel(e)) return;
+          setIsError(true);
         });
     };
 
@@ -76,6 +80,9 @@ const HorizontalContainer = ({
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
+  if (isLoading) return <Loading />;
+
+  if (isError) return <p>cannot load data</p>;
   return (
     <Wrapper>
       <h1>{title}</h1>

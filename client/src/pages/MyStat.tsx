@@ -24,6 +24,9 @@ const MyStat = () => {
   return (
     <Layout>
       <PageTitle title='나의 독서 통계 보기' />
+      <Boxcontainer containerTitle='📝 랜덤 메모'>
+        <p>랜덤 메모</p>
+      </Boxcontainer>
       <Boxcontainer containerTitle='📓 잊고 지낸 나의 책'>
         <Carousel>
           <p>1</p>
