@@ -38,7 +38,7 @@ const HorizontalContainer = ({
         },
         params: {
           page: pageNumber,
-          size: 10,
+          size: 5,
           bookStatus: bookStatus,
         },
       })

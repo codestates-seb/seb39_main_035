@@ -9,6 +9,7 @@ import BookDetail from './pages/BookDetail';
 import SearchBooks from './pages/SearchBooks';
 import SearchBook from './pages/SearchBook';
 import Mypage from './pages/MyPage';
+import MyStat from './pages/MyStat';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path='/books/search/:id' element={<SearchBook />}></Route>
           <Route path='/books/library' element={<Library />}></Route>
           <Route path='/books/library/:id' element={<BookDetail />}></Route>
+          <Route path='/mystat' element={<MyStat />}></Route>
           <Route path='/mypage' element={<Mypage />}></Route>
         </Routes>
       </BrowserRouter>

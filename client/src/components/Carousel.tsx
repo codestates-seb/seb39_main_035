@@ -2,6 +2,7 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md';
 
 type CarouselProps = {
   children?: React.ReactNode;
@@ -14,6 +15,17 @@ const Carousel = ({ children }: CarouselProps) => {
     slidesToShow: 6,
     slidesToScroll: 3,
     speed: 500,
+    nextArrow: (
+      <Div>
+        <MdArrowForwardIos />
+      </Div>
+    ),
+    prevArrow: (
+      <DivPre>
+        <MdArrowBackIos />
+      </DivPre>
+    ),
+
     responsive: [
       {
         breakpoint: 550,
@@ -32,7 +44,7 @@ const Carousel = ({ children }: CarouselProps) => {
         },
       },
       {
-        breakpoint: 350,
+        breakpoint: 370,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 2,
@@ -62,8 +74,27 @@ const StyledSlider = styled(Slider)`
   }
   .slick-slide {
     display: flex;
-    height: 160px;
     align-items: baseline;
     justify-content: flex-start;
   }
+`;
+
+const Div = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 16px;
+  z-index: 99;
+  text-align: right;
+  line-height: 30px;
+`;
+const DivPre = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 16px;
+  z-index: 99;
+  text-align: left;
+  line-height: 30px;
+  color: red;
 `;
