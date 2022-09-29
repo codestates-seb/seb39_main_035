@@ -77,6 +77,9 @@ const Logo = styled.div`
   cursor: pointer;
   img {
     height: 60px;
+    @media screen and (max-width: 390px) {
+      height: 45px;
+    }
   }
 `;
 
@@ -108,8 +111,8 @@ const StyledLink = styled(Link)`
     text-align: center;
     color: var(--gray);
     white-space: nowrap;
-    @media screen and (max-width: 500px) {
-      /* display: none; */
+    @media screen and (max-width: 390px) {
+      display: none;
     }
   }
 `;

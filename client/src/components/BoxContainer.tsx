@@ -23,7 +23,6 @@ const Title = styled.h1`
 `;
 
 const Wrapper = styled.section`
-  min-width: 300px;
   box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
   border-radius: 5px;
   padding: 30px;
