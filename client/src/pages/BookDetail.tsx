@@ -85,7 +85,7 @@ const BookDetail = () => {
           <p>저자 : {bookDetail.author}</p>
           <p>출판사 : {bookDetail.publisher}</p>
           {editMode ? (
-            <EditBookInfo />
+            <EditBookInfo exitEditMode={exitEditMode} />
           ) : (
             <>
               <BookStateBox>

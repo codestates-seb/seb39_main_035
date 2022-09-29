@@ -14,7 +14,11 @@ import { AppDispatch } from '../stores/store';
 import { editBookDetail } from '../stores/book/bookSlice';
 import { toast } from 'react-toastify';
 
-const EditBookInfo = () => {
+interface EditBookInfoProps {
+  exitEditMode: () => void;
+}
+
+const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
   const { id } = useParams();
   const { bookDetail } = useSelector((state: RootState) => state.book);
   const [bookStatus, setBookStatus] = useState<string>(bookDetail.bookStatus);
@@ -41,9 +45,7 @@ const EditBookInfo = () => {
   const modalHandler = () => {
     setOpenModal(!openModal);
   };
-  const exitEditMode = () => {
-    setEditMode(!editMode);
-  };
+
   const dispatch = useDispatch<AppDispatch>();
   // 날짜 표현
   dayjs.locale('ko');
@@ -159,16 +161,11 @@ const EditBookInfo = () => {
         </>
       ) : null}
       <ButtonContainer>
+        <Button color='skyblue' onClick={exitEditMode}>
+          취소하기
+        </Button>
         <Button color='pink' onClick={modalHandler}>
           저장하기
-        </Button>
-        <Button
-          color='skyblue'
-          onClick={() => {
-            return window.location.reload();
-          }}
-        >
-          뒤로가기
         </Button>
       </ButtonContainer>
       {openModal && (
