@@ -110,19 +110,12 @@ const Wrapper = styled.div`
   h1 {
     font-weight: 600;
     font-size: 18px;
+    margin-bottom: 5px;
+    margin-left: 10px;
   }
 `;
 
 const WindowWrapper = styled.div`
   overflow: hidden;
-  height: 160px;
   width: 100%;
-`;
-
-const ListWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  overflow-x: auto;
-  white-space: nowrap;
 `;
