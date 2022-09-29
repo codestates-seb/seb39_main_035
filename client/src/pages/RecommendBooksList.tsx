@@ -3,10 +3,8 @@ import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
-import Button from '../components/Button';
 
 const BookContents = styled.li`
   display: flex;
@@ -34,23 +32,27 @@ const BookContentKeyword = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
 `;
-
-const FirstContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: 700;
-  font-size: 2rem;
-`;
-
-const ButtonContainer = styled.div`
-  width: 100%;
+const RecommendBtnWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  button {
-    margin: 0px;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+`;
+const RecommendBtn = styled.button`
+  cursor: pointer;
+  border: 1px solid rgba(0 0 0 / 20%);
+  font-size: 1rem;
+  padding: 0.8rem;
+  border-radius: 0.4rem;
+  background-color: #f9f9f9;
+  color: #747474;
+  width: 12rem;
+  &:hover {
+    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+    transform: translate(-0.1rem);
+  }
+  &:focus {
+    color: #f9f9f9;
+    background-color: #747474;
   }
 `;
 
@@ -58,7 +60,6 @@ const RecommendBooksList = () => {
   const [recommendBooks, setRecommendBooks] = useState<RecommendBooks[]>([]);
   const navigate = useNavigate();
 
-  // aladin API axios GET 요청
   const getRecommendBooksList = async (path: string) => {
     try {
       const { data } = await axios.get(
@@ -78,15 +79,20 @@ const RecommendBooksList = () => {
   return (
     <Layout>
       <PageTitle title='이달의 설렘을 추천해요' />
-      <button color='pink' onClick={() => getRecommendBooksList('best-seller')}>
-        이달의 베스트셀러
-      </button>
-      <button
-        color='mint'
-        onClick={() => getRecommendBooksList('item-new-special')}
-      >
-        이달의 주목할만한 신간리스트
-      </button>
+      <RecommendBtnWrapper>
+        <RecommendBtn
+          color='pink'
+          onClick={() => getRecommendBooksList('best-seller')}
+        >
+          베스트셀러
+        </RecommendBtn>
+        <RecommendBtn
+          color='mint'
+          onClick={() => getRecommendBooksList('item-new-special')}
+        >
+          주목할만한 신간리스트
+        </RecommendBtn>
+      </RecommendBtnWrapper>
       <ul>
         {recommendBooks.map((book, idx) => {
           return (
