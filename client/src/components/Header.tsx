@@ -33,7 +33,7 @@ const Header = () => {
                 <TbBooks />
                 <p>나의 서재</p>
               </StyledLink>
-              <StyledLink to='/'>
+              <StyledLink to='/books/recommend'>
                 <BiBookHeart />
                 <p>추천 책</p>
               </StyledLink>

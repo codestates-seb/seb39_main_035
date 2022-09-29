@@ -3,10 +3,10 @@ import PageTitle from '../components/PageTitle';
 import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
-import Search from '../components/Search';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { Book } from '../types/basic';
+import { RecommendBooks } from '../types/basic';
+import Button from '../components/Button';
 
 const BookContents = styled.li`
   display: flex;
@@ -42,20 +42,29 @@ const FirstContent = styled.div`
   transform: translate(-50%, -50%);
   font-weight: 700;
   font-size: 2rem;
-  line-height: 2.5rem;
 `;
 
-const SearchBooks = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [path, setPath] = useState('');
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  button {
+    margin: 0px;
+  }
+`;
+
+const RecommendBooksList = () => {
+  const [recommendBooks, setRecommendBooks] = useState<RecommendBooks[]>([]);
   const navigate = useNavigate();
 
-  const getBookList = async (path: string) => {
+  // aladin API axios GET 요청
+  const getRecommendBooksList = async (path: string) => {
     try {
       const { data } = await axios.get(
         process.env.REACT_APP_API_BASE_URL + `/ext-lib/${path}`
       );
-      setBooks(data);
+      setRecommendBooks(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('error message:', error.message);
@@ -68,41 +77,36 @@ const SearchBooks = () => {
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 찾아볼까요?' />
-      <Search path={path} setPath={setPath} getBookList={getBookList} />
-      {books.length === 0 || path === '' ? (
-        <FirstContent>
-          <p>찾으시는 책이 없네요😅</p>
-          <p>다시 검색해보세요</p>
-        </FirstContent>
-      ) : (
-        <ul>
-          <BookContents>
-            <BsPlusSquare />
-            <div className='noResults'>
-              찾으시는 책이 없으시면 직접 등록해보세요
-            </div>
-          </BookContents>
-          {books.map((book, idx) => {
-            return (
-              <BookContents
-                key={idx}
-                onClick={() =>
-                  navigate(`/books/search/${book.title}`, { state: book })
-                }
-              >
-                <BookContentImg src={book.cover} alt='책 이미지' />
-                <BookContentKeyword>
-                  <div>{book.title}</div>
-                  <div>{book.author}</div>
-                </BookContentKeyword>
-              </BookContents>
-            );
-          })}
-        </ul>
-      )}
+      <PageTitle title='이달의 설렘을 추천해요' />
+      <button color='pink' onClick={() => getRecommendBooksList('best-seller')}>
+        이달의 베스트셀러
+      </button>
+      <button
+        color='mint'
+        onClick={() => getRecommendBooksList('item-new-special')}
+      >
+        이달의 주목할만한 신간리스트
+      </button>
+      <ul>
+        {recommendBooks.map((book, idx) => {
+          return (
+            <BookContents
+              key={idx}
+              onClick={() =>
+                navigate(`/books/search/${book.title}`, { state: book })
+              }
+            >
+              <BookContentImg src={book.cover} alt='책 이미지' />
+              <BookContentKeyword>
+                <div>{book.title}</div>
+                <div>{book.author}</div>
+              </BookContentKeyword>
+            </BookContents>
+          );
+        })}
+      </ul>
     </Layout>
   );
 };
 
-export default SearchBooks;
+export default RecommendBooksList;

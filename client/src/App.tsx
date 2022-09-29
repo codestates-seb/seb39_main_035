@@ -11,6 +11,9 @@ import SearchBook from './pages/SearchBook';
 import Mypage from './pages/MyPage';
 import MyStat from './pages/MyStat';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import RecommendBooksList from './pages/RecommendBooksList';
+
 
 function App() {
   return (
@@ -26,6 +29,10 @@ function App() {
           <Route path='/books/search/:id' element={<SearchBook />}></Route>
           <Route path='/books/library' element={<Library />}></Route>
           <Route path='/books/library/:id' element={<BookDetail />}></Route>
+          <Route
+            path='/books/recommend'
+            element={<RecommendBooksList />}
+          ></Route>
           <Route path='/mystat' element={<MyStat />}></Route>
           <Route path='/mypage' element={<Mypage />}></Route>
         </Routes>

@@ -22,11 +22,13 @@ const HorizontalContainer = ({
   bookStatus,
 }: HorizontalContainerProps) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const [bookList, setBookList] = useState<BookListItem[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
   const handleClick = (id: number) => {
+    dispatch(reset());
     navigate(`/books/library/${id}`);
   };
 

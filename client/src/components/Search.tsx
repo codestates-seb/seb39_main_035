@@ -29,19 +29,17 @@ const SearchForm = styled.form`
 `;
 
 type Props = {
-  query: string;
-  setQuery: Function;
+  path: string;
+  setPath: Function;
   getBookList: Function;
 };
 
-const Search = ({ query, setQuery, getBookList }: Props) => {
+const Search = ({ path, setPath, getBookList }: Props) => {
   // onKeyDown 'Enter' 일때 검색 기능
   const onSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && query !== '') {
+    if (event.key === 'Enter' && path !== '') {
       event.preventDefault();
-      getBookList({
-        Query: query,
-      });
+      getBookList(path);
     }
   };
 
@@ -52,8 +50,8 @@ const Search = ({ query, setQuery, getBookList }: Props) => {
         type='text'
         placeholder='책 제목 혹은 저자 입력 후 ENTER'
         onKeyDown={onSearch}
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        value={path}
+        onChange={(event) => setPath(event.target.value)}
         autoFocus={true}
       />
     </SearchForm>
