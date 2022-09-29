@@ -175,7 +175,6 @@ export const bookSlice = createSlice({
       .addCase(getBookDetailData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        toast.success('📖 책 상세 페이지에 온 걸 환영해요.');
         state.bookDetail = { ...action.payload };
       })
       .addCase(
