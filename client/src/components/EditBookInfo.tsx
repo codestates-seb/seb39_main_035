@@ -21,6 +21,7 @@ interface EditBookInfoProps {
 const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
   const { id } = useParams();
   const { bookDetail } = useSelector((state: RootState) => state.book);
+  console.log('bookDetail:', bookDetail);
   const [bookStatus, setBookStatus] = useState<string>(bookDetail.bookStatus);
   const [star, setStar] = useState<number>(bookDetail.star);
   const [currentPage, setCurrentPage] = useState<number>(
@@ -110,7 +111,7 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
                 id='currentPage'
                 type='range'
                 min='0'
-                max='300'
+                max={bookDetail.itemPage}
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
               />
@@ -152,7 +153,7 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
                 id='currentPage'
                 type='range'
                 min='0'
-                max='300'
+                max={bookDetail.itemPage}
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
               />
