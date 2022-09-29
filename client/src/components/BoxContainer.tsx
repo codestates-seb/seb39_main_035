@@ -5,6 +5,17 @@ interface BoxContainerProps {
   children: React.ReactNode;
 }
 
+const Boxcontainer = ({ containerTitle, children }: BoxContainerProps) => {
+  return (
+    <>
+      {containerTitle && <Title>{containerTitle}</Title>}
+      <Wrapper>{children}</Wrapper>
+    </>
+  );
+};
+
+export default Boxcontainer;
+
 const Title = styled.h1`
   font-size: 22px;
   margin: 15px 0;
@@ -18,14 +29,3 @@ const Wrapper = styled.section`
   padding: 30px;
   font-size: 18px;
 `;
-
-const Boxcontainer = ({ containerTitle, children }: BoxContainerProps) => {
-  return (
-    <>
-      {containerTitle && <Title>{containerTitle}</Title>}
-      <Wrapper>{children}</Wrapper>
-    </>
-  );
-};
-
-export default Boxcontainer;
