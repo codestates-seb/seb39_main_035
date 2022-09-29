@@ -178,7 +178,7 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
             <Button
               color='skyblue'
               onClick={() => {
-                return handleEditBookData(), modalHandler();
+                return handleEditBookData(), modalHandler(), exitEditMode();
               }}
             >
               수정하기

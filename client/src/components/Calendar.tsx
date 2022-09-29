@@ -6,6 +6,7 @@ interface CalendarProps {
 }
 
 const Calendar = ({ calendar }: CalendarProps) => {
+  console.log(calendar);
   return <></>;
 };
 

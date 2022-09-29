@@ -18,7 +18,7 @@ const MyStat = () => {
   useEffect(() => {
     dispatch(getCalendarData(1));
     // dispatch(getAbandonData(1));
-  }, [dispatch, getCalendarData]);
+  }, [dispatch]);
   console.log(calendar);
 
   return (
