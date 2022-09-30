@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
 import bookReducer from './book/bookSlice';
 import statReducer from './stat/statSlice';
+import memoReducer from './memo/memoSlice';
 import storage from 'redux-persist/lib/storage/session';
 import {
   persistReducer,
@@ -17,6 +18,7 @@ const rootReducers = combineReducers({
   user: userReducer,
   book: bookReducer,
   stat: statReducer,
+  memo: memoReducer,
 });
 
 const persistConfig = {

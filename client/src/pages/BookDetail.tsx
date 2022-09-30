@@ -32,6 +32,7 @@ const BookDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { bookDetail } = useSelector((state: RootState) => state.book);
   const { token } = useSelector((state: RootState) => state.user);
+  const { isSuccess } = useSelector((state: RootState) => state.memo);
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(bookDetail.star);
 
@@ -49,7 +50,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     dispatch(getBookDetailData(id));
-  }, []);
+  }, [isSuccess]);
 
   const selectList = [
     'YET', // '읽고 싶은 책',

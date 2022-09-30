@@ -57,6 +57,32 @@ export const createMemo = createAsyncThunk(
   }
 );
 
+//메모 삭제하기
+export const deleteMemo = createAsyncThunk(
+  'memo/delete',
+  async (memoId: number, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.delete(
+        process.env.REACT_APP_API_BASE_URL + `/memos/${memoId}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
 export const memoSlice = createSlice({
   name: 'memo',
   initialState,
@@ -81,6 +107,21 @@ export const memoSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         toast.error(action.payload);
+      })
+      .addCase(deleteMemo.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteMemo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(deleteMemo.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
       });
   },
 });
+
+export const { reset } = memoSlice.actions;
+export default memoSlice.reducer;

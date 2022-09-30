@@ -102,16 +102,3 @@ const StyledForm = styled.form`
     }
   }
 `;
-
-// 어떤 책에 대한 메모인지도 알려주면 좋을 것,,!
-// 메모 타입 선택하기
-// export interface MemoType {
-//     memoType: 'BOOK_CONTENT' | 'SUMMARY' | 'THOUGHT' | 'QUESTION';
-//   }
-// 책 속 문장, 생각, 질문
-
-//수정, 등록 요청 한꺼번에 이 컴포넌트에서 처리하기
-
-// 모달로 처리할지 고민됨?
-
-// 페이지 범위를 정해둘 것

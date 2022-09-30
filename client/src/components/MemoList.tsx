@@ -5,6 +5,7 @@ import { MemoResponse } from '../types/basic';
 import Boxcontainer from './BoxContainer';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
+import MemoItem from './MemoItem';
 
 const MemoList = () => {
   const { bookDetail } = useSelector((state: RootState) => state.book);
@@ -23,11 +24,7 @@ const MemoList = () => {
         </Button>
       </BoxTitle>
       {memosList.map((memo) => (
-        <Boxcontainer key={memo.memoId}>
-          <p>{memo.memoType}</p>
-          <p>{memo.memoBookPage}</p>
-          <p>{memo.memoContent}</p>
-        </Boxcontainer>
+        <MemoItem key={memo.memoId} memo={memo} />
       ))}
     </>
   );
