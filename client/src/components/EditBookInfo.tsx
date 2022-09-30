@@ -89,9 +89,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
       {bookStatus === 'ING' ? (
         <>
           <BookStateBox>
-            <label htmlFor='readStartDate'>
-              읽기 시작한 날 : {readStartdateFormat}
-            </label>
+            <label htmlFor='readStartDate'>읽기 시작한 날</label>
+            <p>{readStartdateFormat}</p>
             <input
               id='readStartDate'
               type='datetime-local'
@@ -121,9 +120,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
       {bookStatus === 'DONE' ? (
         <>
           <BookStateBox>
-            <label htmlFor='readStartDate'>
-              읽기 시작한 날 : {readStartdateFormat}
-            </label>
+            <label htmlFor='readStartDate'>읽기 시작한 날</label>
+            <p>{readStartdateFormat}</p>
             <input
               id='readStartDate'
               type='datetime-local'
@@ -131,9 +129,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
             />
           </BookStateBox>
           <BookStateBox>
-            <label htmlFor='readEndDate'>
-              다 읽은 날 : {readEnddateFormat}
-            </label>
+            <label htmlFor='readEndDate'>다 읽은 날</label>
+            <p>{readEnddateFormat}</p>
             <input
               id='readEndDate'
               type='datetime-local'
