@@ -128,6 +128,7 @@ const SearchBook = () => {
       readEndDate,
     };
     dispatch(register(bookData));
+    navigate('/books/library');
   };
 
   return (
@@ -228,9 +229,7 @@ const SearchBook = () => {
             </>
           ) : null}
 
-          <Button color='pink' onClick={() => navigate('/books/library')}>
-            등록하기
-          </Button>
+          <Button color='pink'>등록하기</Button>
         </form>
       </BookContainer>
     </Layout>
