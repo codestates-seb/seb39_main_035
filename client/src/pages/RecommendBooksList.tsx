@@ -1,7 +1,7 @@
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
@@ -75,6 +75,10 @@ const RecommendBooksList = () => {
     }
   };
 
+  useEffect(() => {
+    getRecommendBooksList('best-seller');
+  }, []);
+
   return (
     <Layout>
       <PageTitle title='이달의 설렘을 추천해요' />
@@ -82,6 +86,7 @@ const RecommendBooksList = () => {
         <RecommendBtn
           color='pink'
           onClick={() => getRecommendBooksList('best-seller')}
+          autoFocus={true}
         >
           베스트셀러
         </RecommendBtn>
@@ -101,7 +106,7 @@ const RecommendBooksList = () => {
                 navigate(`/books/search/${book.title}`, { state: book })
               }
             >
-              <BookCoverItem src={book.cover} width='125px' />
+              <BookCoverItem src={book.cover} width='100px' />
               <BookContentKeyword>
                 <div>{book.title}</div>
                 <div>{book.author}</div>

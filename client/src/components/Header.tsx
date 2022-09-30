@@ -69,6 +69,7 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 6px rgb(32 33 36 / 10%);
+  z-index: 100;
 `;
 
 const Logo = styled.div`
