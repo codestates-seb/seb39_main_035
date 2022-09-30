@@ -2,7 +2,10 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md';
+import {
+  MdArrowForwardIos as Next,
+  MdArrowBackIos as Prev,
+} from 'react-icons/md';
 
 type CarouselProps = {
   children?: React.ReactNode;
@@ -14,15 +17,15 @@ const Carousel = ({ children }: CarouselProps) => {
     infinite: false,
     slidesToShow: 6,
     slidesToScroll: 3,
-    speed: 500,
+    speed: 800,
     nextArrow: (
       <Div>
-        <MdArrowForwardIos />
+        <Next className='left-arrow' />
       </Div>
     ),
     prevArrow: (
       <DivPre>
-        <MdArrowBackIos />
+        <Prev className='right-arrow' />
       </DivPre>
     ),
 
@@ -70,12 +73,16 @@ const Wrapper = styled.div`
 const StyledSlider = styled(Slider)`
   .slick-track {
     display: flex;
-    justify-content: flex-start;
-  }
-  .slick-slide {
-    display: flex;
     align-items: baseline;
-    justify-content: flex-start;
+    margin-left: 10px;
+  }
+
+  .slick-prev::before,
+  .slick-next::before {
+    /* opacity: 0;
+    display: none; */
+    color: var(--gray);
+    font-size: 30px;
   }
 `;
 
@@ -83,18 +90,27 @@ const Div = styled.div`
   width: 30px;
   height: 30px;
   position: absolute;
-  right: 16px;
+  right: 1px;
   z-index: 99;
   text-align: right;
   line-height: 30px;
+  border-radius: 5px;
+  /* .left-arrow {
+    font-size: 30px;
+    color: var(--gray);
+  } */
 `;
 const DivPre = styled.div`
   width: 30px;
   height: 30px;
   position: absolute;
-  left: 16px;
+  left: 1px;
   z-index: 99;
   text-align: left;
   line-height: 30px;
-  color: red;
+  border-radius: 5px;
+  /* .right-arrow {
+    font-size: 30px;
+    color: var(--gray);
+  } */
 `;

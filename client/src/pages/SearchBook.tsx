@@ -111,7 +111,7 @@ const SearchBook = () => {
   }, []);
 
   // typescript: handling form onSubmit event
-  const registerBook = (event: React.FormEvent<HTMLFormElement>) => {
+  const registerBook = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
 
