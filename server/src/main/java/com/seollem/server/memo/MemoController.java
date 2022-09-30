@@ -72,7 +72,7 @@ public ResponseEntity postMemo(@RequestHeader Map<String, Object> requestHeader,
         String email = getEmailFromHeaderTokenUtil.getEmailFromHeaderToken(requestHeader);
         Member member = memberService.findVerifiedMemberByEmail(email);
 
-        List<Memo> random = memoService.randomMemo();
+        List<Memo> random = memoService.randomMemo(member);
         List<MemoDto.RandomResponse> responses =
                 random.stream()
                         .map(memo-> mapper.momoToMemoRandom(memo))
