@@ -196,9 +196,13 @@ const BookWrapper = styled.section`
   padding: 30px;
   font-size: 18px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 const BookSummary = styled.div`
-  margin-left: 30px;
+  margin-top: 25px;
+  line-height: 25px;
   display: flex;
   flex-direction: column;
   width: 100%;
