@@ -55,7 +55,6 @@ const HorizontalContainer = ({
           setIsError(true);
         });
     };
-
     fetchBookData(pageNumber);
   }, [pageNumber, bookStatus, token]);
 

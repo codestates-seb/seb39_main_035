@@ -70,7 +70,7 @@ const BookDetail = () => {
         },
       });
       toast.success('🗑️ 등록하신 책이 삭제되었어요');
-      await navigate('/books/library');
+      navigate('/books/library');
     } catch (error: any) {
       toast.error(error);
     }
@@ -110,14 +110,14 @@ const BookDetail = () => {
                   <Boxcontainer containerTitle='독서 진행 상황'>
                     <BookStatusBox>
                       <label htmlFor='currentPage'>
-                        {bookDetail.currentPage} page / {bookDetail.itemPage}{' '}
+                        {bookDetail.currentPage} page / {bookDetail.itemPage}
                         page
                       </label>
                       <input
                         id='currentPage'
                         type='range'
                         min='0'
-                        max='300'
+                        max={bookDetail.itemPage}
                         value={bookDetail.currentPage}
                         onChange={(e) => setCurrentPage(Number(e.target.value))}
                         disabled

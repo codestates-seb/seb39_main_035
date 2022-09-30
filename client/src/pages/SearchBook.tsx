@@ -128,7 +128,7 @@ const SearchBook = () => {
       readEndDate,
     };
     dispatch(register(bookData));
-    await navigate('/books/library');
+    navigate('/books/library');
   };
 
   return (
