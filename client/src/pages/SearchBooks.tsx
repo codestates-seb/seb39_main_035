@@ -77,7 +77,10 @@ const SearchBooks = () => {
         <ul>
           <BookContents>
             <BsPlusSquare />
-            <div className='noResults'>
+            <div
+              className='noResults'
+              onClick={() => navigate('/books/register')}
+            >
               찾으시는 책이 없으시면 직접 등록해보세요
             </div>
           </BookContents>
