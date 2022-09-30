@@ -88,7 +88,7 @@ public class BookDto {
         private Book.BookStatus bookStatus;
         private LocalDateTime readStartDate;
         private LocalDateTime readEndDate;
-        //메모 구현 필요
+
         private List<MemoDto.Response> memosList;
         private int memoCount;
     }
@@ -137,5 +137,15 @@ public class BookDto {
         private LocalDateTime createdAt;
         private String title;
         private String cover;
+    }
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class MemoBooksResponse{
+        private long bookId;
+        private String title;
+        private String cover;
+        private int memoCount;
     }
 }

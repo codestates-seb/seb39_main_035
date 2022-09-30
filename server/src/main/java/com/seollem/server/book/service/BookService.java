@@ -68,13 +68,6 @@ public class BookService {
         return book;
     }
 
-    public Page<Book> findVerifiedBooksByMember(int page, int size, Member member){
-        Page<Book> books = bookRepository.findAllByMember(member, PageRequest.of(page, size,
-                Sort.by("BOOK_ID").descending()));
-
-        return books;
-    }
-
 
     public Page<Book> findVerifiedBooksByMemberAndBookStatus(int page, int size, Member member, Book.BookStatus bookStatus, String sort){
       Page<Book> books = bookRepository.findAllByMemberAndBookStatus(PageRequest.of(page, size,
@@ -82,6 +75,21 @@ public class BookService {
 
         return books;
     }
+
+    public Page<Book> findAbandonedBooks(int page, int size, Member member){
+        Page<Book> books = bookRepository.findAbandon(member, PageRequest.of(page, size,
+                Sort.by("BOOK_ID").descending()));
+
+        return books;
+    }
+
+    public Page<Book> findMemoBooks(int page, int size, Member member){
+        Page<Book> books = bookRepository.findBooksHaveMemo(member, PageRequest.of(page, size,
+                Sort.by("BOOK_ID").descending()));
+
+        return books;
+    }
+
 
     public void verifyExistBookByTitle(String title){
         Optional<Book> optionalBook = bookRepository.findByTitle(title);

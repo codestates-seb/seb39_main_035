@@ -58,7 +58,7 @@ public class MemoDto {
     @Setter
     @AllArgsConstructor
     public static class Response {
-        //  private long memoId;
+        private long memoId;
         private Memo.MemoType memoType;
         private String memoContent;
         private int memoBookPage;
