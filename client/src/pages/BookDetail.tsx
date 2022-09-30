@@ -80,7 +80,7 @@ const BookDetail = () => {
     <Layout>
       <PageTitle title={bookDetail.title} />
       <BookWrapper>
-        <BookCoverItem src={bookDetail.cover} />
+        <BookCoverItem src={bookDetail.cover} width='200px' />
         <BookSummary>
           <p>저자 : {bookDetail.author}</p>
           <p>출판사 : {bookDetail.publisher}</p>

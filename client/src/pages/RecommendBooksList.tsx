@@ -5,6 +5,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;
@@ -21,16 +22,14 @@ const BookContents = styled.li`
     margin-left: 1rem;
   }
 `;
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-right: 1rem;
-`;
+
 const BookContentKeyword = styled.div`
   font-weight: 700;
   font-size: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin-left: 1rem;
 `;
 const RecommendBtnWrapper = styled.div`
   display: flex;
@@ -102,7 +101,7 @@ const RecommendBooksList = () => {
                 navigate(`/books/search/${book.title}`, { state: book })
               }
             >
-              <BookContentImg src={book.cover} alt='책 이미지' />
+              <BookCoverItem src={book.cover} width='125px' />
               <BookContentKeyword>
                 <div>{book.title}</div>
                 <div>{book.author}</div>
