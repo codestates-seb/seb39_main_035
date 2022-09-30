@@ -39,6 +39,8 @@ const initialState: BookReducer = {
     bookStatus: '',
     readStartDate: null,
     readEndDate: null,
+    memosList: [],
+    memoCount: 0,
   },
   editBookDetail: {
     author: '',

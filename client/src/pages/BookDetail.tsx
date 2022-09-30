@@ -19,6 +19,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
+import MemoList from '../components/MemoList';
 
 const BookDetail = () => {
   // const location = useLocation();
@@ -183,6 +184,7 @@ const BookDetail = () => {
           )}
         </BookSummary>
       </BookWrapper>
+      <MemoList />
     </Layout>
   );
 };
