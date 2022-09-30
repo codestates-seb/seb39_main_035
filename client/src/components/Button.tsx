@@ -2,9 +2,10 @@ import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 export interface ButtonProps {
-  color: 'pink' | 'mint' | 'skyblue';
+  color: 'pink' | 'mint' | 'skyblue' | 'gray';
   disabled?: boolean;
   fullWidth?: boolean;
+  middleWidth?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
 }
@@ -28,6 +29,13 @@ const COLOR = {
       background: ${darken(0.05, `#A8D1E7`)};
     }
   `,
+  gray: css`
+    background: #cccccc;
+    color: black;
+    &:hover {
+      background: ${darken(0.05, `#b9b9b9`)};
+    }
+  `,
 };
 
 const DISABLED = css`
@@ -38,6 +46,10 @@ const DISABLED = css`
 const FULLWIDTH = css`
   width: 100%;
   justify-content: center;
+`;
+const MIDDLEWIDTH = css`
+  width: 120px;
+  margin: 10px;
 `;
 
 const Wrapper = styled.button<ButtonProps>`
@@ -54,6 +66,7 @@ const Wrapper = styled.button<ButtonProps>`
   ${(props) => props.color && COLOR[props.color]}
   ${(props) => props.disabled && DISABLED}
   ${(props) => props.fullWidth && FULLWIDTH}
+  ${(props) => props.middleWidth && MIDDLEWIDTH}
 `;
 
 const Button = ({
@@ -61,6 +74,7 @@ const Button = ({
   color,
   disabled,
   fullWidth,
+  middleWidth,
   children,
 }: ButtonProps) => {
   return (
@@ -69,6 +83,7 @@ const Button = ({
       color={color}
       disabled={disabled}
       fullWidth={fullWidth}
+      middleWidth={middleWidth}
     >
       {children}
     </Wrapper>
