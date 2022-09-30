@@ -99,6 +99,7 @@ public class BookService {
     // bookStatus에 따른 readStartDate, readEndDate 처리
     public Book verifyBookStatus(Book book){
         if(book.getBookStatus()==null){
+            book.setBookStatus(Book.BookStatus.YET);
             book.setReadStartDate(null);
             book.setReadEndDate(null);
         } else if(book.getBookStatus()== Book.BookStatus.YET){
