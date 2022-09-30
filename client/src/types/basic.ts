@@ -41,7 +41,6 @@ export interface EditBookDetail {
 }
 // 책 상세 페이지 조회 response type
 export interface BookDetail {
-  bookId?: string;
   title: string;
   cover: string;
   author: string;
@@ -55,6 +54,10 @@ export interface BookDetail {
   readEndDate: string | null;
   memosList: MemoResponse[];
   memoCount: number;
+}
+
+export interface BookDetailResponse extends BookDetail {
+  bookId: number;
 }
 
 export interface User {

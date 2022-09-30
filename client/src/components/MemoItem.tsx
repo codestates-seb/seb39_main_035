@@ -4,16 +4,22 @@ import { AppDispatch } from '../stores/store';
 import { deleteMemo } from '../stores/memo/memoSlice';
 import { MemoResponse } from '../types/basic';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
 
 interface MemoItemProps {
   memo: MemoResponse;
 }
 
 const MemoItem = ({ memo }: MemoItemProps) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const handleDelete = async () => {
     await dispatch(deleteMemo(memo.memoId));
     // 삭제하고 상세페이지에서 다시 get 요청이 이루어져야됨 ....
+  };
+
+  const handleEdit = () => {
+    navigate(`/memo/${memo.memoId}`, { state: memo });
   };
 
   return (
@@ -21,6 +27,9 @@ const MemoItem = ({ memo }: MemoItemProps) => {
       <p>{memo.memoBookPage}</p>
       <p>{memo.memoContent}</p>
       <p>{memo.memoType}</p>
+      <Button color='gray' onClick={handleEdit}>
+        수정하기
+      </Button>
       <Button color='gray' onClick={handleDelete}>
         삭제하기
       </Button>

@@ -50,7 +50,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     dispatch(getBookDetailData(id));
-  }, [isSuccess]);
+  }, [isSuccess, dispatch, id]);
 
   const selectList = [
     'YET', // '읽고 싶은 책',

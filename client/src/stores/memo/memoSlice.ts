@@ -12,9 +12,14 @@ interface MemoReducer {
   isError: boolean;
 }
 
-interface memoRequest {
+interface MemoCreateRequest {
   memoData: Memo;
   bookId: number;
+}
+
+interface MemoEditRequest {
+  memoData: Memo;
+  memoId: number;
 }
 
 const initialState: MemoReducer = {
@@ -33,7 +38,7 @@ const initialState: MemoReducer = {
 //메모 등록하기
 export const createMemo = createAsyncThunk(
   'memo/create',
-  async (memorequest: memoRequest, thunkAPI) => {
+  async (memorequest: MemoCreateRequest, thunkAPI) => {
     try {
       const state = thunkAPI.getState() as RootState;
       const { token } = state.user;
@@ -66,6 +71,33 @@ export const deleteMemo = createAsyncThunk(
       const { token } = state.user;
       const { data } = await axios.delete(
         process.env.REACT_APP_API_BASE_URL + `/memos/${memoId}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+//메모 수정하기하기
+export const editMemo = createAsyncThunk(
+  'memo/edit',
+  async (memo: MemoEditRequest, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.patch(
+        process.env.REACT_APP_API_BASE_URL + `/memos/${memo.memoId}`,
+        memo.memoData,
         {
           headers: {
             Authorization: token,
@@ -116,6 +148,18 @@ export const memoSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(deleteMemo.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
+      })
+      .addCase(editMemo.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(editMemo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(editMemo.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
         toast.error(action.payload);

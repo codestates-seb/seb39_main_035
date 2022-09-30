@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Boxcontainer from '../components/BoxContainer';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import Button from '../components/Button';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../stores/store';
-import { createMemo } from '../stores/memo/memoSlice';
+import { AppDispatch, RootState } from '../stores/store';
+import { createMemo, editMemo } from '../stores/memo/memoSlice';
+import { useSelector } from 'react-redux';
 
 const MemoForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { bookId, itemPage } = location.state; // store -> bookDetail에서 가져오는게 맞을까?
+  const { id } = useParams();
+  const { bookId, itemPage } = useSelector(
+    (state: RootState) => state.book.bookDetail
+  );
   const dispatch = useDispatch<AppDispatch>();
   const [memoContent, setMemoContent] = useState<string>('');
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
@@ -23,6 +27,15 @@ const MemoForm = () => {
     { typeId: 3, typeValue: 'THOUGHT', typeText: '생각' },
     { typeId: 4, typeValue: 'QUESTION', typeText: '질문' },
   ];
+
+  useEffect(() => {
+    if (id) {
+      const memo = location.state;
+      setMemoContent(memo.memoContent);
+      setType(memo.memoType);
+      setMemoBookPage(memo.memoBookPage);
+    }
+  }, [id, location]);
 
   const onSubmitMemo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +50,12 @@ const MemoForm = () => {
       memoType: type,
     };
 
-    await dispatch(createMemo({ memoData, bookId }));
+    if (id) {
+      await dispatch(editMemo({ memoData, memoId: Number(id) }));
+      // console.log({ ...memoData, memoId: Number(id) });
+    } else {
+      await dispatch(createMemo({ memoData, bookId }));
+    }
     navigate(`/books/library/${bookId}`);
   };
 
