@@ -10,6 +10,10 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { register } from '../stores/book/bookSlice';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import { reset } from '../stores/book/bookSlice';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContainer = styled.section`
   display: flex;
@@ -19,12 +23,6 @@ const BookContainer = styled.section`
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
-`;
-
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-bottom: 1rem;
-  width: 20%;
 `;
 
 export const FormWrapper = styled.div`
@@ -64,10 +62,10 @@ export const FormWrapper = styled.div`
 
 const SearchBook = () => {
   const { state } = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const [book, setBook] = useState<Books[]>([]);
-
   const [cover, setCover] = useState(state.cover);
   const [title, setTitle] = useState(state.title);
   const [author, setAuthor] = useState(state.author);
@@ -77,7 +75,6 @@ const SearchBook = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
-  const dispatch = useDispatch<AppDispatch>();
 
   const selectList = [
     '📖 읽기 상태를 선택해주세요',
@@ -102,19 +99,19 @@ const SearchBook = () => {
     }
   };
 
+  useEffect(() => {
+    getBookContents(title);
+    dispatch(reset());
+  }, []);
+
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBookStatus(e.target.value);
   };
-
-  useEffect(() => {
-    getBookContents(title);
-  }, []);
 
   // typescript: handling form onSubmit event
   const registerBook = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-
     // 책 상세 내용
     const bookData = {
       title,
@@ -127,16 +124,20 @@ const SearchBook = () => {
       readStartDate,
       readEndDate,
     };
-    dispatch(register(bookData));
-    navigate('/books/library');
+    await dispatch(register(bookData));
   };
+  const { isSuccess } = useSelector((state: RootState) => state.book);
+  console.log('isSuccess:', isSuccess);
+  if (isSuccess) {
+    navigate('/books/library');
+  }
 
   return (
     <Layout>
       <PageTitle title='같이 한 번 등록해볼까요?' />
       <BookContainer>
         <form onSubmit={registerBook}>
-          <BookContentImg src={cover} alt='책 이미지' />
+          <BookCoverItem src={cover} width='200px' />
           <FormWrapper>
             <label htmlFor='title'>책 제목</label>
             <input
