@@ -47,9 +47,11 @@ function App() {
           <Route path='/mypage' element={<PrivateRoute />}>
             <Route path='/mypage' element={<Mypage />} />
           </Route>
-
           <Route path='/memo' element={<PrivateRoute />}>
             <Route path='/memo' element={<MemoForm />} />
+          </Route>
+          <Route path='/memo/:id' element={<PrivateRoute />}>
+            <Route path='/memo/:id' element={<MemoForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

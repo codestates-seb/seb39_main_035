@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Boxcontainer from '../components/BoxContainer';
-import Calendar from '../components/Calendar';
+import BookCalendar from '../components/BookCalendar';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import { getAbandonData, getCalendarData } from '../stores/stat/statSlice';
 import { AppDispatch, RootState } from '../stores/store';
 import Carousel from '../components/Carousel';
+import BookCoverItem from '../components/BookCoverItem';
 
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,16 +17,15 @@ const MyStat = () => {
   );
 
   useEffect(() => {
-    dispatch(getCalendarData(1));
+    // dispatch(getCalendarData(1));
     // dispatch(getAbandonData(1));
   }, [dispatch]);
-  console.log(calendar);
 
   return (
     <Layout>
       <PageTitle title='나의 독서 통계 보기' />
       <Boxcontainer containerTitle='📝 랜덤 메모'>
-        <p>랜덤 메모</p>
+        <p></p>
       </Boxcontainer>
       <Boxcontainer containerTitle='📓 잊고 지낸 나의 책'>
         <Carousel>
@@ -33,7 +33,7 @@ const MyStat = () => {
         </Carousel>
       </Boxcontainer>
       <Boxcontainer containerTitle='🗓 독서 달력'>
-        <Calendar calendar={calendar} />
+        <BookCalendar calendarList={calendar} />
       </Boxcontainer>
     </Layout>
   );
