@@ -39,6 +39,8 @@ public ResponseEntity postMemo(@RequestHeader Map<String, Object> requestHeader,
     String email = getEmailFromHeaderTokenUtil.getEmailFromHeaderToken(requestHeader);
     Member member = memberService.findVerifiedMemberByEmail(email);
 
+    bookService.verifyMemberHasBook(bookId,member.getMemberId());
+
     Memo memoOfBook = mapper.memoPostToMemo(post);
     Book book = bookService.findVerifiedBookById(bookId);
     memoOfBook.setMember(member);
