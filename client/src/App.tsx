@@ -14,6 +14,7 @@ import MyStat from './pages/MyStat';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RecommendBooksList from './pages/RecommendBooksList';
+import MemoForm from './pages/MemoForm';
 import RegisterBook from './pages/RegisterBook';
 
 function App() {
@@ -49,6 +50,12 @@ function App() {
           </Route>
           <Route path='/mypage' element={<PrivateRoute />}>
             <Route path='/mypage' element={<Mypage />} />
+          </Route>
+          <Route path='/memo' element={<PrivateRoute />}>
+            <Route path='/memo' element={<MemoForm />} />
+          </Route>
+          <Route path='/memo/:id' element={<PrivateRoute />}>
+            <Route path='/memo/:id' element={<MemoForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

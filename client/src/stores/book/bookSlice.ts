@@ -2,13 +2,13 @@ import { RootState } from './../store';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Books } from '../../types/basic';
+import { BookDetailResponse, Books } from '../../types/basic';
 import { EditBookDetail } from '../../types/basic';
 import { BookDetail } from '../../types/basic';
 
 export interface BookReducer {
   book: Books;
-  bookDetail: BookDetail;
+  bookDetail: BookDetailResponse;
   editBookDetail: EditBookDetail;
   isError: boolean;
   isSuccess: boolean;
@@ -27,7 +27,7 @@ const initialState: BookReducer = {
     readEndDate: null,
   },
   bookDetail: {
-    bookId: '',
+    bookId: 0,
     title: '',
     cover: '',
     author: '',
@@ -39,6 +39,8 @@ const initialState: BookReducer = {
     bookStatus: '',
     readStartDate: null,
     readEndDate: null,
+    memosList: [],
+    memoCount: 0,
   },
   editBookDetail: {
     author: '',
@@ -86,7 +88,7 @@ export const register = createAsyncThunk(
 
 // 책 상세페이지 조회
 export const getBookDetailData = createAsyncThunk<
-  BookDetail,
+  BookDetailResponse,
   string | undefined,
   { rejectValue: string }
 >(

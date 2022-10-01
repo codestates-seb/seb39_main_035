@@ -1,0 +1,46 @@
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import styled from 'styled-components';
+import { MemoResponse } from '../types/basic';
+import Boxcontainer from './BoxContainer';
+import Button from './Button';
+import { useNavigate } from 'react-router-dom';
+import MemoItem from './MemoItem';
+
+const MemoList = () => {
+  const { bookDetail } = useSelector((state: RootState) => state.book);
+  const { bookId, itemPage, memosList, memoCount } = bookDetail;
+  const navigate = useNavigate();
+  const handleAddMemo = () => {
+    navigate('/memo', { state: { bookId, itemPage } });
+  };
+
+  return (
+    <>
+      <BoxTitle>
+        {memoCount ? <h1>내가 작성한 메모</h1> : <h1>📝 첫번째 메모 남기기</h1>}
+        <Button color='gray' middleWidth onClick={handleAddMemo}>
+          메모 작성하기
+        </Button>
+      </BoxTitle>
+      {memosList.map((memo) => (
+        <MemoItem key={memo.memoId} memo={memo} />
+      ))}
+    </>
+  );
+};
+
+export default MemoList;
+
+const BoxTitle = styled.div`
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    font-size: 22px;
+    margin-left: 15px;
+    white-space: nowrap;
+  }
+`;
