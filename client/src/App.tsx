@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RecommendBooksList from './pages/RecommendBooksList';
 import MemoForm from './pages/MemoForm';
+import RegisterBook from './pages/RegisterBook';
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path='/books/search/:id' element={<PrivateRoute />}>
             <Route path='/books/search/:id' element={<SearchBook />} />
+          </Route>
+          <Route path='/books/register' element={<PrivateRoute />}>
+            <Route path='/books/register' element={<RegisterBook />} />
           </Route>
           <Route path='/books/library' element={<PrivateRoute />}>
             <Route path='/books/library' element={<Library />} />

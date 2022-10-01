@@ -7,6 +7,7 @@ import Search from '../components/Search';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { Book } from '../types/basic';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;
@@ -23,16 +24,13 @@ const BookContents = styled.li`
     margin-left: 1rem;
   }
 `;
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-right: 1rem;
-`;
 const BookContentKeyword = styled.div`
   font-weight: 700;
   font-size: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin-left: 1rem;
 `;
 
 const FirstContent = styled.div`
@@ -79,7 +77,10 @@ const SearchBooks = () => {
         <ul>
           <BookContents>
             <BsPlusSquare />
-            <div className='noResults'>
+            <div
+              className='noResults'
+              onClick={() => navigate('/books/register')}
+            >
               찾으시는 책이 없으시면 직접 등록해보세요
             </div>
           </BookContents>
@@ -91,7 +92,7 @@ const SearchBooks = () => {
                   navigate(`/books/search/${book.title}`, { state: book })
                 }
               >
-                <BookContentImg src={book.cover} alt='책 이미지' />
+                <BookCoverItem src={book.cover} width='125px' />
                 <BookContentKeyword>
                   <div>{book.title}</div>
                   <div>{book.author}</div>

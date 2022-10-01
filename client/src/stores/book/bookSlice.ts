@@ -159,9 +159,12 @@ export const bookSlice = createSlice({
     builder
       .addCase(register.pending, (state, _) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         toast.success('📖 책 등록에 성공했어요.'); // "책 등록 성공"
         state.book = { ...action.payload };
@@ -169,13 +172,17 @@ export const bookSlice = createSlice({
       .addCase(register.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
         toast.error(action.payload);
       })
       .addCase(getBookDetailData.pending, (state, _) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(getBookDetailData.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         state.bookDetail = { ...action.payload };
       })
@@ -184,14 +191,18 @@ export const bookSlice = createSlice({
         (state, action: PayloadAction<any>) => {
           state.isLoading = false;
           state.isError = true;
+          state.isSuccess = false;
           toast.error(action.payload);
         }
       )
       .addCase(editBookDetail.pending, (state, _) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(editBookDetail.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         // state.editBookDetail = { ...action.payload };
         state.bookDetail = { ...state.bookDetail, ...action.payload };
@@ -199,6 +210,7 @@ export const bookSlice = createSlice({
       .addCase(editBookDetail.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
         toast.error(action.payload);
       });
   },

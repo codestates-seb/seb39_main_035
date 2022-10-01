@@ -1,10 +1,11 @@
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;
@@ -21,16 +22,14 @@ const BookContents = styled.li`
     margin-left: 1rem;
   }
 `;
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-right: 1rem;
-`;
+
 const BookContentKeyword = styled.div`
   font-weight: 700;
   font-size: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin-left: 1rem;
 `;
 const RecommendBtnWrapper = styled.div`
   display: flex;
@@ -76,6 +75,10 @@ const RecommendBooksList = () => {
     }
   };
 
+  useEffect(() => {
+    getRecommendBooksList('best-seller');
+  }, []);
+
   return (
     <Layout>
       <PageTitle title='이달의 설렘을 추천해요' />
@@ -83,6 +86,7 @@ const RecommendBooksList = () => {
         <RecommendBtn
           color='pink'
           onClick={() => getRecommendBooksList('best-seller')}
+          autoFocus={true}
         >
           베스트셀러
         </RecommendBtn>
@@ -102,7 +106,7 @@ const RecommendBooksList = () => {
                 navigate(`/books/search/${book.title}`, { state: book })
               }
             >
-              <BookContentImg src={book.cover} alt='책 이미지' />
+              <BookCoverItem src={book.cover} width='100px' />
               <BookContentKeyword>
                 <div>{book.title}</div>
                 <div>{book.author}</div>

@@ -1,19 +1,15 @@
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button';
-import { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import { Books } from '../types/basic';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { register } from '../stores/book/bookSlice';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
-import { reset } from '../stores/book/bookSlice';
-import BookCoverItem from '../components/BookCoverItem';
 
 const BookContainer = styled.section`
   display: flex;
@@ -60,21 +56,21 @@ export const FormWrapper = styled.div`
   }
 `;
 
-const SearchBook = () => {
-  const { state } = useLocation();
+const RegisterBook = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const [book, setBook] = useState<Books[]>([]);
-  const [cover, setCover] = useState(state.cover);
-  const [title, setTitle] = useState(state.title);
-  const [author, setAuthor] = useState(state.author);
-  const [publisher, setPublisher] = useState(state.publisher);
-  const [itemPage, setItemPage] = useState(state.itemPage);
+  const [cover, setCover] = useState('');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [publisher, setPublisher] = useState('');
+  const [itemPage, setItemPage] = useState(0);
   const [bookStatus, setBookStatus] = useState('📖 읽기 상태를 선택해주세요');
   const [currentPage, setCurrentPage] = useState(0);
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
 
   const selectList = [
     '📖 읽기 상태를 선택해주세요',
@@ -83,35 +79,15 @@ const SearchBook = () => {
     'ING', // '읽고 있는 책',
     'DONE', // '다 읽은 책',
   ];
-  const getBookContents = async (path: string) => {
-    try {
-      const { data } = await axios.get(
-        process.env.REACT_APP_API_BASE_URL + `/ext-lib/${path}`
-      );
-      setBook(data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('error message:', error.message);
-      } else {
-        console.log('unexpected error:', error);
-        return 'An unexpected error occurred';
-      }
-    }
-  };
-
-  useEffect(() => {
-    getBookContents(title);
-    dispatch(reset());
-  }, []);
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBookStatus(e.target.value);
   };
 
   // typescript: handling form onSubmit event
-  const registerBook = async (event: React.FormEvent<HTMLFormElement>) => {
+  const registerBook = async (e: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
-    event.preventDefault();
+    e.preventDefault();
     // 책 상세 내용
     const bookData = {
       title,
@@ -132,12 +108,51 @@ const SearchBook = () => {
     navigate('/books/library');
   }
 
+  // cloudinary를 활용한 image 업로드
+  const imageUploader = async (file: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'afqmbgkk');
+    console.log('formData:', formData);
+
+    // 'starrypro' env 파일에서 가져올 수 있도록 수정
+    try {
+      const { data } = await axios.post(
+        'https://api.cloudinary.com/v1_1/starrypro/image/upload',
+        formData
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('error message:', error.message);
+      } else {
+        console.log('unexpected error:', error);
+        return 'An unexpected error occurred';
+      }
+    }
+  };
+  const fileChange = async (e: any) => {
+    console.log('e.target.files[0]:', typeof e);
+    const uploaded = await imageUploader(e.target.files[0]);
+    setCover(uploaded.url);
+    console.log('cover:', cover);
+  };
+
   return (
     <Layout>
       <PageTitle title='같이 한 번 등록해볼까요?' />
       <BookContainer>
         <form onSubmit={registerBook}>
-          <BookCoverItem src={cover} width='200px' />
+          <FormWrapper>
+            <label htmlFor='cover'>책 표지</label>
+            {cover && <img src={cover} alt='책 표지' />}
+            <input
+              id='cover'
+              type='file'
+              accept='image/*'
+              onChange={fileChange}
+            />
+          </FormWrapper>
           <FormWrapper>
             <label htmlFor='title'>책 제목</label>
             <input
@@ -174,6 +189,7 @@ const SearchBook = () => {
             <input
               id='itemPage'
               type='number'
+              placeholder='전체 페이지를 입력해주세요.'
               /* 다음과 같은 에러 발생. value 값이 undefined 일때 ''로 지정하여 해결. 
               Warning: A component is changing an uncontrolled input to be controlled. 
               This is likely caused by the value changing from undefined to a defined value, 
@@ -236,4 +252,4 @@ const SearchBook = () => {
     </Layout>
   );
 };
-export default SearchBook;
+export default RegisterBook;
