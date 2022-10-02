@@ -6,15 +6,18 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
 import BookCoverItem from '../components/BookCoverItem';
-import { memoBooks } from '../types/basic';
+import { MemoBook } from '../types/basic';
 import Pagination from 'react-js-pagination';
 import '../styles/Pagination.css';
+import { useNavigate } from 'react-router-dom';
 
 const MemoBooks = () => {
   const { token } = useSelector((state: RootState) => state.user);
-  const [memoBooksList, setMemoBooksList] = useState<memoBooks[]>([]);
+  const [memoBooksList, setMemoBooksList] = useState<MemoBook[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalElements, setTotalElements] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<number>(5);
+  const navigate = useNavigate();
 
   const getMemoBooksList = async () => {
     try {
@@ -32,6 +35,7 @@ const MemoBooks = () => {
       );
       setMemoBooksList(data.item);
       setTotalElements(data.pageInfo.totalElements);
+      setTotalPages(data.pageInfo.totalPages);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log('error message:', error.message);
@@ -53,7 +57,11 @@ const MemoBooks = () => {
             <BookCoverItem
               key={memoBookList.bookId}
               src={memoBookList.cover}
-              // onClick={memoBookList.bind(null, memoBookList.bookId)}
+              onClick={() =>
+                navigate(`/books/${memoBookList.bookId}/memos`, {
+                  state: memoBookList,
+                })
+              }
             />
           ))}
         </WindowWrapper>
@@ -61,7 +69,7 @@ const MemoBooks = () => {
           activePage={currentPage}
           itemsCountPerPage={18}
           totalItemsCount={totalElements}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={totalPages}
           prevPageText={'<'}
           nextPageText={'>'}
           onChange={(page) => setCurrentPage(page)}

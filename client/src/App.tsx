@@ -17,6 +17,7 @@ import RecommendBooksList from './pages/RecommendBooksList';
 import MemoForm from './pages/MemoForm';
 import RegisterBook from './pages/RegisterBook';
 import MemoBooks from './pages/MemoBooks';
+import BookMemoDetail from './pages/BookMemoDetail';
 
 function App() {
   return (
@@ -60,6 +61,9 @@ function App() {
           </Route>
           <Route path='/books/memoBooks' element={<PrivateRoute />}>
             <Route path='/books/memoBooks' element={<MemoBooks />} />
+          </Route>
+          <Route path='/books/:id/memos' element={<PrivateRoute />}>
+            <Route path='/books/:id/memos' element={<BookMemoDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>
