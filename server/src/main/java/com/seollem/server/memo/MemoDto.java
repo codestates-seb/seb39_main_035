@@ -12,7 +12,8 @@ public class MemoDto {
 
     @Getter
     @Setter
-    // @AllArgsConstructor
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Post {
 
         @NotBlank(message = "메모는 공백이 아니어야 합니다.")
@@ -61,6 +62,7 @@ public class MemoDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
         private long memoId;
         private Memo.MemoType memoType;

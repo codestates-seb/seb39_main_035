@@ -18,13 +18,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 //    Optional<List<Book>>  findByMember(Member member);
     Page<Book> findAllByMemberAndBookStatus(Pageable pageable, Member member, Book.BookStatus bookStatus);
 
-    @Query(value = "SELECT * FROM BOOK WHERE MEMBER_ID = ?1 AND BOOK_STATUS = 0 AND NOW() > DATE_ADD(CREATED_AT, INTERVAL +3 MONTH)",
-            countQuery = "SELECT count(*) FROM BOOK WHERE MEMBER_ID = ?1 AND BOOK_STATUS = 0 AND NOW() > DATE_ADD(CREATED_AT, INTERVAL +3 MONTH)",
+    @Query(value = "SELECT * FROM book WHERE MEMBER_ID = ?1 AND BOOK_STATUS = 0 AND NOW() > DATE_ADD(CREATED_AT, INTERVAL +3 MONTH)",
+            countQuery = "SELECT count(*) FROM book WHERE MEMBER_ID = ?1 AND BOOK_STATUS = 0 AND NOW() > DATE_ADD(CREATED_AT, INTERVAL +3 MONTH)",
             nativeQuery = true)
     Page<Book> findAbandon(Member member, Pageable pageable);
 
-    @Query(value = "SELECT * FROM BOOK WHERE MEMBER_ID = ?1 AND MEMO_COUNT != 0",
-            countQuery = "SELECT count(*) FROM BOOK WHERE MEMBER_ID = ?1 AND MEMO_COUNT != 0",
+    @Query(value = "SELECT * FROM book WHERE MEMBER_ID = ?1 AND MEMO_COUNT != 0",
+            countQuery = "SELECT count(*) FROM book WHERE MEMBER_ID = ?1 AND MEMO_COUNT != 0",
             nativeQuery = true)
     Page<Book> findBooksHaveMemo(Member member, Pageable pageable);
 
