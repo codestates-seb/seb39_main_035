@@ -80,7 +80,7 @@ const BookDetail = () => {
 
   return (
     <Layout>
-      <PageTitle title={bookDetail.title} />
+      <PageTitle title={bookDetail.title} path='/books/library' />
       <BookWrapper>
         <BookCoverItem src={bookDetail.cover} width='200px' />
         <BookSummary>

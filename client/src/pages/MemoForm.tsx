@@ -20,7 +20,7 @@ const MemoForm = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [memoContent, setMemoContent] = useState<string>('');
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
-  const [type, setType] = useState('');
+  const [type, setType] = useState('BOOK_CONTENT');
   const memoTypeList = [
     { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
     { typeValue: 'SUMMARY', typeText: '책 내용 요약' },
@@ -55,13 +55,15 @@ const MemoForm = () => {
       // console.log({ ...memoData, memoId: Number(id) });
     } else {
       dispatch(createMemo({ memoData, bookId }));
+      // console.log({ memoData, bookId });
     }
     navigate(`/books/library/${bookId}`);
   };
+  const path = `/books/library/${bookId}`;
 
   return (
     <Layout>
-      <PageTitle title='메모 등록하기' />
+      <PageTitle title='메모 등록하기' path={path} />
       <FormWrapper>
         <StyledForm onSubmit={onSubmitMemo}>
           <textarea
