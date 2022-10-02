@@ -28,7 +28,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
     }
   }, [memo]);
 
-  console.log(dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))); // 수정이 안되어 있으면 0, 수정 된 적 있으면 양수
+  // console.log(dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))); // 수정이 안되어 있으면 0, 수정 된 적 있으면 양수
 
   const memoTypeList = [
     { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },

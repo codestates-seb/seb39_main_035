@@ -9,6 +9,7 @@ import { getAbandonData, getCalendarData } from '../stores/stat/statSlice';
 import { AppDispatch, RootState } from '../stores/store';
 import Carousel from '../components/Carousel';
 import BookCoverItem from '../components/BookCoverItem';
+import AbandonBooks from '../components/AbandonBooks';
 
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,9 +29,7 @@ const MyStat = () => {
         <p></p>
       </Boxcontainer>
       <Boxcontainer containerTitle='📓 잊고 지낸 나의 책'>
-        <Carousel>
-          <p>1</p>
-        </Carousel>
+        <AbandonBooks />
       </Boxcontainer>
       <Boxcontainer containerTitle='🗓 독서 달력'>
         <BookCalendar calendarList={calendar} />

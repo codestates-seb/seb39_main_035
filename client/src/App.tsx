@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import RecommendBooksList from './pages/RecommendBooksList';
 import MemoForm from './pages/MemoForm';
 import RegisterBook from './pages/RegisterBook';
+import MemoBooks from './pages/MemoBooks';
 
 function App() {
   return (
@@ -56,6 +57,9 @@ function App() {
           </Route>
           <Route path='/memo/:id' element={<PrivateRoute />}>
             <Route path='/memo/:id' element={<MemoForm />} />
+          </Route>
+          <Route path='/books/memoBooks' element={<PrivateRoute />}>
+            <Route path='/books/memoBooks' element={<MemoBooks />} />
           </Route>
         </Routes>
       </BrowserRouter>

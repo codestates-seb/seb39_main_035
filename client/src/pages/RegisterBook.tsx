@@ -2,7 +2,7 @@ import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import styled from 'styled-components';
 import Button from '../components/Button';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
@@ -10,6 +10,7 @@ import { register } from '../stores/book/bookSlice';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
+import { reset } from '../stores/book/bookSlice';
 
 const BookContainer = styled.section`
   display: flex;
@@ -138,6 +139,9 @@ const RegisterBook = () => {
     console.log('cover:', cover);
   };
 
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
   return (
     <Layout>
       <PageTitle title='같이 한 번 등록해볼까요?' />
