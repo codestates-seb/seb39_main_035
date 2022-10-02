@@ -22,10 +22,10 @@ const MemoForm = () => {
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
   const [type, setType] = useState('');
   const memoTypeList = [
-    { typeId: 1, typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
-    { typeId: 2, typeValue: 'SUMMARY', typeText: '책 내용 요약' },
-    { typeId: 3, typeValue: 'THOUGHT', typeText: '생각' },
-    { typeId: 4, typeValue: 'QUESTION', typeText: '질문' },
+    { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
+    { typeValue: 'SUMMARY', typeText: '책 내용 요약' },
+    { typeValue: 'THOUGHT', typeText: '생각' },
+    { typeValue: 'QUESTION', typeText: '질문' },
   ];
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const MemoForm = () => {
     }
   }, [id, location]);
 
-  const onSubmitMemo = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitMemo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     //유효성 검사
@@ -51,10 +51,10 @@ const MemoForm = () => {
     };
 
     if (id) {
-      await dispatch(editMemo({ memoData, memoId: Number(id) }));
+      dispatch(editMemo({ memoData, memoId: Number(id) }));
       // console.log({ ...memoData, memoId: Number(id) });
     } else {
-      await dispatch(createMemo({ memoData, bookId }));
+      dispatch(createMemo({ memoData, bookId }));
     }
     navigate(`/books/library/${bookId}`);
   };
@@ -81,8 +81,8 @@ const MemoForm = () => {
             }
           />
           <select value={type} onChange={(e) => setType(e.target.value)}>
-            {memoTypeList.map((type) => (
-              <option key={type.typeId} value={type.typeValue}>
+            {memoTypeList.map((type, index) => (
+              <option key={index} value={type.typeValue}>
                 {type.typeText}
               </option>
             ))}

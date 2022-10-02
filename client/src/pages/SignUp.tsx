@@ -113,7 +113,7 @@ const SignUp = () => {
   }, [isError, isSuccess, navigate, dispatch]);
 
   // typescript: handling form onSubmit event
-  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
 

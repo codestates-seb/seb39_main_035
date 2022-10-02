@@ -28,6 +28,8 @@ const initialState: MemoReducer = {
     memoBookPage: 0,
     memoType: '',
     memoContent: '',
+    createdAt: '',
+    updatedAt: '',
   },
   memoList: [],
   isLoading: false,
