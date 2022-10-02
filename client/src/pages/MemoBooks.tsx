@@ -1,0 +1,84 @@
+import Layout from '../components/Layout';
+import PageTitle from '../components/PageTitle';
+import styled from 'styled-components';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import BookCoverItem from '../components/BookCoverItem';
+import { memoBooks } from '../types/basic';
+import Pagination from 'react-js-pagination';
+import '../styles/Pagination.css';
+
+const MemoBooks = () => {
+  const { token } = useSelector((state: RootState) => state.user);
+  const [memoBooksList, setMemoBooksList] = useState<memoBooks[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalElements, setTotalElements] = useState<number>(10);
+
+  const getMemoBooksList = async () => {
+    try {
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/books/memo-books',
+        {
+          headers: {
+            Authorization: token,
+          },
+          params: {
+            page: currentPage,
+            size: 18,
+          },
+        }
+      );
+      setMemoBooksList(data.item);
+      setTotalElements(data.pageInfo.totalElements);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('error message:', error.message);
+      } else {
+        console.log('unexpected error:', error);
+        return 'An unexpected error occurred';
+      }
+    }
+  };
+  useEffect(() => {
+    getMemoBooksList();
+  }, [currentPage]);
+  return (
+    <Layout>
+      <PageTitle title='나만의 작은 책' />
+      <Wrapper>
+        <WindowWrapper>
+          {memoBooksList.map((memoBookList) => (
+            <BookCoverItem
+              key={memoBookList.bookId}
+              src={memoBookList.cover}
+              // onClick={memoBookList.bind(null, memoBookList.bookId)}
+            />
+          ))}
+        </WindowWrapper>
+        <Pagination
+          activePage={currentPage}
+          itemsCountPerPage={18}
+          totalItemsCount={totalElements}
+          pageRangeDisplayed={5}
+          prevPageText={'<'}
+          nextPageText={'>'}
+          onChange={(page) => setCurrentPage(page)}
+        />
+      </Wrapper>
+    </Layout>
+  );
+};
+export default MemoBooks;
+
+const Wrapper = styled.div`
+  margin-bottom: 20px;
+`;
+
+const WindowWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;

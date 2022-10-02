@@ -76,9 +76,10 @@ const RecommendBooksList = () => {
   };
 
   useEffect(() => {
-    getRecommendBooksList('best-seller');
+    getRecommendBooksList('item-new-special');
   }, []);
 
+  console.log('recommendBooks:', recommendBooks);
   return (
     <Layout>
       <PageTitle title='이달의 설렘을 추천해요' />
@@ -106,7 +107,7 @@ const RecommendBooksList = () => {
                 navigate(`/books/search/${book.title}`, { state: book })
               }
             >
-              <BookCoverItem src={book.cover} width='100px' />
+              <BookCoverItem src={book.cover} />
               <BookContentKeyword>
                 <div>{book.title}</div>
                 <div>{book.author}</div>

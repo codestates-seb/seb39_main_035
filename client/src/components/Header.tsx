@@ -37,7 +37,7 @@ const Header = () => {
                 <BiBookHeart />
                 <p>추천 책</p>
               </StyledLink>
-              <StyledLink to='/'>
+              <StyledLink to='/books/memoBooks'>
                 <GiArchiveResearch />
                 <p>나만의 작은책</p>
               </StyledLink>
