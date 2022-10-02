@@ -21,6 +21,7 @@ const AbandonBooks = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
+  console.log('token:', token);
   const handleClick = (id: number) => {
     navigate(`/books/library/${id}`);
   };
@@ -42,8 +43,8 @@ const AbandonBooks = () => {
           }
         );
         setIsLoading(false);
-        setAbandonBookList((prev) => [...prev, ...data.item]);
-        setHasMore(pageNumber < data.pageInfo.totalPages);
+        setAbandonBookList(data.item);
+        // setHasMore(pageNumber < data.pageInfo.totalPages);
       } catch (error: any) {
         if (error.response && error.response.data.message) {
           setIsError(true);
@@ -54,7 +55,7 @@ const AbandonBooks = () => {
     fetcAbandonBookData(pageNumber);
   }, [pageNumber, token]);
 
-  const loader = useRef(null);
+  // const loader = useRef(null);
   // const handleObserver = useCallback(
   //   (entries: any) => {
   //     const target = entries[0];
@@ -86,10 +87,10 @@ const AbandonBooks = () => {
             <BookCoverItem
               key={abandonBook.bookId}
               src={abandonBook.cover}
-              onClick={handleClick.bind(null, abandonBook.bookId)}
+              // onClick={handleClick.bind(null, abandonBook.bookId)}
             />
           ))}
-          <div ref={loader} />
+          {/* <div ref={loader} /> */}
         </Carousel>
       </WindowWrapper>
     </Wrapper>
