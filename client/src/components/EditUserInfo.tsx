@@ -44,7 +44,7 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
     });
   };
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     const PW_REGEX = new RegExp(
       '^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$'
     );
@@ -69,7 +69,7 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
     setMemberInfo({ ...memberInfo, password: '', confirmPassword: '' });
   };
 
-  const handleEditUsername = async () => {
+  const handleEditUsername = () => {
     const editUserData = {
       name: memberInfo.name!,
     };

@@ -74,4 +74,6 @@ export interface Memo {
 
 export interface MemoResponse extends Memo {
   memoId: number;
+  createdAt: string;
+  updatedAt: string;
 }

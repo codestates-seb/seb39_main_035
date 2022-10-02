@@ -35,25 +35,28 @@ const HorizontalContainer = ({
 
   useEffect(() => {
     const fetchBookData = async (pageNumber: number) => {
-      await axios
-        .get(process.env.REACT_APP_API_BASE_URL + '/books/library', {
-          headers: {
-            Authorization: token,
-          },
-          params: {
-            page: pageNumber,
-            size: 10,
-            bookStatus: bookStatus,
-          },
-        })
-        .then((res) => {
-          setIsLoading(false);
-          setBookList((prev) => [...prev, ...res.data.item]);
-          setHasMore(pageNumber < res.data.pageInfo.totalPages);
-        })
-        .catch((e) => {
+      try {
+        const { data } = await axios.get(
+          process.env.REACT_APP_API_BASE_URL + '/books/library',
+          {
+            headers: {
+              Authorization: token,
+            },
+            params: {
+              page: pageNumber,
+              size: 10,
+              bookStatus: bookStatus,
+            },
+          }
+        );
+        setIsLoading(false);
+        setBookList((prev) => [...prev, ...data.item]);
+        setHasMore(pageNumber < data.pageInfo.totalPages);
+      } catch (error: any) {
+        if (error.response && error.response.data.message) {
           setIsError(true);
-        });
+        }
+      }
     };
     fetchBookData(pageNumber);
   }, [pageNumber, bookStatus, token]);

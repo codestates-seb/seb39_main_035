@@ -16,7 +16,7 @@ const MemoList = () => {
   };
 
   return (
-    <>
+    <Wrapper>
       <BoxTitle>
         {memoCount ? <h1>내가 작성한 메모</h1> : <h1>📝 첫번째 메모 남기기</h1>}
         <Button color='gray' middleWidth onClick={handleAddMemo}>
@@ -26,11 +26,15 @@ const MemoList = () => {
       {memosList.map((memo) => (
         <MemoItem key={memo.memoId} memo={memo} />
       ))}
-    </>
+    </Wrapper>
   );
 };
 
 export default MemoList;
+
+const Wrapper = styled.div`
+  margin-bottom: 5rem;
+`;
 
 const BoxTitle = styled.div`
   width: 100%;
