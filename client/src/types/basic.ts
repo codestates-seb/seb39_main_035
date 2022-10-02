@@ -92,9 +92,16 @@ export interface Pageinfo {
   totalPages: number;
 }
 
-export interface memoBooks extends Pageinfo {
+export interface MemoBook extends Pageinfo {
   bookId: number;
   title: string;
   cover: string;
   memoCount: number;
+}
+
+export interface MemoBookDetail extends Pageinfo {
+  memoId: number;
+  memoType: string; //'BOOK_CONTENT' | 'SUMMARY' | 'THOUGHT' | 'QUESTION';
+  memoBookPage: number;
+  memoContent: string;
 }
