@@ -73,12 +73,14 @@ const RegisterBook = () => {
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
 
+  interface selectList {
+    typeValue: string;
+    typeText: string;
+  }
   const selectList = [
-    '📖 읽기 상태를 선택해주세요',
-    // 숫자로도 가능
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -212,9 +214,9 @@ const RegisterBook = () => {
               onChange={handleChangeSelect}
               value={bookStatus}
             >
-              {selectList.map((item) => (
-                <option value={item} key={item}>
-                  {item}
+              {selectList.map((item, idx) => (
+                <option value={item.typeValue} key={idx}>
+                  {item.typeText}
                 </option>
               ))}
             </select>

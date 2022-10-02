@@ -21,12 +21,12 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 import MemoList from '../components/MemoList';
 
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
+
 const BookDetail = () => {
-  // const location = useLocation();
-  // const book = location.state as BooksDetail;
-  // console.log('location:', location);
-  // console.log('location.state:', location.state);
-  // console.log('book:', book);
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -53,9 +53,9 @@ const BookDetail = () => {
   }, [isSuccess, dispatch, id]);
 
   const selectList = [
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
 
   const exitEditMode = () => {
@@ -93,9 +93,9 @@ const BookDetail = () => {
               <BookStateBox>
                 <label htmlFor='bookStatus'>읽기 상태</label>
                 <select id='bookStatus' value={bookDetail.bookStatus} disabled>
-                  {selectList.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
+                  {selectList.map((item, idx) => (
+                    <option value={item.typeValue} key={idx}>
+                      {item.typeText}
                     </option>
                   ))}
                 </select>

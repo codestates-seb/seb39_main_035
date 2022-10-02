@@ -17,6 +17,10 @@ import { toast } from 'react-toastify';
 interface EditBookInfoProps {
   exitEditMode: () => void;
 }
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
 
 const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
   const { id } = useParams();
@@ -38,9 +42,9 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
     bookDetail.readEndDate
   );
   const selectList = [
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
   const modalHandler = () => {
     setOpenModal(!openModal);
@@ -79,9 +83,9 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
           onChange={handleChangeSelect}
           value={bookStatus}
         >
-          {selectList.map((item) => (
-            <option value={item} key={item}>
-              {item}
+          {selectList.map((item, idx) => (
+            <option value={item.typeValue} key={idx}>
+              {item.typeText}
             </option>
           ))}
         </select>

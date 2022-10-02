@@ -60,6 +60,11 @@ export const FormWrapper = styled.div`
   }
 `;
 
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
+
 const SearchBook = () => {
   const { state } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
@@ -71,18 +76,19 @@ const SearchBook = () => {
   const [author, setAuthor] = useState(state.author);
   const [publisher, setPublisher] = useState(state.publisher);
   const [itemPage, setItemPage] = useState(state.itemPage);
-  const [bookStatus, setBookStatus] = useState('📖 읽기 상태를 선택해주세요');
+  const [bookStatus, setBookStatus] =
+    useState<string>('📖 읽기 상태를 선택해주세요');
   const [currentPage, setCurrentPage] = useState(0);
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
 
   const selectList = [
-    '📖 읽기 상태를 선택해주세요',
-    // 숫자로도 가능
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: '', typeText: '📖 읽기 상태를 선택해주세요' },
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
+
   const getBookContents = async (path: string) => {
     try {
       const { data } = await axios.get(
@@ -192,9 +198,9 @@ const SearchBook = () => {
               onChange={handleChangeSelect}
               value={bookStatus}
             >
-              {selectList.map((item) => (
-                <option value={item} key={item}>
-                  {item}
+              {selectList.map((item, idx) => (
+                <option value={item.typeValue} key={idx}>
+                  {item.typeText}
                 </option>
               ))}
             </select>
