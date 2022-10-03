@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Boxcontainer from '../components/BoxContainer';
@@ -9,7 +9,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../stores/store';
 import { createMemo, editMemo } from '../stores/memo/memoSlice';
 import { useSelector } from 'react-redux';
-import { Editor } from '@toast-ui/react-editor';
+import { reset } from '../stores/memo/memoSlice';
+import { Editor as ToastEditor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 const MemoForm = () => {
@@ -30,6 +31,14 @@ const MemoForm = () => {
     { typeValue: 'THOUGHT', typeText: '생각' },
     { typeValue: 'QUESTION', typeText: '질문' },
   ];
+  const editorRef = useRef<ToastEditor>(null);
+  const onChangeEditor = () => {
+    if (editorRef.current) {
+      const data = editorRef.current.getInstance().getHTML();
+      setMemoContent(data);
+    }
+  };
+
   const prevPath = `/books/library/${bookId}`;
 
   useEffect(() => {
@@ -55,43 +64,46 @@ const MemoForm = () => {
     };
 
     if (id) {
-      await dispatch(editMemo({ memoData, memoId: Number(id) }));
+      dispatch(editMemo({ memoData, memoId: Number(id) }));
     } else {
       dispatch(createMemo({ memoData, bookId }));
     }
+    // console.log({ memoData, bookId });
+    navigate(`/books/library/${bookId}`);
   };
 
   // 메모 등록 액션이 성공하면 페이지 이동
-  if (isSuccess) {
-    navigate(`/books/library/${bookId}`);
-  }
+  // if (isSuccess) {
+  //   navigate(`/books/library/${bookId}`);
+  // }
 
   return (
     <Layout>
       <PageTitle title='메모 등록하기' path={prevPath} />
       <FormWrapper>
         <StyledForm onSubmit={onSubmitMemo}>
-          <textarea
-            name='content'
-            id='content'
-            placeholder='책을 읽으면서 떠오르는 생각, 질문을 기록해보세요'
-            value={memoContent}
-            onChange={(e) => setMemoContent(e.target.value)}
-          ></textarea>
-          {/* <Editor
+          <ToastEditor
+            ref={editorRef}
+            onChange={onChangeEditor}
             placeholder='책에 관한 메모를 등록해보세요'
-            previewStyle='vertical' // 미리보기 스타일 지정
             height='300px' // 에디터 창 높이
             initialEditType='wysiwyg' // 초기 입력모드 설정(디폴트 markdown)
+            hideModeSwitch={true}
             toolbarItems={[
               // 툴바 옵션 설정
-              ['heading', 'bold', 'italic', 'strike'],
-              ['hr', 'quote'],
-              ['ul', 'ol', 'task', 'indent', 'outdent'],
-              ['table', 'image', 'link'],
-              ['code', 'codeblock'],
+              [
+                'heading',
+                'bold',
+                'italic',
+                'strike',
+                'hr',
+                'quote',
+                'image',
+                'link',
+              ],
             ]}
-          ></Editor> */}
+            language='ko-KR'
+          ></ToastEditor>
 
           <input
             type='number'

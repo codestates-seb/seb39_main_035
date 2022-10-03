@@ -124,8 +124,8 @@ export const getRandomMemo = createAsyncThunk(
     try {
       const state = thunkAPI.getState() as RootState;
       const { token } = state.user;
-      const { data } = await axios.patch(
-        process.env.REACT_APP_API_BASE_URL + 'memos/random',
+      const { data } = await axios.get(
+        process.env.REACT_APP_API_BASE_URL + '/memos/random',
         {
           headers: {
             Authorization: token,
