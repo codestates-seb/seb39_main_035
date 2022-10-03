@@ -12,11 +12,13 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+
 interface MemoItemProps {
   memo: MemoResponse;
 }
 
 const MemoItem = ({ memo }: MemoItemProps) => {
+  dayjs.locale('ko');
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [isUpdated, setIsUpdated] = useState(false);
@@ -31,6 +33,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
     .utc(memo.updatedAt)
     .tz(timeZone)
     .format('YYYY.MM.DD A HH:mm');
+
 
   useEffect(() => {
     if (dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))) {

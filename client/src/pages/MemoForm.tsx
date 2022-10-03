@@ -41,7 +41,7 @@ const MemoForm = () => {
     }
   }, [id, location]);
 
-  const onSubmitMemo = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitMemo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     //유효성 검사
@@ -57,7 +57,7 @@ const MemoForm = () => {
     if (id) {
       await dispatch(editMemo({ memoData, memoId: Number(id) }));
     } else {
-      await dispatch(createMemo({ memoData, bookId }));
+      dispatch(createMemo({ memoData, bookId }));
     }
   };
 

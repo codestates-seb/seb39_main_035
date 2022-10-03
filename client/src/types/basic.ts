@@ -76,4 +76,33 @@ export interface MemoResponse extends Memo {
   memoId: number;
   createdAt: string;
   updatedAt: string;
+
+}
+
+export interface AbandonBook extends Pageinfo {
+  bookId: number;
+  createdAt: string;
+  title: string;
+  cover: string;
+}
+
+export interface Pageinfo {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface MemoBook extends Pageinfo {
+  bookId: number;
+  title: string;
+  cover: string;
+  memoCount: number;
+}
+
+export interface MemoBookDetail extends Pageinfo {
+  memoId: number;
+  memoType: string; //'BOOK_CONTENT' | 'SUMMARY' | 'THOUGHT' | 'QUESTION';
+  memoBookPage: number;
+  memoContent: string;
 }

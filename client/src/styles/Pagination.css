@@ -1,0 +1,29 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+ul.pagination li {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--clear-day);
+  border-radius: 5px;
+  margin: 0 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #747474;
+}
+ul.pagination li:hover {
+  background-color: var(--misty-rose);
+}
+ul.pagination li:active {
+  background-color: var(--pink);
+}
+
+ul.pagination li a {
+  text-decoration: none;
+  color: #747474;
+  padding: 6px;
+}

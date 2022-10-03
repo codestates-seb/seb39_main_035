@@ -11,6 +11,8 @@ import Carousel from '../components/Carousel';
 import BookCoverItem from '../components/BookCoverItem';
 import { getRandomMemo } from '../stores/memo/memoSlice';
 import MemoItem from '../components/MemoItem';
+import AbandonBooks from '../components/AbandonBooks';
+
 
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,9 +34,7 @@ const MyStat = () => {
         <MemoItem memo={memo} />
       </Boxcontainer>
       <Boxcontainer containerTitle='📓 잊고 지낸 나의 책'>
-        <Carousel>
-          <p>1</p>
-        </Carousel>
+        <AbandonBooks />
       </Boxcontainer>
       <Boxcontainer containerTitle='🗓 독서 달력'>
         <BookCalendar calendarList={calendar} />
