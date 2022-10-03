@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../stores/store';
 import { createMemo, editMemo } from '../stores/memo/memoSlice';
 import { useSelector } from 'react-redux';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 
 const MemoForm = () => {
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ const MemoForm = () => {
   const { bookId, itemPage } = useSelector(
     (state: RootState) => state.book.bookDetail
   );
+  const { isSuccess } = useSelector((state: RootState) => state.memo);
   const dispatch = useDispatch<AppDispatch>();
   const [memoContent, setMemoContent] = useState<string>('');
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
@@ -27,6 +30,7 @@ const MemoForm = () => {
     { typeValue: 'THOUGHT', typeText: '생각' },
     { typeValue: 'QUESTION', typeText: '질문' },
   ];
+  const prevPath = `/books/library/${bookId}`;
 
   useEffect(() => {
     if (id) {
@@ -37,7 +41,7 @@ const MemoForm = () => {
     }
   }, [id, location]);
 
-  const onSubmitMemo = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitMemo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     //유효성 검사
@@ -51,19 +55,20 @@ const MemoForm = () => {
     };
 
     if (id) {
-      dispatch(editMemo({ memoData, memoId: Number(id) }));
-      // console.log({ ...memoData, memoId: Number(id) });
+      await dispatch(editMemo({ memoData, memoId: Number(id) }));
     } else {
-      dispatch(createMemo({ memoData, bookId }));
-      // console.log({ memoData, bookId });
+      await dispatch(createMemo({ memoData, bookId }));
     }
-    navigate(`/books/library/${bookId}`);
   };
-  const path = `/books/library/${bookId}`;
+
+  // 메모 등록 액션이 성공하면 페이지 이동
+  if (isSuccess) {
+    navigate(`/books/library/${bookId}`);
+  }
 
   return (
     <Layout>
-      <PageTitle title='메모 등록하기' path={path} />
+      <PageTitle title='메모 등록하기' path={prevPath} />
       <FormWrapper>
         <StyledForm onSubmit={onSubmitMemo}>
           <textarea
@@ -73,6 +78,21 @@ const MemoForm = () => {
             value={memoContent}
             onChange={(e) => setMemoContent(e.target.value)}
           ></textarea>
+          {/* <Editor
+            placeholder='책에 관한 메모를 등록해보세요'
+            previewStyle='vertical' // 미리보기 스타일 지정
+            height='300px' // 에디터 창 높이
+            initialEditType='wysiwyg' // 초기 입력모드 설정(디폴트 markdown)
+            toolbarItems={[
+              // 툴바 옵션 설정
+              ['heading', 'bold', 'italic', 'strike'],
+              ['hr', 'quote'],
+              ['ul', 'ol', 'task', 'indent', 'outdent'],
+              ['table', 'image', 'link'],
+              ['code', 'codeblock'],
+            ]}
+          ></Editor> */}
+
           <input
             type='number'
             value={memoBookPage}

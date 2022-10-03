@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { deleteMemo } from '../stores/memo/memoSlice';
 import { MemoResponse } from '../types/basic';
 import { BsTrashFill } from 'react-icons/bs';
-import Button from './Button';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -56,17 +55,19 @@ const MemoItem = ({ memo }: MemoItemProps) => {
   };
 
   return (
-    <Wrapper onClick={handleEdit}>
-      <InfoContainer>
-        <PageContainter>{'p.' + memo.memoBookPage}</PageContainter>
-        <BsTrashFill onClick={handleDelete} />
-      </InfoContainer>
-      <InfoContainer>
-        {isUpdated ? <p>{updateDate}</p> : <p>{createDate}</p>}
-        <Type>{memo.memoType}</Type>
-      </InfoContainer>
-      <Content>{memo.memoContent}</Content>
-    </Wrapper>
+    <>
+      <Wrapper onClick={handleEdit}>
+        <InfoContainer>
+          <PageContainter>{'p.' + memo.memoBookPage}</PageContainter>
+          <BsTrashFill onClick={handleDelete} />
+        </InfoContainer>
+        <InfoContainer>
+          {isUpdated ? <p>{updateDate}</p> : <p>{createDate}</p>}
+          <Type>{memo.memoType}</Type>
+        </InfoContainer>
+        <Content>{memo.memoContent}</Content>
+      </Wrapper>
+    </>
   );
 };
 
