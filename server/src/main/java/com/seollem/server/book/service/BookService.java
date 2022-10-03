@@ -124,6 +124,10 @@ public class BookService {
         return book;
     }
 
+    public void modifyCreateDate(LocalDateTime time, long bookId){
+        bookRepository.modifyCreateDate(time, bookId);
+    }
+
     /*
     // never used
     public List<Book> findAbandonedBooks(List<Book> books){

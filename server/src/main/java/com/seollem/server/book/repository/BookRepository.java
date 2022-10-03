@@ -5,7 +5,9 @@ import com.seollem.server.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +29,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             countQuery = "SELECT count(*) FROM book WHERE MEMBER_ID = ?1 AND MEMO_COUNT != 0",
             nativeQuery = true)
     Page<Book> findBooksHaveMemo(Member member, Pageable pageable);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE Book b SET b.createdAt = :time WHERE b.bookId = :bookId")
+    void modifyCreateDate(LocalDateTime time, long bookId);
 
 
 }
