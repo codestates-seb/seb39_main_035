@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteMemo } from '../stores/memo/memoSlice';
 import { MemoResponse } from '../types/basic';
-import Button from './Button';
+import { BsTrashFill } from 'react-icons/bs';
 import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 
 interface MemoItemProps {
   memo: MemoResponse;
@@ -19,16 +23,23 @@ const MemoItem = ({ memo }: MemoItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isUpdated, setIsUpdated] = useState(false);
 
-  const createDate = dayjs(memo.createdAt).format('YYYY.MM.DD A HH:mm');
-  const updateDate = dayjs(memo.updatedAt).format('YYYY.MM.DD A HH:mm');
+  const timeZone = dayjs.tz.guess();
+  const createDate = dayjs
+    .utc(memo.createdAt)
+    .tz(timeZone)
+    .format('YYYY.MM.DD A HH:mm');
+
+  const updateDate = dayjs
+    .utc(memo.updatedAt)
+    .tz(timeZone)
+    .format('YYYY.MM.DD A HH:mm');
+
 
   useEffect(() => {
     if (dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))) {
       setIsUpdated(true);
     }
   }, [memo]);
-
-  // console.log(dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))); // 수정이 안되어 있으면 0, 수정 된 적 있으면 양수
 
   const memoTypeList = [
     { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
@@ -40,7 +51,6 @@ const MemoItem = ({ memo }: MemoItemProps) => {
   const handleDelete = (event: React.MouseEvent) => {
     event.stopPropagation();
     dispatch(deleteMemo(memo.memoId));
-    // 삭제하고 상세페이지에서 다시 get 요청이 이루어져야됨 ....
   };
 
   const handleEdit = () => {
@@ -48,18 +58,19 @@ const MemoItem = ({ memo }: MemoItemProps) => {
   };
 
   return (
-    <Wrapper onClick={handleEdit}>
-      <PageContainter>{'p.' + memo.memoBookPage}</PageContainter>
-      <InfoContainer>
-        {!isUpdated && <p>{createDate}</p>}
-        {isUpdated && <p>{updateDate + '수정날짜 표시'}</p>}
-        <Type>{memo.memoType}</Type>
-      </InfoContainer>
-      <Content>{memo.memoContent}</Content>
-      <Button color='gray' onClick={handleDelete}>
-        삭제
-      </Button>
-    </Wrapper>
+    <>
+      <Wrapper onClick={handleEdit}>
+        <InfoContainer>
+          <PageContainter>{'p.' + memo.memoBookPage}</PageContainter>
+          <BsTrashFill onClick={handleDelete} />
+        </InfoContainer>
+        <InfoContainer>
+          {isUpdated ? <p>{updateDate}</p> : <p>{createDate}</p>}
+          <Type>{memo.memoType}</Type>
+        </InfoContainer>
+        <Content>{memo.memoContent}</Content>
+      </Wrapper>
+    </>
   );
 };
 
@@ -69,6 +80,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
   border-radius: 5px;
   padding: 1rem;
+  margin-bottom: 1rem;
   font-size: 18px;
   cursor: pointer;
   font-size: 1rem;

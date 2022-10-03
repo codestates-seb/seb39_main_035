@@ -117,6 +117,32 @@ export const editMemo = createAsyncThunk(
   }
 );
 
+//랜덤 메모 조회
+export const getRandomMemo = createAsyncThunk(
+  'memo/getRandomMemo',
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const { token } = state.user;
+      const { data } = await axios.patch(
+        process.env.REACT_APP_API_BASE_URL + 'memos/random',
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
 export const memoSlice = createSlice({
   name: 'memo',
   initialState,
@@ -162,6 +188,19 @@ export const memoSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(editMemo.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.error(action.payload);
+      })
+      .addCase(getRandomMemo.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(getRandomMemo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.memo = action.payload;
+      })
+      .addCase(getRandomMemo.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
         toast.error(action.payload);

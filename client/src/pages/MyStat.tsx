@@ -9,24 +9,29 @@ import { getAbandonData, getCalendarData } from '../stores/stat/statSlice';
 import { AppDispatch, RootState } from '../stores/store';
 import Carousel from '../components/Carousel';
 import BookCoverItem from '../components/BookCoverItem';
+import { getRandomMemo } from '../stores/memo/memoSlice';
+import MemoItem from '../components/MemoItem';
 import AbandonBooks from '../components/AbandonBooks';
+
 
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, isSuccess, calendar, abandon } = useSelector(
     (state: RootState) => state.stat
   );
+  const { memo } = useSelector((state: RootState) => state.memo);
 
   useEffect(() => {
     // dispatch(getCalendarData(1));
     // dispatch(getAbandonData(1));
+    // dispatch(getRandomMemo());
   }, [dispatch]);
 
   return (
     <Layout>
       <PageTitle title='나의 독서 통계 보기' />
       <Boxcontainer containerTitle='📝 랜덤 메모'>
-        <p></p>
+        <MemoItem memo={memo} />
       </Boxcontainer>
       <Boxcontainer containerTitle='📓 잊고 지낸 나의 책'>
         <AbandonBooks />
