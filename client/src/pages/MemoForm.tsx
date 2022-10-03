@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { reset } from '../stores/memo/memoSlice';
 import { Editor as ToastEditor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import axios from 'axios';
 
 const MemoForm = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const MemoForm = () => {
   );
   const { isSuccess } = useSelector((state: RootState) => state.memo);
   const dispatch = useDispatch<AppDispatch>();
+  const [validation, setValidation] = useState<string>('');
   const [memoContent, setMemoContent] = useState<string>('');
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
   const [type, setType] = useState('BOOK_CONTENT');
@@ -44,12 +46,39 @@ const MemoForm = () => {
   useEffect(() => {
     if (id) {
       const memo = location.state;
-      setMemoContent(memo.memoContent);
       setType(memo.memoType);
       setMemoBookPage(memo.memoBookPage);
+      setMemoContent(memo.memoContent);
+      // 에디터 편집 영역에 memoContent표시하기
+      editorRef.current?.getInstance().setHTML(memo.memoContent);
     }
   }, [id, location]);
 
+  useEffect(() => {
+    // 이미지 업로드 훅 제거
+    editorRef.current?.getInstance().removeHook('addImageBlobHook');
+    // // 이미지 업로드 훅 추가
+    editorRef.current
+      ?.getInstance()
+      .addHook('addImageBlobHook', async (blob, callback) => {
+        const imgUrl = await imageUpload(blob);
+        callback(imgUrl, 'upload image');
+      });
+  }, []);
+
+  const imageUpload = async (file: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ml_default');
+
+    const { data } = await axios.post(
+      'https://api.cloudinary.com/v1_1/drglem6rp/image/upload',
+      formData
+    );
+    return data.url;
+  };
+
+  // form 제출
   const onSubmitMemo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -68,7 +97,7 @@ const MemoForm = () => {
     } else {
       dispatch(createMemo({ memoData, bookId }));
     }
-    // console.log({ memoData, bookId });
+
     navigate(`/books/library/${bookId}`);
   };
 
@@ -91,16 +120,8 @@ const MemoForm = () => {
             hideModeSwitch={true}
             toolbarItems={[
               // 툴바 옵션 설정
-              [
-                'heading',
-                'bold',
-                'italic',
-                'strike',
-                'hr',
-                'quote',
-                'image',
-                'link',
-              ],
+              ['bold', 'italic', 'strike', 'hr', 'quote'],
+              ['image', 'link'],
             ]}
             language='ko-KR'
           ></ToastEditor>
@@ -124,6 +145,7 @@ const MemoForm = () => {
           <Button color='mint' fullWidth>
             저장하기
           </Button>
+          {validation && <p>{validation}</p>}
         </StyledForm>
       </FormWrapper>
     </Layout>
