@@ -8,44 +8,51 @@ interface CalendarProps {
 }
 
 const BookCalendar = ({ calendarList }: CalendarProps) => {
-  const [value, setValue] = useState(new Date());
+  // const [value, setValue] = useState(new Date());
   const [mark, setMark] = useState<CalendarItem[]>([]);
   // //필요한가?.?
-  useEffect(() => {}, [calendarList]);
-  console.log(calendarList);
-
-  // 1. 중복된 날짜 제거
-  if (calendarList.length > 0) {
-    const transformList = calendarList.filter(
-      (v, i) =>
-        calendarList.findIndex((x) =>
-          dayjs(x.readEndDate).isSame(v.readEndDate, 'day')
-        ) === i
-    );
-
-    console.log(transformList);
-  }
+  useEffect(() => {
+    if (calendarList.length > 0) {
+      const transformList = calendarList.filter(
+        (v, i) =>
+          calendarList.findIndex((x) =>
+            dayjs(x.readEndDate).isSame(v.readEndDate, 'day')
+          ) === i
+      );
+      setMark(transformList);
+    }
+  }, [calendarList]);
 
   return (
     <CalendarContainer>
       <Calendar
-        onChange={setValue}
-        value={value}
+        // onChange={setValue}
+        // value={value}
         minDetail='month'
         maxDetail='month'
         formatDay={(locale, date) => dayjs(date).format('DD')}
         // tileContent={({ date }) => {
-        //   let html = [];
-        //   if (
-        //     mark.find(
-        //       (x) =>
-        //         dayjs(x.readEndDate).format('YYYY-MM-DD') ===
-        //         dayjs(date).format('YYYY-MM-DD')
-        //     )
-        //   ) {
-        //     html.push(<p>check</p>);
-        //   }
+        //   const
+
+        // const day = dayjs(date).format('YYYY-MM-DD');
+        // if (
+        //   mark.find((x) => dayjs(x.readEndDate).format('YYYY-MM-DD') === day)
+        // ) {
+        //   return <p className='highlight'>{day}</p>;
+        // } else {
+        //   return null;
+        // }
         // }}
+        tileContent={({ date }) => {
+          const dateObj = mark.find(
+            (x) =>
+              dayjs(x.readEndDate).format('YYYY-MM-DD') ===
+              dayjs(date).format('YYYY-MM-DD')
+          );
+          return dateObj ? (
+            <ReadEndDate cover={dateObj.cover}></ReadEndDate>
+          ) : null;
+        }}
       />
     </CalendarContainer>
   );
@@ -53,9 +60,16 @@ const BookCalendar = ({ calendarList }: CalendarProps) => {
 
 export default BookCalendar;
 
+const ReadEndDate = styled.div<{ cover: string }>`
+  background-image: ${(props) => `url(${props.cover})`};
+  background-size: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+`;
 const CalendarContainer = styled.div`
   .highlight {
-    color: red;
+    background-color: red;
   }
   .react-calendar {
     width: 100%;
@@ -138,10 +152,10 @@ const CalendarContainer = styled.div`
   }
   .react-calendar__tile {
     max-width: 100%;
-    padding: 5px;
+    padding: 1px;
     background: none;
     text-align: center;
-    height: 80px;
+    height: 130px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -153,25 +167,12 @@ const CalendarContainer = styled.div`
   .react-calendar__tile:enabled:focus {
     background-color: #e6e6e6;
   }
-  .react-calendar__tile--now {
-    background: #ffff76;
-    /* background-image: url(https://res.cloudinary.com/drglem6rp/image/upload/v1664799652/k092835920_1.jpg);
-    background-size: cover; */
-  }
-  /* .react-calendar__tile--now:enabled:hover,
-  .react-calendar__tile--now:enabled:focus {
-    background: #ffffa9;
-  } */
   .react-calendar__tile--hasActive {
     background: #76baff;
   }
   .react-calendar__tile--hasActive:enabled:hover,
   .react-calendar__tile--hasActive:enabled:focus {
     background: #a9d4ff;
-  }
-  .react-calendar__tile--active {
-    background: #006edc;
-    color: white;
   }
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
