@@ -98,17 +98,18 @@ const MemoForm = () => {
       dispatch(createMemo({ memoData, bookId }));
     }
 
-    navigate(`/books/library/${bookId}`);
+    // navigate(`/books/library/${bookId}`);
   };
 
   // 메모 등록 액션이 성공하면 페이지 이동
-  // if (isSuccess) {
-  //   navigate(`/books/library/${bookId}`);
-  // }
+  if (isSuccess) {
+    navigate(`/books/library/${bookId}`);
+  }
 
   return (
     <Layout>
-      <PageTitle title='메모 등록하기' path={prevPath} />
+      {id && <PageTitle title='메모 수정하기' path={prevPath} />}
+      {!id && <PageTitle title='메모 등록하기' path={prevPath} />}
       <FormWrapper>
         <StyledForm onSubmit={onSubmitMemo}>
           <ToastEditor
