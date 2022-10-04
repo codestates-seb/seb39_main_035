@@ -38,7 +38,7 @@ public class FindItemPageTest {
         JSONObject result = new JSONObject();
         result.put("itemPage",itemArr.getJSONObject(0).getJSONObject("subInfo").getString("itemPage"));
 
-        System.out.println(result);
+
 //        return result;
     }
 }
