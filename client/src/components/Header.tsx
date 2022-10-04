@@ -7,19 +7,31 @@ import { TbBooks, TbCalendarStats } from 'react-icons/tb';
 import { BiBookHeart } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { GiArchiveResearch } from 'react-icons/gi';
+import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
-
+  const navigate = useNavigate();
   return (
     <>
       <HeaderWrapper>
         {!isLoggedIn && (
-          <Link to='/'>
-            <Logo>
-              <img src={logo} alt='logo_icon' />
-            </Logo>
-          </Link>
+          <>
+            <Link to='/'>
+              <Logo>
+                <img src={logo} alt='logo_icon' />
+              </Logo>
+            </Link>
+            <SignBtn>
+              <Button color='mint' onClick={() => navigate('/members/sign-in')}>
+                로그인
+              </Button>
+              <Button color='mint' onClick={() => navigate('/members/sign-up')}>
+                회원가입
+              </Button>
+            </SignBtn>
+          </>
         )}
         {isLoggedIn && (
           <>
@@ -116,4 +128,10 @@ const StyledLink = styled(Link)`
       display: none;
     }
   }
+`;
+// 로그인, 회원가입 버튼
+export const SignBtn = styled.div`
+  display: flex;
+  width: 15rem;
+  margin-top: 10px;
 `;
