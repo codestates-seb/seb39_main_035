@@ -16,7 +16,8 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findById(long bookId);
-    Optional<Book> findByTitle(String title);
+    @Query(value = "SELECT b FROM Book b WHERE b.title = :title AND b.member.memberId = :memberId")
+    Optional<Book> findByTitle(String title, long memberId);
 //    Optional<List<Book>>  findByMember(Member member);
     Page<Book> findAllByMemberAndBookStatus(Pageable pageable, Member member, Book.BookStatus bookStatus);
 
