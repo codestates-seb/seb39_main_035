@@ -55,7 +55,7 @@ public class MemoController {
     }
 
     // 이미지 등록
-    @PostMapping("/imageMemo")
+    @PostMapping("/image-memo")
     public ResponseEntity postImageMemo(@RequestHeader Map<String, Object> requestHeader,
                                         @RequestPart MultipartFile file){
         String email = getEmailFromHeaderTokenUtil.getEmailFromHeaderToken(requestHeader);

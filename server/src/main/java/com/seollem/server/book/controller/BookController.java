@@ -206,7 +206,7 @@ public class BookController {
 
 
     //책 등록일자 수정 -> '오래된 책' 기능 테스트를 위한 api
-    @PatchMapping("/createDate/{book-id}")
+    @PatchMapping("/created-date/{book-id}")
     public ResponseEntity modifyCreateDate(@RequestBody String time,
                                            @PathVariable("book-id") long bookId){
 
