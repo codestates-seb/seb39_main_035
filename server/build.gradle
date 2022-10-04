@@ -41,6 +41,8 @@ dependencies {
 
 	implementation 'org.apache.httpcomponents:httpclient:4.5'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'com.amazonaws:aws-java-sdk:1.12.314'
 }
 
 tasks.named('test') {
