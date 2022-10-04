@@ -20,7 +20,6 @@ const MemoHorizontalContainer = ({
   typeText,
 }: MemoHorizontalContainerProps) => {
   const { state } = useLocation();
-  console.log('state:', state);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [memoList, setMemoList] = useState<MemoBookDetail[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +28,6 @@ const MemoHorizontalContainer = ({
   const memoCount = state.memoCount;
   const { token } = useSelector((state: RootState) => state.user);
 
-  console.log('memoStatus:', memoStatus);
   console.log('memoList:', memoList);
   const fetchBookMemos = async (
     pageNumber: number,
@@ -53,7 +51,6 @@ const MemoHorizontalContainer = ({
       setIsLoading(false);
       setMemoList((prev) => [...prev, ...data.item]);
       setHasMore(pageNumber < data.pageInfo.totalPages);
-      console.log('data:', data);
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         setIsError(true);
@@ -96,6 +93,10 @@ const MemoHorizontalContainer = ({
           {memoList.map((memo) => (
             <>
               <MemoBox key={memo.memoId}>
+                <MemoBoxHeader>
+                  <span>{memo.memoBookPage} page</span>
+                  <span>{memo.updatedAt}</span>
+                </MemoBoxHeader>
                 <Viewer initialValue={memo.memoContent} />
               </MemoBox>
             </>
@@ -132,4 +133,8 @@ const MemoBox = styled.div`
   line-height: 1.4rem;
   height: 18rem;
   overflow: scroll;
+`;
+const MemoBoxHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
