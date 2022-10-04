@@ -59,6 +59,12 @@ public class MemoService {
         return memoTypeList;
     }
 
+    public Page<Memo> getBookAndMemo(int page, int size, Book book){
+        Page<Memo> memoTypeList = memoRepository.findAllByBook(PageRequest.of(page, size,
+                Sort.by("memoId").descending()),book);
+        return memoTypeList;
+    }
+
 
     public void deleteMemo(long memoId){
         Memo memo = findVerifiedMemo(memoId);

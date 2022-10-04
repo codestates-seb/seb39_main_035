@@ -134,7 +134,7 @@ public class BookController {
     }
 
 
-    //책 메모 조회
+    //책 메모 조회 - 타입별
     @GetMapping("/{book-id}/memos")
     public ResponseEntity getBookMemos(@RequestHeader Map<String, Object> requestHeader,
                                        @Positive @PathVariable("book-id") long bookId,
@@ -147,7 +147,10 @@ public class BookController {
         bookService.verifyMemberHasBook(bookId, member.getMemberId());
         Book book = bookService.findVerifiedBookById(bookId);
 
-        Page<Memo> memoTypeList = memoService.getBookAndMemoTypes(page-1, size, book, memoType);
+        Page<Memo> memoTypeList;
+        if(memoType==Memo.MemoType.ALL)
+            memoTypeList = memoService.getBookAndMemo(page-1, size, book);
+        else memoTypeList = memoService.getBookAndMemoTypes(page-1, size, book, memoType);
         List<Memo> memos = memoTypeList.getContent();
 //        BookDto.MemosOfBook response = bookMapper.BookToMemosOfBookResponse(book);
 //        response.setMemosList(memoTypeList);
@@ -155,6 +158,8 @@ public class BookController {
                 new MultiResponseDto<>(memoMapper.memoToMemoResponses(memos), memoTypeList),HttpStatus.OK);
 
     }
+
+
 
     //책 등록
     @PostMapping
