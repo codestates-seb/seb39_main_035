@@ -12,12 +12,12 @@ interface selectList {
 
 const BookMemoDetail = () => {
   const { state } = useLocation();
-  const [memoStatus, setMemoStatus] = useState<string>('');
+  const [memoStatus, setMemoStatus] = useState<string>('ALL');
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMemoStatus(e.target.value);
   };
   const selectList = [
-    { typeValue: '', typeText: '📝 메모 카테고리를 선택헤주세요' },
+    { typeValue: 'ALL', typeText: '📝 메모 카테고리를 선택헤주세요' },
     { typeValue: 'BOOK_CONTENT', typeText: '책 내용' },
     { typeValue: 'SUMMARY', typeText: '책 요약' },
     { typeValue: 'THOUGHT', typeText: '나만의 생각' },
@@ -43,24 +43,29 @@ const BookMemoDetail = () => {
             ))}
           </select>
         </FormWrapper>
-        {memoStatus !== '' ? (
-          <MemoHorizontalContainer memoStatus={memoStatus} typeText='' />
-        ) : (
-          <>
-            <MemoHorizontalContainer
-              memoStatus='BOOK_CONTENT'
-              typeText='책 내용'
-            />
-            <MemoHorizontalContainer memoStatus='SUMMARY' typeText='책 요약' />
-            <MemoHorizontalContainer
-              memoStatus='THOUGHT'
-              typeText='나만의 생각'
-            />
-            <MemoHorizontalContainer
-              memoStatus='QUESTION'
-              typeText='나만의 질문'
-            />
-          </>
+        {memoStatus === 'ALL' && (
+          <MemoHorizontalContainer memoStatus='ALL' typeText='전체 카테고리' />
+        )}
+        {memoStatus === 'BOOK_CONTENT' && (
+          <MemoHorizontalContainer
+            memoStatus='BOOK_CONTENT'
+            typeText='책 내용'
+          />
+        )}
+        {memoStatus === 'SUMMARY' && (
+          <MemoHorizontalContainer memoStatus='SUMMARY' typeText='책 요약' />
+        )}
+        {memoStatus === 'THOUGHT' && (
+          <MemoHorizontalContainer
+            memoStatus='THOUGHT'
+            typeText='나만의 생각'
+          />
+        )}
+        {memoStatus === 'QUESTION' && (
+          <MemoHorizontalContainer
+            memoStatus='QUESTION'
+            typeText='나만의 질문'
+          />
         )}
       </Wrapper>
     </Layout>
