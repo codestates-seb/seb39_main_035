@@ -7,6 +7,8 @@ import Carousel from './MemoCarousel';
 import Loading from './Loading';
 import { MemoBookDetail } from '../types/basic';
 import { useLocation } from 'react-router-dom';
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 type MemoHorizontalContainerProps = {
   memoStatus: string;
@@ -87,7 +89,9 @@ const MemoHorizontalContainer = ({
         <Carousel>
           {memoList.map((memo) => (
             <>
-              <MemoBox key={memo.memoId}>{memo.memoContent}</MemoBox>
+              <MemoBox key={memo.memoId}>
+                <Viewer initialValue={memo.memoContent} />
+              </MemoBox>
             </>
           ))}
           <div ref={loader} />
