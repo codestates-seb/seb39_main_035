@@ -95,7 +95,13 @@ export const getAbandonData = createAsyncThunk(
 export const statSlice = createSlice({
   name: 'stat',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCalendarData.pending, (state, _) => {

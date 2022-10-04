@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Boxcontainer from '../components/BoxContainer';
@@ -9,8 +9,10 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../stores/store';
 import { createMemo, editMemo } from '../stores/memo/memoSlice';
 import { useSelector } from 'react-redux';
-import { Editor } from '@toast-ui/react-editor';
+import { reset } from '../stores/memo/memoSlice';
+import { Editor as ToastEditor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import axios from 'axios';
 
 const MemoForm = () => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const MemoForm = () => {
   );
   const { isSuccess } = useSelector((state: RootState) => state.memo);
   const dispatch = useDispatch<AppDispatch>();
+  const [validation, setValidation] = useState<string>('');
   const [memoContent, setMemoContent] = useState<string>('');
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
   const [type, setType] = useState('BOOK_CONTENT');
@@ -30,17 +33,52 @@ const MemoForm = () => {
     { typeValue: 'THOUGHT', typeText: '생각' },
     { typeValue: 'QUESTION', typeText: '질문' },
   ];
+  const editorRef = useRef<ToastEditor>(null);
+  const onChangeEditor = () => {
+    if (editorRef.current) {
+      const data = editorRef.current.getInstance().getHTML();
+      setMemoContent(data);
+    }
+  };
+
   const prevPath = `/books/library/${bookId}`;
 
   useEffect(() => {
     if (id) {
       const memo = location.state;
-      setMemoContent(memo.memoContent);
       setType(memo.memoType);
       setMemoBookPage(memo.memoBookPage);
+      setMemoContent(memo.memoContent);
+      // 에디터 편집 영역에 memoContent표시하기
+      editorRef.current?.getInstance().setHTML(memo.memoContent);
     }
   }, [id, location]);
 
+  useEffect(() => {
+    // 이미지 업로드 훅 제거
+    editorRef.current?.getInstance().removeHook('addImageBlobHook');
+    // // 이미지 업로드 훅 추가
+    editorRef.current
+      ?.getInstance()
+      .addHook('addImageBlobHook', async (blob, callback) => {
+        const imgUrl = await imageUpload(blob);
+        callback(imgUrl, 'upload image');
+      });
+  }, []);
+
+  const imageUpload = async (file: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ml_default');
+
+    const { data } = await axios.post(
+      'https://api.cloudinary.com/v1_1/drglem6rp/image/upload',
+      formData
+    );
+    return data.url;
+  };
+
+  // form 제출
   const onSubmitMemo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -59,6 +97,8 @@ const MemoForm = () => {
     } else {
       dispatch(createMemo({ memoData, bookId }));
     }
+
+    // navigate(`/books/library/${bookId}`);
   };
 
   // 메모 등록 액션이 성공하면 페이지 이동
@@ -68,30 +108,24 @@ const MemoForm = () => {
 
   return (
     <Layout>
-      <PageTitle title='메모 등록하기' path={prevPath} />
+      {id && <PageTitle title='메모 수정하기' path={prevPath} />}
+      {!id && <PageTitle title='메모 등록하기' path={prevPath} />}
       <FormWrapper>
         <StyledForm onSubmit={onSubmitMemo}>
-          <textarea
-            name='content'
-            id='content'
-            placeholder='책을 읽으면서 떠오르는 생각, 질문을 기록해보세요'
-            value={memoContent}
-            onChange={(e) => setMemoContent(e.target.value)}
-          ></textarea>
-          {/* <Editor
+          <ToastEditor
+            ref={editorRef}
+            onChange={onChangeEditor}
             placeholder='책에 관한 메모를 등록해보세요'
-            previewStyle='vertical' // 미리보기 스타일 지정
             height='300px' // 에디터 창 높이
             initialEditType='wysiwyg' // 초기 입력모드 설정(디폴트 markdown)
+            hideModeSwitch={true}
             toolbarItems={[
               // 툴바 옵션 설정
-              ['heading', 'bold', 'italic', 'strike'],
-              ['hr', 'quote'],
-              ['ul', 'ol', 'task', 'indent', 'outdent'],
-              ['table', 'image', 'link'],
-              ['code', 'codeblock'],
+              ['bold', 'italic', 'strike', 'hr', 'quote'],
+              ['image', 'link'],
             ]}
-          ></Editor> */}
+            language='ko-KR'
+          ></ToastEditor>
 
           <input
             type='number'
@@ -112,6 +146,7 @@ const MemoForm = () => {
           <Button color='mint' fullWidth>
             저장하기
           </Button>
+          {validation && <p>{validation}</p>}
         </StyledForm>
       </FormWrapper>
     </Layout>

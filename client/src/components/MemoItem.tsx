@@ -9,16 +9,16 @@ import { BsTrashFill } from 'react-icons/bs';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
 
 interface MemoItemProps {
   memo: MemoResponse;
 }
 
 const MemoItem = ({ memo }: MemoItemProps) => {
-  dayjs.locale('ko');
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [isUpdated, setIsUpdated] = useState(false);
@@ -28,12 +28,10 @@ const MemoItem = ({ memo }: MemoItemProps) => {
     .utc(memo.createdAt)
     .tz(timeZone)
     .format('YYYY.MM.DD A HH:mm');
-
   const updateDate = dayjs
     .utc(memo.updatedAt)
     .tz(timeZone)
     .format('YYYY.MM.DD A HH:mm');
-
 
   useEffect(() => {
     if (dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))) {
@@ -68,7 +66,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
           {isUpdated ? <p>{updateDate}</p> : <p>{createDate}</p>}
           <Type>{memo.memoType}</Type>
         </InfoContainer>
-        <Content>{memo.memoContent}</Content>
+        <Content initialValue={memo.memoContent} />
       </Wrapper>
     </>
   );
@@ -108,7 +106,7 @@ const InfoContainer = styled.div`
   align-items: baseline;
 `;
 
-const Content = styled.div`
+const Content = styled(Viewer)`
   padding-top: 1rem;
   padding-bottom: 1rem;
 `;
