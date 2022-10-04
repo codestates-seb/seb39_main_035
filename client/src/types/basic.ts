@@ -76,7 +76,6 @@ export interface MemoResponse extends Memo {
   memoId: number;
   createdAt: string;
   updatedAt: string;
-
 }
 
 export interface AbandonBook extends Pageinfo {

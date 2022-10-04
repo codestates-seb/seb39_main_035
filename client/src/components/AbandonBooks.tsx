@@ -21,12 +21,9 @@ const AbandonBooks = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
-  console.log('token:', token);
   const handleClick = (id: number) => {
     navigate(`/books/library/${id}`);
   };
-
-  console.log('abandonBookList:', abandonBookList);
   useEffect(() => {
     const fetcAbandonBookData = async (pageNumber: number) => {
       try {

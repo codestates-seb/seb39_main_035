@@ -76,10 +76,9 @@ const RecommendBooksList = () => {
   };
 
   useEffect(() => {
-    getRecommendBooksList('item-new-special');
+    getRecommendBooksList('best-seller');
   }, []);
 
-  console.log('recommendBooks:', recommendBooks);
   return (
     <Layout>
       <PageTitle title='이달의 설렘을 추천해요' />

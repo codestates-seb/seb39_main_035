@@ -55,7 +55,7 @@ const MemoForm = () => {
     };
 
     if (id) {
-      await dispatch(editMemo({ memoData, memoId: Number(id) }));
+      dispatch(editMemo({ memoData, memoId: Number(id) }));
     } else {
       dispatch(createMemo({ memoData, bookId }));
     }

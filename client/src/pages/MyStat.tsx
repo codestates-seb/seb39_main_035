@@ -13,7 +13,6 @@ import { getRandomMemo } from '../stores/memo/memoSlice';
 import MemoItem from '../components/MemoItem';
 import AbandonBooks from '../components/AbandonBooks';
 
-
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, isSuccess, calendar, abandon } = useSelector(
