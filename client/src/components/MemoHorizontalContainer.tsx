@@ -131,7 +131,7 @@ const MemoBox = styled.div`
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   line-height: 1.4rem;
-  height: 18rem;
+  height: 22rem;
   overflow: scroll;
 `;
 const MemoBoxHeader = styled.div`
