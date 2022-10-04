@@ -6,13 +6,9 @@ import styled from 'styled-components';
 import { deleteMemo } from '../stores/memo/memoSlice';
 import { MemoResponse } from '../types/basic';
 import { BsTrashFill } from 'react-icons/bs';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import useCompareDate from '../util/useCompareDate';
 
 interface MemoItemProps {
   memo: MemoResponse;
@@ -21,23 +17,7 @@ interface MemoItemProps {
 const MemoItem = ({ memo }: MemoItemProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const [isUpdated, setIsUpdated] = useState(false);
-
-  const timeZone = dayjs.tz.guess();
-  const createDate = dayjs
-    .utc(memo.createdAt)
-    .tz(timeZone)
-    .format('YYYY.MM.DD A HH:mm');
-  const updateDate = dayjs
-    .utc(memo.updatedAt)
-    .tz(timeZone)
-    .format('YYYY.MM.DD A HH:mm');
-
-  useEffect(() => {
-    if (dayjs(memo.updatedAt).diff(dayjs(memo.createdAt))) {
-      setIsUpdated(true);
-    }
-  }, [memo]);
+  const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 
   const memoTypeList = [
     { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
@@ -63,10 +43,10 @@ const MemoItem = ({ memo }: MemoItemProps) => {
           <BsTrashFill onClick={handleDelete} />
         </InfoContainer>
         <InfoContainer>
-          {isUpdated ? <p>{updateDate}</p> : <p>{createDate}</p>}
+          <p>{date}</p>
           <Type>{memo.memoType}</Type>
         </InfoContainer>
-        <Content initialValue={memo.memoContent} />
+        <Viewer initialValue={memo.memoContent} />
       </Wrapper>
     </>
   );
@@ -104,9 +84,4 @@ const InfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-`;
-
-const Content = styled(Viewer)`
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 `;
