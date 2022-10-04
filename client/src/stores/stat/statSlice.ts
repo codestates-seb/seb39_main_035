@@ -47,7 +47,7 @@ export const getCalendarData = createAsyncThunk(
           },
           params: {
             page: pageNumber,
-            size: 10,
+            size: 30,
           },
         }
       );
@@ -101,6 +101,7 @@ export const statSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
     },
+    dateTransform: (state) => {},
   },
   extraReducers: (builder) => {
     builder
