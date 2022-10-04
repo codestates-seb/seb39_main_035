@@ -104,4 +104,6 @@ export interface MemoBookDetail extends Pageinfo {
   memoType: string; //'BOOK_CONTENT' | 'SUMMARY' | 'THOUGHT' | 'QUESTION';
   memoBookPage: number;
   memoContent: string;
+  createdAt: string;
+  updatedAt: string;
 }
