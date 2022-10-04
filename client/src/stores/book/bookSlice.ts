@@ -4,7 +4,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { BookDetailResponse, Books } from '../../types/basic';
 import { EditBookDetail } from '../../types/basic';
-import { BookDetail } from '../../types/basic';
 
 export interface BookReducer {
   book: Books;
