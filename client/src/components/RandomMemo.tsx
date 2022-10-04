@@ -27,10 +27,6 @@ const RandomMemo = () => {
 
 export default RandomMemo;
 
-// 클릭 시 해당 책 상세페이지로 가기(bookId가 없으면 못가는거구만! )
-// 책, 메모북 페이지, 타입
-// 포스트잇 모양..!
-
 const Wrapper = styled.div`
   background-color: var(--light-blue);
   padding: 1rem;
@@ -38,6 +34,8 @@ const Wrapper = styled.div`
   .toastui-editor-contents {
     font-size: 16px;
     font-family: 'RIDIBatang';
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
 `;
 
