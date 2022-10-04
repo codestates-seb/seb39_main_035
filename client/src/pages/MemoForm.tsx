@@ -21,6 +21,7 @@ const MemoForm = () => {
   const { bookId, itemPage } = useSelector(
     (state: RootState) => state.book.bookDetail
   );
+  const { token } = useSelector((state: RootState) => state.user);
   const { isSuccess } = useSelector((state: RootState) => state.memo);
   const dispatch = useDispatch<AppDispatch>();
   const [validation, setValidation] = useState<string>('');
@@ -62,6 +63,7 @@ const MemoForm = () => {
       ?.getInstance()
       .addHook('addImageBlobHook', async (blob, callback) => {
         const imgUrl = await imageUpload(blob);
+        console.log(imgUrl);
         callback(imgUrl, 'upload image');
       });
   }, []);
@@ -69,13 +71,16 @@ const MemoForm = () => {
   const imageUpload = async (file: string) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'ml_default');
-
     const { data } = await axios.post(
-      'https://api.cloudinary.com/v1_1/drglem6rp/image/upload',
-      formData
+      process.env.REACT_APP_API_BASE_URL + '/memos/image-memo',
+      formData,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
-    return data.url;
+    return data;
   };
 
   // form 제출
