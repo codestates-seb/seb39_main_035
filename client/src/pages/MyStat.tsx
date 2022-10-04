@@ -31,7 +31,7 @@ const MyStat = () => {
         <RandomMemo />
       </Boxcontainer>
       <Boxcontainer containerTitle='📓 잊고 지낸 나의 책'>
-        {/* <AbandonBooks /> */}
+        <AbandonBooks />
       </Boxcontainer>
       <Boxcontainer containerTitle='🗓 독서 달력'>
         <BookCalendar calendarList={calendar} />

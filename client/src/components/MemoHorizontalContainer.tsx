@@ -20,17 +20,22 @@ const MemoHorizontalContainer = ({
   typeText,
 }: MemoHorizontalContainerProps) => {
   const { state } = useLocation();
-  const [pageNumber, setPageNumber] = useState(1);
+  console.log('state:', state);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [memoList, setMemoList] = useState<MemoBookDetail[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [hasMore, setHasMore] = useState(false);
+  const memoCount = state.memoCount;
   const { token } = useSelector((state: RootState) => state.user);
 
   console.log('memoStatus:', memoStatus);
   console.log('memoList:', memoList);
-
-  const fetchBookMemos = async (pageNumber: number, memoStatus: string) => {
+  const fetchBookMemos = async (
+    pageNumber: number,
+    memoStatus: string,
+    memoCount: number
+  ) => {
     try {
       const { data } = await axios.get(
         process.env.REACT_APP_API_BASE_URL + `/books/${state.bookId}/memos`,
@@ -40,7 +45,7 @@ const MemoHorizontalContainer = ({
           },
           params: {
             page: pageNumber,
-            size: 1,
+            size: memoCount,
             memoType: memoStatus,
           },
         }
@@ -48,6 +53,7 @@ const MemoHorizontalContainer = ({
       setIsLoading(false);
       setMemoList((prev) => [...prev, ...data.item]);
       setHasMore(pageNumber < data.pageInfo.totalPages);
+      console.log('data:', data);
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         setIsError(true);
@@ -56,8 +62,8 @@ const MemoHorizontalContainer = ({
   };
 
   useEffect(() => {
-    fetchBookMemos(pageNumber, memoStatus);
-  }, [pageNumber, memoStatus]);
+    fetchBookMemos(pageNumber, memoStatus, memoCount);
+  }, [memoStatus, pageNumber, memoCount]);
 
   const loader = useRef(null);
   const handleObserver = useCallback(
@@ -124,6 +130,6 @@ const MemoBox = styled.div`
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   line-height: 1.4rem;
-  height: 15rem;
+  height: 18rem;
   overflow: scroll;
 `;
