@@ -189,7 +189,7 @@ const SignUp = () => {
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder='이름을 입력해주세요.'
+            placeholder='이름'
             autoFocus={true}
             onBlur={(e) => checkRegex(e.target)}
           />
@@ -203,7 +203,7 @@ const SignUp = () => {
             type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='이메일을 입력해주세요.'
+            placeholder='이메일'
             onBlur={(e) => checkRegex(e.target)}
           />
           <ErrMsg>{errData.email}</ErrMsg>
@@ -215,7 +215,7 @@ const SignUp = () => {
             id='pw'
             type='password'
             value={pw}
-            placeholder='비밀번호를 입력해주세요.'
+            placeholder='비밀번호'
             onChange={(e) => setPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />
@@ -228,7 +228,7 @@ const SignUp = () => {
             id='confirmPw'
             type='password'
             value={confirmPw}
-            placeholder='비밀번호를 입력해주세요.'
+            placeholder='비밀번호 확인'
             onChange={(e) => setconfirmPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />
