@@ -15,6 +15,7 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(160, 158, 158, 0.5);
+  z-index: 1;
 `;
 const ModatContainer = styled.div`
   padding: 30px;

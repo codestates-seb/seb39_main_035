@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
 import MemoList from '../components/MemoList';
+import { reset as memoStatusReset } from '../stores/memo/memoSlice';
 
 interface selectList {
   typeValue: string;
@@ -50,6 +51,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     dispatch(getBookDetailData(id));
+    dispatch(memoStatusReset());
   }, [isSuccess, dispatch, id]);
 
   const selectList = [

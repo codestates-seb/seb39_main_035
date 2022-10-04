@@ -132,7 +132,7 @@ export const getRandomMemo = createAsyncThunk(
           },
         }
       );
-      return data;
+      return data[0];
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         return thunkAPI.rejectWithValue(error.response.data.message);
