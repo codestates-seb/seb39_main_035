@@ -24,8 +24,6 @@ const AbandonBooks = () => {
     navigate(`/books/library/${id}`);
   };
 
-  console.log('abandonBookList:', abandonBookList);
-
   useEffect(() => {
     const fetcAbandonBookData = async (pageNumber: number) => {
       try {
