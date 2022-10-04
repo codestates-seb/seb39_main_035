@@ -3,7 +3,6 @@ import { CalendarItem } from '../stores/stat/statSlice';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-
 interface CalendarProps {
   calendarList: CalendarItem[];
 }
@@ -13,6 +12,7 @@ const BookCalendar = ({ calendarList }: CalendarProps) => {
   const [mark, setMark] = useState<CalendarItem[]>([]);
   // //필요한가?.?
   useEffect(() => {}, [calendarList]);
+  console.log(calendarList);
 
   // 1. 중복된 날짜 제거
   if (calendarList.length > 0) {
@@ -22,6 +22,8 @@ const BookCalendar = ({ calendarList }: CalendarProps) => {
           dayjs(x.readEndDate).isSame(v.readEndDate, 'day')
         ) === i
     );
+
+    console.log(transformList);
   }
 
   return (
