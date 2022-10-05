@@ -62,6 +62,9 @@ const Wrapper = styled.div`
   font-size: 18px;
   cursor: pointer;
   font-size: 1rem;
+  .toastui-editor-contents {
+    font-size: 18px;
+  }
 `;
 
 const PageContainter = styled.div`
@@ -85,3 +88,5 @@ const InfoContainer = styled.div`
   justify-content: space-between;
   align-items: baseline;
 `;
+
+//메모 타입에 따라서 page, type 색깔 다르게하기
