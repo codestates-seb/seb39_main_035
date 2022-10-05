@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
 import { CalendarItem } from '../stores/stat/statSlice';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-interface CalendarProps {
-  calendarList: CalendarItem[];
-}
 
-const BookCalendar = ({ calendarList }: CalendarProps) => {
-  // const [value, setValue] = useState(new Date());
+const BookCalendar = () => {
+  const { calendarList } = useSelector((state: RootState) => state.stat);
   const [mark, setMark] = useState<CalendarItem[]>([]);
-  // //필요한가?.?
+
   useEffect(() => {
     if (calendarList.length > 0) {
       const transformList = calendarList.filter(
@@ -26,23 +25,9 @@ const BookCalendar = ({ calendarList }: CalendarProps) => {
   return (
     <CalendarContainer>
       <Calendar
-        // onChange={setValue}
-        // value={value}
         minDetail='month'
         maxDetail='month'
         formatDay={(locale, date) => dayjs(date).format('DD')}
-        // tileContent={({ date }) => {
-        //   const
-
-        // const day = dayjs(date).format('YYYY-MM-DD');
-        // if (
-        //   mark.find((x) => dayjs(x.readEndDate).format('YYYY-MM-DD') === day)
-        // ) {
-        //   return <p className='highlight'>{day}</p>;
-        // } else {
-        //   return null;
-        // }
-        // }}
         tileContent={({ date }) => {
           const dateObj = mark.find(
             (x) =>
@@ -68,9 +53,6 @@ const ReadEndDate = styled.div<{ cover: string }>`
   height: 100%;
 `;
 const CalendarContainer = styled.div`
-  .highlight {
-    background-color: red;
-  }
   .react-calendar {
     width: 100%;
     background: white;
@@ -125,7 +107,7 @@ const CalendarContainer = styled.div`
   }
   .react-calendar__month-view__weekdays {
     text-align: center;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-weight: bold;
     font-size: 0.75em;
   }
@@ -142,9 +124,7 @@ const CalendarContainer = styled.div`
   .react-calendar__month-view__days__day--weekend {
     color: #d10000;
   }
-  .react-calendar__month-view__days__day--neighboringMonth {
-    color: #757575;
-  }
+
   .react-calendar__year-view .react-calendar__tile,
   .react-calendar__decade-view .react-calendar__tile,
   .react-calendar__century-view .react-calendar__tile {
@@ -159,6 +139,12 @@ const CalendarContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    @media screen and (max-width: 500px) {
+      height: 100px;
+    }
+    @media screen and (max-width: 390px) {
+      height: 80px;
+    }
   }
   .react-calendar__tile:disabled {
     background-color: #f0f0f0;
@@ -174,10 +160,10 @@ const CalendarContainer = styled.div`
   .react-calendar__tile--hasActive:enabled:focus {
     background: #a9d4ff;
   }
-  .react-calendar__tile--active:enabled:hover,
+  /* .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
     background: #1087ff;
-  }
+  } */
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
