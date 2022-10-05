@@ -43,15 +43,14 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #f9f9f9;
     font-family: 'Pretendard-Regular';
-    color: #747474;
     max-width: 640px;
     margin: 0 auto;
     padding-bottom: 0px;
     min-height: 100vh;
     overflow: scroll;
-    /* position: relative; */
+    background-color: ${(props) => props.theme.colors.bg};
+    color: ${(props) => props.theme.colors.font};
   }
   `;
 export default GlobalStyle;

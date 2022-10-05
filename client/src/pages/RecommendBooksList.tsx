@@ -12,10 +12,9 @@ const BookContents = styled.li`
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: ${(props) => props.theme.colors.border};
   &:hover {
-    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
-    transform: translate(-0.1rem);
+    box-shadow: ${(props) => props.theme.colors.boxShadow};
     cursor: pointer;
   }
   .noResults {
@@ -42,16 +41,16 @@ const RecommendBtn = styled.button`
   font-size: 1rem;
   padding: 0.8rem;
   border-radius: 0.4rem;
-  background-color: #f9f9f9;
-  color: #747474;
+  background-color: ${(props) => props.theme.colors.bg};
+  color: ${(props) => props.theme.colors.font};
   width: 12rem;
   &:hover {
-    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+    box-shadow: ${(props) => props.theme.colors.boxShadow};
     transform: translate(-0.1rem);
   }
   &:focus {
-    color: #f9f9f9;
-    background-color: #747474;
+    color: ${(props) => props.theme.colors.bg};
+    background-color: ${(props) => props.theme.colors.font};
   }
 `;
 
@@ -81,7 +80,7 @@ const RecommendBooksList = () => {
 
   return (
     <Layout>
-      <PageTitle title='이달의 설렘을 추천해요' />
+      <PageTitle title='추천' />
       <RecommendBtnWrapper>
         <RecommendBtn
           color='pink'

@@ -13,12 +13,14 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import themeReducer from './themeSlice';
 
 const rootReducers = combineReducers({
   user: userReducer,
   book: bookReducer,
   stat: statReducer,
   memo: memoReducer,
+  theme: themeReducer,
 });
 
 const persistConfig = {

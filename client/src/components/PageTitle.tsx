@@ -11,7 +11,7 @@ type PageTitleProps = {
 const Wrapper = styled.div`
   font-size: 26px;
   display: flex;
-  color: #747474;
+  color: ${(props) => props.theme.colors.font};
   padding-top: 12px;
   padding-bottom: 12px;
   margin-bottom: 20px;
@@ -28,7 +28,7 @@ const StyledLink = styled(Link)`
   cursor: pointer;
   margin-right: 20px;
   text-decoration: none;
-  color: #747474;
+  color: ${(props) => props.theme.colors.font};
 
   &:focus {
     color: var(--scandal);
