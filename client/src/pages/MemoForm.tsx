@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../stores/store';
 import { createMemo, editMemo } from '../stores/memo/memoSlice';
 import { useSelector } from 'react-redux';
-import { reset } from '../stores/memo/memoSlice';
 import { Editor as ToastEditor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import axios from 'axios';
@@ -117,7 +116,8 @@ const MemoForm = () => {
       {!id && <PageTitle title='메모 등록하기' path={prevPath} />}
       <FormWrapper>
         <StyledForm onSubmit={onSubmitMemo}>
-          <ToastEditor
+          <StyledTilte>메모 내용</StyledTilte>
+          <StyledEditor
             ref={editorRef}
             onChange={onChangeEditor}
             placeholder='책에 관한 메모를 등록해보세요'
@@ -130,9 +130,10 @@ const MemoForm = () => {
               ['image', 'link'],
             ]}
             language='ko-KR'
-          ></ToastEditor>
-
+          ></StyledEditor>
+          <label id='memopage'>페이지 </label>
           <input
+            id='memopage'
             type='number'
             value={memoBookPage}
             min='0'
@@ -166,19 +167,19 @@ const FormWrapper = styled(Boxcontainer)`
 `;
 
 const StyledForm = styled.form`
-  > textarea {
-    display: block;
-    width: 100%;
-    height: 160px;
-    border: none;
-    border-radius: 5px;
-    resize: none;
-    font-family: RIDIBatang;
-    padding: 2rem;
-    font-size: 16px;
-    background-color: #eaeaea;
-    &:focus {
-      outline: none;
-    }
+  label {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+`;
+
+const StyledTilte = styled.div`
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+`;
+
+const StyledEditor = styled(ToastEditor)`
+  .toast-editor-contents {
+    font-size: 18px;
   }
 `;

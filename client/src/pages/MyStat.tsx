@@ -5,22 +5,16 @@ import Boxcontainer from '../components/BoxContainer';
 import BookCalendar from '../components/BookCalendar';
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
-import { getAbandonData, getCalendarData } from '../stores/stat/statSlice';
+import { getCalendarData } from '../stores/stat/statSlice';
 import { AppDispatch, RootState } from '../stores/store';
-import Carousel from '../components/Carousel';
-import BookCoverItem from '../components/BookCoverItem';
 import { getRandomMemo } from '../stores/memo/memoSlice';
 import AbandonBooks from '../components/AbandonBooks';
 import RandomMemo from '../components/RandomMemo';
 
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, isSuccess, calendar, abandon } = useSelector(
-    (state: RootState) => state.stat
-  );
   useEffect(() => {
     dispatch(getCalendarData(1));
-    // dispatch(getAbandonData(1));
     dispatch(getRandomMemo());
   }, [dispatch]);
 
@@ -34,7 +28,7 @@ const MyStat = () => {
         <AbandonBooks />
       </Boxcontainer>
       <Boxcontainer containerTitle='🗓 독서 달력'>
-        <BookCalendar calendarList={calendar} />
+        <BookCalendar />
       </Boxcontainer>
     </Layout>
   );
