@@ -9,6 +9,7 @@ import { MemoBookDetail } from '../types/basic';
 import { useLocation } from 'react-router-dom';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import useCompareDate from '../util/useCompareDate';
 
 type MemoHorizontalContainerProps = {
   memoStatus: string;
@@ -27,8 +28,8 @@ const MemoHorizontalContainer = ({
   const [hasMore, setHasMore] = useState(false);
   const memoCount = state.memoCount;
   const { token } = useSelector((state: RootState) => state.user);
+  // const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 
-  console.log('memoList:', memoList);
   const fetchBookMemos = async (
     pageNumber: number,
     memoStatus: string,
