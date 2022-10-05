@@ -81,7 +81,9 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 6px rgb(32 33 36 / 10%);
-  z-index: 100;
+  z-index: 1;
+  /* 추가 */
+  min-width: 375px;
 `;
 
 const Logo = styled.div`
