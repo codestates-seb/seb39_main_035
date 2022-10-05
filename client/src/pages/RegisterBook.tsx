@@ -2,7 +2,7 @@ import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import styled from 'styled-components';
 import Button from '../components/Button';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
@@ -56,28 +56,28 @@ export const FormWrapper = styled.div`
     width: 100%;
   }
 `;
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
 
 const RegisterBook = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const [cover, setCover] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
   const [itemPage, setItemPage] = useState(0);
-  const [bookStatus, setBookStatus] = useState('📖 읽기 상태를 선택해주세요');
+  const [bookStatus, setBookStatus] =
+    useState<string>('📖 읽기 상태를 선택해주세요');
   const [currentPage, setCurrentPage] = useState(0);
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
-  const [isError, setIsError] = useState(false);
 
-  interface selectList {
-    typeValue: string;
-    typeText: string;
-  }
   const selectList = [
+    { typeValue: '', typeText: '📖 읽기 상태를 선택해주세요' },
     { typeValue: 'YET', typeText: '읽고 싶은 책' },
     { typeValue: 'ING', typeText: '읽고 있는 책' },
     { typeValue: 'DONE', typeText: '다 읽은 책' },
@@ -106,7 +106,6 @@ const RegisterBook = () => {
     await dispatch(register(bookData));
   };
   const { isSuccess } = useSelector((state: RootState) => state.book);
-  console.log('isSuccess:', isSuccess);
   if (isSuccess) {
     navigate('/books/library');
   }
@@ -116,7 +115,6 @@ const RegisterBook = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'afqmbgkk');
-    console.log('formData:', formData);
 
     // 'starrypro' env 파일에서 가져올 수 있도록 수정
     try {
@@ -135,10 +133,8 @@ const RegisterBook = () => {
     }
   };
   const fileChange = async (e: any) => {
-    console.log('e.target.files[0]:', typeof e);
     const uploaded = await imageUploader(e.target.files[0]);
     setCover(uploaded.url);
-    console.log('cover:', cover);
   };
 
   useEffect(() => {
