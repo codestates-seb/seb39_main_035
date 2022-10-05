@@ -33,14 +33,11 @@ const BookContentKeyword = styled.div`
   margin-left: 1rem;
 `;
 
-const FirstContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const FirstContent = styled.p`
   font-weight: 700;
-  font-size: 2rem;
-  line-height: 2.5rem;
+  font-size: 1.2rem;
+  line-height: 2rem;
+  text-align: center;
 `;
 
 const SearchBooks = () => {
@@ -66,13 +63,10 @@ const SearchBooks = () => {
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 찾아볼까요?' />
+      <PageTitle title='검색' />
       <Search path={path} setPath={setPath} getBookList={getBookList} />
       {books.length === 0 || path === '' ? (
-        <FirstContent>
-          <p>찾으시는 책이 없네요😅</p>
-          <p>다시 검색해보세요</p>
-        </FirstContent>
+        <FirstContent>찾으시는 책이 없어요😖 다시 검색해보세요</FirstContent>
       ) : (
         <ul>
           <BookContents>
@@ -81,7 +75,7 @@ const SearchBooks = () => {
               className='noResults'
               onClick={() => navigate('/books/register')}
             >
-              찾으시는 책이 없으시면 직접 등록해보세요
+              찾으시는 책이 없다면 직접 등록해보세요
             </div>
           </BookContents>
           {books.map((book, idx) => {

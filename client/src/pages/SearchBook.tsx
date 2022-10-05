@@ -140,7 +140,7 @@ const SearchBook = () => {
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 등록해볼까요?' />
+      <PageTitle title='등록' />
       <BookContainer>
         <form onSubmit={registerBook}>
           <BookCoverItem src={cover} width='200px' />
