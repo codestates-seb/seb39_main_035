@@ -23,7 +23,7 @@
 
 ### 🔧 Backend </br>
 
-|<img alt="Python" src ="https://img.shields.io/badge/springboot.svg?&style=for-the-badge&logo=Spring&logoColor=White”/>
+|<img src ="https://img.shields.io/badge/springboot.svg?&style=for-the-badge&logo=spring&logoColor=White”>
                         
 ## ✨프로젝트 아키텍쳐
 
