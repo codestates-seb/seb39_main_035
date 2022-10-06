@@ -23,7 +23,8 @@ const Title = styled.h1`
 `;
 
 const Wrapper = styled.section`
-  box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+  box-shadow: ${(props) => props.theme.colors.boxShadow};
+  border: ${(props) => props.theme.colors.border};
   border-radius: 5px;
   padding: 30px;
   font-size: 18px;

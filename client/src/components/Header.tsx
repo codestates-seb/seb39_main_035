@@ -72,7 +72,7 @@ const Header = () => {
 export default Header;
 
 const HeaderWrapper = styled.header`
-  background-color: #f9f9f9;
+  background-color: ${(props) => props.theme.colors.bg};
   height: 60px;
   padding: 0 10px;
   position: sticky;
@@ -80,7 +80,7 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 6px rgb(32 33 36 / 10%);
+  box-shadow: ${(props) => props.theme.colors.boxShadow};
   z-index: 1;
   /* 추가 */
   min-width: 375px;
@@ -119,12 +119,12 @@ const StyledLink = styled(Link)`
     cursor: pointer;
     padding: 10px auto;
     font-size: 24px;
-    color: #b3dbd8;
+    color: ${(props) => props.theme.colors.icons};
   }
   p {
     font-size: 10px;
     text-align: center;
-    color: var(--gray);
+    color: ${(props) => props.theme.colors.font};
     white-space: nowrap;
     @media screen and (max-width: 390px) {
       display: none;

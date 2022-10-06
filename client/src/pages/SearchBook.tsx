@@ -133,7 +133,6 @@ const SearchBook = () => {
     await dispatch(register(bookData));
   };
   const { isSuccess } = useSelector((state: RootState) => state.book);
-  console.log('isSuccess:', isSuccess);
   if (isSuccess) {
     navigate('/books/library');
   }

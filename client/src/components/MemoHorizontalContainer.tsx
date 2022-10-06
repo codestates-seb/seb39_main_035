@@ -26,6 +26,7 @@ const MemoHorizontalContainer = ({
   const [hasMore, setHasMore] = useState(false);
   const memoCount = state.memoCount;
   const { token } = useSelector((state: RootState) => state.user);
+  // const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 
   const fetchBookMemos = async (
     pageNumber: number,
