@@ -9,6 +9,7 @@ type PageTitleProps = {
 };
 
 const Wrapper = styled.div`
+  min-width: 355px;
   font-size: 26px;
   display: flex;
   color: #747474;

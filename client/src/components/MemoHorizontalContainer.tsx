@@ -7,9 +7,7 @@ import Carousel from './MemoCarousel';
 import Loading from './Loading';
 import { MemoBookDetail } from '../types/basic';
 import { useLocation } from 'react-router-dom';
-import { Viewer } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import useCompareDate from '../util/useCompareDate';
+import MemoBoxContainer from '../components/MemoBoxContainer';
 
 type MemoHorizontalContainerProps = {
   memoStatus: string;
@@ -28,7 +26,6 @@ const MemoHorizontalContainer = ({
   const [hasMore, setHasMore] = useState(false);
   const memoCount = state.memoCount;
   const { token } = useSelector((state: RootState) => state.user);
-  // const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 
   const fetchBookMemos = async (
     pageNumber: number,
@@ -92,15 +89,13 @@ const MemoHorizontalContainer = ({
       <WindowWrapper>
         <Carousel>
           {memoList.map((memo) => (
-            <>
-              <MemoBox key={memo.memoId}>
-                <MemoBoxHeader>
-                  <span>{memo.memoBookPage} page</span>
-                  <span>{memo.updatedAt}</span>
-                </MemoBoxHeader>
-                <Viewer initialValue={memo.memoContent} />
-              </MemoBox>
-            </>
+            <MemoBoxContainer
+              key={memo.memoId}
+              memoBookPage={memo.memoBookPage}
+              memoContent={memo.memoContent}
+              createdAt={memo.createdAt}
+              updatedAt={memo.updatedAt}
+            />
           ))}
           <div ref={loader} />
         </Carousel>
@@ -113,6 +108,8 @@ export default MemoHorizontalContainer;
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
+  margin-left: 20px;
+  width: 95%;
 
   h1 {
     font-weight: 600;
@@ -125,17 +122,4 @@ const Wrapper = styled.div`
 const WindowWrapper = styled.div`
   overflow: hidden;
   width: 100%;
-`;
-
-const MemoBox = styled.div`
-  border: 1px solid rgba(0 0 0 / 20%);
-  padding: 1rem 1.5rem;
-  border-radius: 0.25rem;
-  line-height: 1.4rem;
-  height: 22rem;
-  overflow: scroll;
-`;
-const MemoBoxHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;

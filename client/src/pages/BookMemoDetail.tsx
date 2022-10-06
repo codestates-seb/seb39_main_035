@@ -17,9 +17,9 @@ const BookMemoDetail = () => {
     setMemoStatus(e.target.value);
   };
   const selectList = [
-    { typeValue: 'ALL', typeText: '📝 메모 카테고리를 선택헤주세요' },
-    { typeValue: 'BOOK_CONTENT', typeText: '책 내용' },
-    { typeValue: 'SUMMARY', typeText: '책 요약' },
+    { typeValue: 'ALL', typeText: '📝 메모 카테고리를 선택해주세요' },
+    { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
+    { typeValue: 'SUMMARY', typeText: '책 내용 요약' },
     { typeValue: 'THOUGHT', typeText: '나만의 생각' },
     { typeValue: 'QUESTION', typeText: '나만의 질문' },
   ];
@@ -28,9 +28,11 @@ const BookMemoDetail = () => {
     <Layout>
       <PageTitle title='나만의 작은 책 보기' />
       <Wrapper>
-        <p>{state.title}</p>
+        <h1 className='title'>{state.title}</h1>
         <FormWrapper>
-          <label htmlFor='bookStatus'>읽기 상태</label>
+          <label>메모 배경 사진 선택</label>
+
+          <label htmlFor='bookStatus'>메모 타입</label>
           <select
             id='bookStatus'
             onChange={handleChangeSelect}
@@ -75,8 +77,11 @@ const BookMemoDetail = () => {
 export default BookMemoDetail;
 
 const Wrapper = styled.div`
-  p {
-    font-size: 1.2rem;
+  .title {
+    font-size: 1.8rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 2rem;
   }
 `;
 export const FormWrapper = styled.div`
@@ -87,15 +92,17 @@ export const FormWrapper = styled.div`
     font-weight: 700;
     font-size: 1.2rem;
     line-height: 20px;
+    margin-left: 1rem;
   }
   select {
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem 1rem;
+    width: 95%;
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
     font-family: 'Pretendard-Regular';
-    width: 100%;
+    font-size: 1rem;
   }
 `;
