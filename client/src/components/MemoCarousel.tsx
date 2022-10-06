@@ -18,16 +18,16 @@ const Carousel = ({ children }: CarouselProps) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     speed: 800,
-    nextArrow: (
-      <Div>
-        <Next className='left-arrow' />
-      </Div>
-    ),
-    prevArrow: (
-      <DivPre>
-        <Prev className='right-arrow' />
-      </DivPre>
-    ),
+    // nextArrow: (
+    //   <Div>
+    //     <Next className='left-arrow' />
+    //   </Div>
+    // ),
+    // prevArrow: (
+    //   <DivPre>
+    //     <Prev className='right-arrow' />
+    //   </DivPre>
+    // ),
   };
   return (
     <Wrapper>
@@ -51,8 +51,8 @@ const StyledSlider = styled(Slider)`
 
   .slick-prev::before,
   .slick-next::before {
-    /* opacity: 0;
-    display: none; */
+    opacity: 0;
+    display: none;
     color: var(--gray);
     font-size: 30px;
   }
@@ -67,10 +67,6 @@ const Div = styled.div`
   text-align: right;
   line-height: 30px;
   border-radius: 5px;
-  /* .left-arrow {
-    font-size: 30px;
-    color: var(--gray);
-  } */
 `;
 const DivPre = styled.div`
   width: 30px;
@@ -81,8 +77,4 @@ const DivPre = styled.div`
   text-align: left;
   line-height: 30px;
   border-radius: 5px;
-  /* .right-arrow {
-    font-size: 30px;
-    color: var(--gray);
-  } */
 `;

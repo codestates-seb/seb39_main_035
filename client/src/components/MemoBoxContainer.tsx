@@ -1,10 +1,9 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
 import styled from 'styled-components';
-import { MemoBookDetail } from '../types/basic';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import useCompareDate from '../util/useCompareDate';
-
 interface MemoBoxContainerProps {
   memoBookPage: number;
   memoContent: string;
@@ -18,10 +17,11 @@ const MemoBoxContainer = ({
   createdAt,
   updatedAt,
 }: MemoBoxContainerProps) => {
+  const { imgUrl, fontColor } = useSelector((state: RootState) => state.memobg);
   const { date } = useCompareDate(createdAt, updatedAt);
   return (
-    <Wrapper>
-      <MemoBoxHeader>
+    <Wrapper imgUrl={imgUrl} fontColor={fontColor}>
+      <MemoBoxHeader fontColor={fontColor}>
         <span>{memoBookPage} page</span>
         <span>{date}</span>
       </MemoBoxHeader>
@@ -32,23 +32,27 @@ const MemoBoxContainer = ({
 
 export default MemoBoxContainer;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ imgUrl: string; fontColor: string }>`
   border: ${(props) => props.theme.colors.border};
+  cursor: pointer;
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   line-height: 1.4rem;
-  height: 22rem;
+  height: 30rem;
   overflow: scroll;
-  background-color: #f9f9f9;
+  background: ${(props) => `url(${props.imgUrl})`} center;
   .toastui-editor-contents {
-    font-size: 16px;
     font-family: 'RIDIBatang';
+    font-size: 18px;
     margin: 1rem 1.2rem;
+    p {
+      color: ${(props) => props.fontColor};
+    }
   }
 `;
 
-const MemoBoxHeader = styled.div`
+const MemoBoxHeader = styled.div<{ fontColor: string }>`
   display: flex;
   justify-content: space-between;
-  color: black;
+  color: ${(props) => props.fontColor};
 `;

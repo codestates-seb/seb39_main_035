@@ -10,9 +10,10 @@ const RandomMemo = () => {
   const { memo } = useSelector((state: RootState) => state.memo);
   const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
   const { typeText } = useFindTypeText(memo.memoType);
+  const { imgUrl, fontColor } = useSelector((state: RootState) => state.memobg);
 
   return (
-    <Wrapper>
+    <Wrapper imgUrl={imgUrl} fontColor={fontColor}>
       <Viewer initialValue={memo.memoContent} />
       <MemoInfo>{date}</MemoInfo>
       <MemoInfo>{memo.memoBookPage + 'p'}</MemoInfo>
@@ -23,15 +24,19 @@ const RandomMemo = () => {
 
 export default RandomMemo;
 
-const Wrapper = styled.div`
-  background-color: var(--light-blue);
+const Wrapper = styled.div<{ imgUrl: string; fontColor: string }>`
+  background: ${(props) => `url(${props.imgUrl})`} center;
   padding: 1rem;
   border-radius: 5px;
+  color: ${(props) => props.fontColor};
   .toastui-editor-contents {
     font-size: 16px;
     font-family: 'RIDIBatang';
     margin-top: 1em;
     margin-bottom: 1em;
+    p {
+      color: ${(props) => props.fontColor};
+    }
   }
 `;
 

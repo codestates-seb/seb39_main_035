@@ -26,7 +26,6 @@ const MemoHorizontalContainer = ({
   const [hasMore, setHasMore] = useState(false);
   const memoCount = state.memoCount;
   const { token } = useSelector((state: RootState) => state.user);
-  // const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 
   const fetchBookMemos = async (
     pageNumber: number,
@@ -86,7 +85,6 @@ const MemoHorizontalContainer = ({
   if (isError) return <p>cannot load data</p>;
   return (
     <Wrapper>
-      <h1>{typeText}</h1>
       <WindowWrapper>
         <Carousel>
           {memoList.map((memo) => (
@@ -109,14 +107,12 @@ export default MemoHorizontalContainer;
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
-  margin-left: 20px;
-  width: 95%;
-
+  margin-left: 1rem;
+  margin-right: 1rem;
   h1 {
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 1rem;
-    margin-left: 1rem;
   }
 `;
 
