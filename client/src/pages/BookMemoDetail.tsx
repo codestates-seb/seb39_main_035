@@ -30,8 +30,6 @@ const BookMemoDetail = () => {
       <Wrapper>
         <h1 className='title'>{state.title}</h1>
         <FormWrapper>
-          <label>메모 배경 사진 선택</label>
-
           <label htmlFor='bookStatus'>메모 타입</label>
           <select
             id='bookStatus'

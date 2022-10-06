@@ -48,7 +48,7 @@ const MemoHorizontalContainer = ({
         }
       );
       setIsLoading(false);
-      setMemoList((prev) => [...prev, ...data.item]);
+      setMemoList(() => [...data.item]);
       setHasMore(pageNumber < data.pageInfo.totalPages);
     } catch (error: any) {
       if (error.response && error.response.data.message) {

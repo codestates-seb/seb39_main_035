@@ -30,8 +30,6 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   const theme = useSelector((state: RootState) => state.theme);
 
-  console.log('theme:', theme);
-
   const setDark = () => {
     dispatch(setDarkTheme());
   };

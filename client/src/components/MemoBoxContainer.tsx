@@ -33,15 +33,22 @@ const MemoBoxContainer = ({
 export default MemoBoxContainer;
 
 const Wrapper = styled.div`
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: ${(props) => props.theme.colors.border};
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   line-height: 1.4rem;
   height: 22rem;
   overflow: scroll;
+  background-color: #f9f9f9;
+  .toastui-editor-contents {
+    font-size: 16px;
+    font-family: 'RIDIBatang';
+    margin: 1rem 1.2rem;
+  }
 `;
 
 const MemoBoxHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  color: black;
 `;
