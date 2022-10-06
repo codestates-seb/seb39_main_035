@@ -72,7 +72,7 @@ export const statSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.calendarList = action.payload.item;
-        console.log(action.payload);
+        // console.log(action.payload);
       })
       .addCase(
         getCalendarData.rejected,

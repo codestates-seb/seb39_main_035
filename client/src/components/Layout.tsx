@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   /* 추가  */
-  min-width: 375px;
+  min-width: 355px;
 `;
 type LayoutProps = {
   children: React.ReactNode;
