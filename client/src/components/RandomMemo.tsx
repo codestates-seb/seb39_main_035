@@ -1,17 +1,11 @@
-import React from 'react';
 import styled from 'styled-components';
-import { MemoResponse } from '../types/basic';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import useCompareDate from '../util/useCompareDate';
 
-interface RandomMemoProps {
-  memo: MemoResponse;
-}
 const RandomMemo = () => {
-  useSelector((state: RootState) => state.stat);
   const { memo } = useSelector((state: RootState) => state.memo);
   const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 

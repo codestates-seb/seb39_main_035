@@ -81,7 +81,9 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   box-shadow: ${(props) => props.theme.colors.boxShadow};
-  z-index: 100;
+  z-index: 1;
+  /* 추가 */
+  min-width: 375px;
 `;
 
 const Logo = styled.div`

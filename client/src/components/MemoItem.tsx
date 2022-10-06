@@ -19,12 +19,12 @@ const MemoItem = ({ memo }: MemoItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
 
-  const memoTypeList = [
-    { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
-    { typeValue: 'SUMMARY', typeText: '책 내용 요약' },
-    { typeValue: 'THOUGHT', typeText: '생각' },
-    { typeValue: 'QUESTION', typeText: '질문' },
-  ];
+  const memoTypeList = {
+    BOOK_CONTENT: '책 속 문장',
+    SUMMARY: '책 내용 요약',
+    THOUGHT: '생각',
+    QUESTION: '질문',
+  };
 
   const handleDelete = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -39,7 +39,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
     <>
       <Wrapper onClick={handleEdit}>
         <InfoContainer>
-          <PageContainter>{'p.' + memo.memoBookPage}</PageContainter>
+          <PageContainter>{'p. ' + memo.memoBookPage}</PageContainter>
           <BsTrashFill onClick={handleDelete} />
         </InfoContainer>
         <InfoContainer>
@@ -62,6 +62,9 @@ const Wrapper = styled.div`
   font-size: 18px;
   cursor: pointer;
   font-size: 1rem;
+  .toastui-editor-contents {
+    font-size: 18px;
+  }
 `;
 
 const PageContainter = styled.div`
