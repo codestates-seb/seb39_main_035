@@ -63,6 +63,7 @@ const MemoForm = () => {
         console.log(imgUrl);
         callback(imgUrl, 'upload image');
       });
+    // eslint-disable-next-line
   }, []);
 
   const imageUpload = async (file: string) => {
@@ -100,13 +101,8 @@ const MemoForm = () => {
       dispatch(createMemo({ memoData, bookId }));
     }
 
-    // navigate(`/books/library/${bookId}`);
-  };
-
-  // 메모 등록 액션이 성공하면 페이지 이동
-  if (isSuccess) {
     navigate(`/books/library/${bookId}`);
-  }
+  };
 
   return (
     <Layout>
@@ -144,7 +140,7 @@ const MemoForm = () => {
           <StyledEditor
             ref={editorRef}
             onChange={onChangeEditor}
-            placeholder='책에 관한 메모를 등록해보세요'
+            // placeholder='책에 관한 메모를 등록해보세요'
             height='300px' // 에디터 창 높이
             initialEditType='wysiwyg' // 초기 입력모드 설정(디폴트 markdown)
             hideModeSwitch={true}

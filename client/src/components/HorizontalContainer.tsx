@@ -33,8 +33,8 @@ const HorizontalContainer = ({
     navigate(`/books/library/${id}`);
   };
 
-  useEffect(() => {
-    const fetchBookData = async (pageNumber: number) => {
+  const fetchBookData = useCallback(
+    async (pageNumber: number) => {
       try {
         const { data } = await axios.get(
           process.env.REACT_APP_API_BASE_URL + '/books/library',
@@ -57,9 +57,12 @@ const HorizontalContainer = ({
           setIsError(true);
         }
       }
-    };
+    },
+    [bookStatus, token]
+  );
+  useEffect(() => {
     fetchBookData(pageNumber);
-  }, [pageNumber, bookStatus, token]);
+  }, [pageNumber, fetchBookData]);
 
   const loader = useRef(null);
   const handleObserver = useCallback(
