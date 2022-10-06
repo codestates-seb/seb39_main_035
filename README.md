@@ -1,5 +1,5 @@
 # seb39_main_035
-
+<img width="436" alt="스크린샷 2022-10-06 오후 3 33 49" src="https://user-images.githubusercontent.com/104332880/194231037-df09a18c-703a-47d1-a99f-18b57402843b.png">
 ## 🎉나만의 작은 설렘: 이 소설의 끝을 다시 보려 해
 
 ### ✨서비스 기획 배경 및 동기
