@@ -23,15 +23,14 @@ const MemoForm = () => {
   const { token } = useSelector((state: RootState) => state.user);
   const { isSuccess } = useSelector((state: RootState) => state.memo);
   const dispatch = useDispatch<AppDispatch>();
-  const [validation, setValidation] = useState<string>('');
   const [memoContent, setMemoContent] = useState<string>('');
   const [memoBookPage, setMemoBookPage] = useState<number>(0);
   const [type, setType] = useState('BOOK_CONTENT');
   const memoTypeList = [
     { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
     { typeValue: 'SUMMARY', typeText: '책 내용 요약' },
-    { typeValue: 'THOUGHT', typeText: '생각' },
-    { typeValue: 'QUESTION', typeText: '질문' },
+    { typeValue: 'THOUGHT', typeText: '나만의 생각' },
+    { typeValue: 'QUESTION', typeText: '나만의 질문' },
   ];
   const editorRef = useRef<ToastEditor>(null);
   const onChangeEditor = () => {
@@ -40,7 +39,6 @@ const MemoForm = () => {
       setMemoContent(data);
     }
   };
-
   const prevPath = `/books/library/${bookId}`;
 
   useEffect(() => {
@@ -115,7 +113,33 @@ const MemoForm = () => {
       {id && <PageTitle title='메모 수정하기' path={prevPath} />}
       {!id && <PageTitle title='메모 등록하기' path={prevPath} />}
       <FormWrapper>
-        <StyledForm onSubmit={onSubmitMemo}>
+        <form onSubmit={onSubmitMemo}>
+          <StyledTilte>페이지 </StyledTilte>
+          <StyledInput
+            id='memopage'
+            type='number'
+            value={memoBookPage}
+            min='0'
+            max={itemPage}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setMemoBookPage(Number(e.target.value))
+            }
+          />
+          <StyledTilte>메모 타입</StyledTilte>
+          <StyledSelect>
+            {memoTypeList.map((el, index) => {
+              return (
+                <li
+                  key={index}
+                  value={el.typeValue}
+                  className={el.typeValue === type ? 'active' : 'inactive'}
+                  onClick={() => setType(el.typeValue)}
+                >
+                  {el.typeText}
+                </li>
+              );
+            })}
+          </StyledSelect>
           <StyledTilte>메모 내용</StyledTilte>
           <StyledEditor
             ref={editorRef}
@@ -131,29 +155,10 @@ const MemoForm = () => {
             ]}
             language='ko-KR'
           ></StyledEditor>
-          <label id='memopage'>페이지 </label>
-          <input
-            id='memopage'
-            type='number'
-            value={memoBookPage}
-            min='0'
-            max={itemPage}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setMemoBookPage(Number(e.target.value))
-            }
-          />
-          <select value={type} onChange={(e) => setType(e.target.value)}>
-            {memoTypeList.map((type, index) => (
-              <option key={index} value={type.typeValue}>
-                {type.typeText}
-              </option>
-            ))}
-          </select>
           <Button color='mint' fullWidth>
             저장하기
           </Button>
-          {validation && <p>{validation}</p>}
-        </StyledForm>
+        </form>
       </FormWrapper>
     </Layout>
   );
@@ -166,20 +171,44 @@ const FormWrapper = styled(Boxcontainer)`
   flex-direction: column;
 `;
 
-const StyledForm = styled.form`
-  label {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
+const StyledInput = styled.input`
+  margin-bottom: 10px;
+  font-size: 16px;
 `;
 
 const StyledTilte = styled.div`
   font-size: 1.2rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const StyledEditor = styled(ToastEditor)`
   .toast-editor-contents {
     font-size: 18px;
+  }
+`;
+
+const StyledSelect = styled.ul`
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  color: #f9f9f9;
+  font-size: 14px;
+  li {
+    padding: 10px;
+    border-radius: 50px;
+    margin-right: 10px;
+  }
+
+  .inactive {
+    display: flex;
+    cursor: pointer;
+    background-color: #a5a5a5;
+  }
+  .active {
+    background-color: var(--pink);
+    transition: 0.5s;
   }
 `;
