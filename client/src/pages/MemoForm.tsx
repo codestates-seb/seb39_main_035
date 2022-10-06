@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { Editor as ToastEditor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const MemoForm = () => {
   const navigate = useNavigate();
@@ -69,16 +70,20 @@ const MemoForm = () => {
   const imageUpload = async (file: string) => {
     const formData = new FormData();
     formData.append('file', file);
-    const { data } = await axios.post(
-      process.env.REACT_APP_API_BASE_URL + '/memos/image-memo',
-      formData,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    return data;
+    try {
+      const { data } = await axios.post(
+        process.env.REACT_APP_API_BASE_URL + '/memos/image-memo',
+        formData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      toast.error('용량이 더 작은 이미지를 올려주세요');
+    }
   };
 
   // form 제출
