@@ -4,17 +4,19 @@ import { RootState } from '../stores/store';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import useCompareDate from '../util/useCompareDate';
+import useFindTypeText from '../util/useFindTypeText';
 
 const RandomMemo = () => {
   const { memo } = useSelector((state: RootState) => state.memo);
   const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
+  const { typeText } = useFindTypeText(memo.memoType);
 
   return (
     <Wrapper>
       <Viewer initialValue={memo.memoContent} />
       <MemoInfo>{date}</MemoInfo>
       <MemoInfo>{memo.memoBookPage + 'p'}</MemoInfo>
-      <MemoInfo>{memo.memoType}</MemoInfo>
+      <MemoInfo>{typeText}</MemoInfo>
     </Wrapper>
   );
 };

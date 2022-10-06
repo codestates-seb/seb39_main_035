@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { BsTrashFill } from 'react-icons/bs';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import useCompareDate from '../util/useCompareDate';
+import useFindTypeText from '../util/useFindTypeText';
 
 interface MemoItemProps {
   memo: MemoResponse;
@@ -18,13 +18,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { date } = useCompareDate(memo.createdAt, memo.updatedAt);
-
-  const memoTypeList = {
-    BOOK_CONTENT: '책 속 문장',
-    SUMMARY: '책 내용 요약',
-    THOUGHT: '생각',
-    QUESTION: '질문',
-  };
+  const { typeText } = useFindTypeText(memo.memoType);
 
   const handleDelete = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -44,7 +38,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
         </InfoContainer>
         <InfoContainer>
           <p>{date}</p>
-          <Type>{memo.memoType}</Type>
+          <Type>{typeText}</Type>
         </InfoContainer>
         <Viewer initialValue={memo.memoContent} />
       </Wrapper>
@@ -82,6 +76,7 @@ const Type = styled.div`
   text-align: center;
   background-color: var(--light-blue);
   width: 10rem;
+  color: white;
 `;
 const InfoContainer = styled.div`
   display: flex;
