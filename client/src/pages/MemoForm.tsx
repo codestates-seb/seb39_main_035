@@ -209,7 +209,7 @@ const StyledSelect = styled.ul`
     background-color: #a5a5a5;
   }
   .active {
-    background-color: var(--pink);
+    background-color: var(--light-blue);
     transition: 0.5s;
   }
 `;

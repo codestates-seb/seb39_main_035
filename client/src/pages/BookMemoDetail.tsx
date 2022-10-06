@@ -5,19 +5,29 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import '../styles/Pagination.css';
 import MemoHorizontalContainer from '../components/MemoHorizontalContainer';
-interface selectList {
-  typeValue: string;
-  typeText: string;
-}
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../stores/store';
+import {
+  changePink,
+  changeDefault,
+  changeAurora,
+  changeStar,
+  changeSky,
+  changeBlue,
+} from '../stores/ui/imageSlice';
+import pink from '../assets/btn-pink.png';
+import blue from '../assets/btn-blugradient.png';
+import white from '../assets/btn-white.png';
+import star from '../assets/btn-star5.png';
+import aurora from '../assets/btn-aurora.png';
+import sky from '../assets/btn-sky.png';
 
 const BookMemoDetail = () => {
   const { state } = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
   const [memoStatus, setMemoStatus] = useState<string>('ALL');
-  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setMemoStatus(e.target.value);
-  };
   const selectList = [
-    { typeValue: 'ALL', typeText: '📝 메모 카테고리를 선택해주세요' },
+    { typeValue: 'ALL', typeText: '전체 보기' },
     { typeValue: 'BOOK_CONTENT', typeText: '책 속 문장' },
     { typeValue: 'SUMMARY', typeText: '책 내용 요약' },
     { typeValue: 'THOUGHT', typeText: '나만의 생각' },
@@ -30,18 +40,34 @@ const BookMemoDetail = () => {
       <Wrapper>
         <h1 className='title'>{state.title}</h1>
         <FormWrapper>
+          <label>메모 배경화면 선택</label>
+          <ImgButtonWrapper>
+            <ImgButton url={white} onClick={() => dispatch(changeDefault())} />
+            <ImgButton url={pink} onClick={() => dispatch(changePink())} />
+            <ImgButton url={aurora} onClick={() => dispatch(changeAurora())} />
+            <ImgButton url={star} onClick={() => dispatch(changeStar())} />
+            <ImgButton url={sky} onClick={() => dispatch(changeSky())} />
+            <ImgButton url={blue} onClick={() => dispatch(changeBlue())} />
+          </ImgButtonWrapper>
           <label htmlFor='bookStatus'>메모 타입</label>
-          <select
-            id='bookStatus'
-            onChange={handleChangeSelect}
-            value={memoStatus}
-          >
-            {selectList.map((item, idx) => (
-              <option value={item.typeValue} key={idx}>
-                {item.typeText}
-              </option>
-            ))}
-          </select>
+          <StyledSelect>
+            {selectList.map((el, index) => {
+              return (
+                <li
+                  key={index}
+                  value={el.typeValue}
+                  className={
+                    el.typeValue === memoStatus ? 'active' : 'inactive'
+                  }
+                  onClick={() => {
+                    setMemoStatus(el.typeValue);
+                  }}
+                >
+                  {el.typeText}
+                </li>
+              );
+            })}
+          </StyledSelect>
         </FormWrapper>
         {memoStatus === 'ALL' && (
           <MemoHorizontalContainer memoStatus='ALL' typeText='전체 카테고리' />
@@ -102,5 +128,53 @@ export const FormWrapper = styled.div`
     color: rgba(0 0 0 / 70%);
     font-family: 'Pretendard-Regular';
     font-size: 1rem;
+  }
+`;
+
+const StyledSelect = styled.ul`
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  color: #f9f9f9;
+  font-size: 14px;
+  li {
+    padding: 10px;
+    border-radius: 50px;
+    margin-right: 10px;
+  }
+
+  .inactive {
+    cursor: pointer;
+    background-color: #a5a5a5;
+  }
+  .active {
+    background-color: var(--light-blue);
+    transition: 0.5s;
+  }
+`;
+
+const ImgButtonWrapper = styled.div`
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+`;
+
+const ImgButton = styled.div<{ url: string }>`
+  background: ${(props) => `url(${props.url})`} center;
+  width: 3rem;
+  height: 3rem;
+  margin-right: 1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+  cursor: pointer;
+  transition: transfrom 300ms ease-in;
+  &:hover {
+    transform: scale(1.02);
   }
 `;

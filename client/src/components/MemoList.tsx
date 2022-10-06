@@ -17,7 +17,7 @@ const MemoList = () => {
     <Wrapper>
       <BoxTitle>
         {memoCount ? <h1>내가 작성한 메모</h1> : <h1>📝 첫번째 메모 남기기</h1>}
-        <Button color='gray' middleWidth onClick={handleAddMemo}>
+        <Button color='skyblue' middleWidth onClick={handleAddMemo}>
           메모 작성하기
         </Button>
       </BoxTitle>
