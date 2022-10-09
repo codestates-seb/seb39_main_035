@@ -17,7 +17,10 @@ public interface MemoRepository extends JpaRepository<Memo, Long> {
 
     Page<Memo> findAllByBookAndMemoType(Pageable pageable, Book book, Memo.MemoType memoType);
 
-    @Query(value = "SELECT * FROM MEMO WHERE MEMBER_ID = ?1 order by RAND() limit 1", nativeQuery = true)
+    Page<Memo> findAllByBook(Pageable pageable, Book book);
+
+
+    @Query(value = "SELECT * FROM memo WHERE MEMBER_ID = ?1 order by RAND() limit 1", nativeQuery = true)
     List<Memo> findAllByMember(Member member);
 
 

@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class MemoDto {
 
     @Getter
     @Setter
-    // @AllArgsConstructor
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Post {
 
         @NotBlank(message = "메모는 공백이 아니어야 합니다.")
@@ -51,17 +53,24 @@ public class MemoDto {
         private Memo.MemoType memoType;
         private int memoBookPage;
 
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+
     }
 
 
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
         private long memoId;
         private Memo.MemoType memoType;
         private String memoContent;
         private int memoBookPage;
+
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 
     }
 }

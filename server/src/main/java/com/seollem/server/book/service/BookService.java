@@ -27,7 +27,7 @@ public class BookService {
     }
 
     public Book createBook(Book book){
-        verifyExistBookByTitle(book.getTitle());
+        verifyExistBook(book);
         Book savedBook = bookRepository.save(book);
         return savedBook;
     }
@@ -91,8 +91,8 @@ public class BookService {
     }
 
 
-    public void verifyExistBookByTitle(String title){
-        Optional<Book> optionalBook = bookRepository.findByTitle(title);
+    public void verifyExistBook(Book book){
+        Optional<Book> optionalBook = bookRepository.findByTitle(book.getTitle(), book.getMember().getMemberId());
         if(optionalBook.isPresent())
             throw new BusinessLogicException(ExceptionCode.BOOK_EXISTS);
     }
@@ -122,6 +122,10 @@ public class BookService {
                 throw new BusinessLogicException(ExceptionCode.BOOK_STATUS_WRONG);
         } else throw new BusinessLogicException(ExceptionCode.BOOK_STATUS_WRONG);
         return book;
+    }
+
+    public void modifyCreateDate(LocalDateTime time, long bookId){
+        bookRepository.modifyCreateDate(time, bookId);
     }
 
     /*

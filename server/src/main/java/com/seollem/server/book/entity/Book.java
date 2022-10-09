@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.seollem.server.audit.Auditable;
 import com.seollem.server.member.entity.Member;
 import com.seollem.server.memo.Memo;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,9 +14,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name= "BOOK")
+@Entity
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book extends Auditable {
 
     @Id
@@ -43,7 +47,7 @@ public class Book extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"book"})
+//    @JsonIgnoreProperties({"book"})
     private List<Memo> memos = new ArrayList<>();
 
     public void addMemo(Memo memo) {

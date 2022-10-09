@@ -4,14 +4,18 @@ package com.seollem.server.memo;
 import com.seollem.server.audit.Auditable;
 import com.seollem.server.book.entity.Book;
 import com.seollem.server.member.entity.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@Entity(name = "MEMO")
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Memo extends Auditable {
 
     @Id
@@ -39,7 +43,8 @@ public class Memo extends Auditable {
         BOOK_CONTENT(1, "book_content"),
         SUMMARY(2, "summary"),
         THOUGHT(3, "thought"),
-        QUESTION(4, "question");
+        QUESTION(4, "question"),
+        ALL(5,"all");
 
 
         @Getter

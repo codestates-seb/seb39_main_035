@@ -29,7 +29,8 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
         log.info("URI         : {}", request.getURI());
         log.info("Method      : {}", request.getMethod());
         log.info("==========================request end==================================================");
-        System.out.println("Count : " + count);
+        log.info("count       : {}", count);
+        //        System.out.println("Count : " + count);
     }
 
 }

@@ -46,24 +46,34 @@ public class MemberController {
     public ResponseEntity patchMember(@RequestHeader Map<String, Object> requestHeader,
                                       @Valid @RequestBody MemberDto.Patch requestBody){
         String email = getEmailFromHeaderTokenUtil.getEmailFromHeaderToken(requestHeader);
+        System.out.println(email);
+        if(email.equals("starrypro@gmail.com")) return new ResponseEntity<>("게스트용 아이디는 수정할 수 없어요", HttpStatus.BAD_REQUEST);
 
-        Member findMember = memberService.findVerifiedMemberByEmail(email);
-        Member patchMember = memberMapper.memberPatchToMember(requestBody);
+        else {
+            Member findMember = memberService.findVerifiedMemberByEmail(email);
+            Member patchMember = memberMapper.memberPatchToMember(requestBody);
 
-        patchMember.setEmail(findMember.getEmail());
+            patchMember.setEmail(findMember.getEmail());
 
-        Member member = memberService.updateMember(patchMember);
+            Member member = memberService.updateMember(patchMember);
 
-        return new ResponseEntity<>(memberMapper.memberToMemberPatchResponse(member), HttpStatus.OK);
+            return new ResponseEntity<>(memberMapper.memberToMemberPatchResponse(member), HttpStatus.OK);
+        }
     }
 
     @DeleteMapping("/me")
     public ResponseEntity patchMember(@RequestHeader Map<String, Object> requestHeader) {
         String email = getEmailFromHeaderTokenUtil.getEmailFromHeaderToken(requestHeader);
+        System.out.println(email);
 
-        memberService.deleteMember(email);
+        if(email.equals("starrypro@gmail.com")) return new ResponseEntity<>("게스트용 아이디는 삭제할 수 없어요", HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        else {
+            memberService.deleteMember(email);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
     }
 
