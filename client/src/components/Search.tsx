@@ -7,7 +7,7 @@ const SearchForm = styled.form`
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: ${(props) => props.theme.colors.border};
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem;
 
@@ -17,7 +17,7 @@ const SearchForm = styled.form`
     outline: none;
     border: none;
     width: 100%;
-    color: rgba(0 0 0 / 70%);
+    color: ${(props) => props.theme.colors.font};
     margin-left: 0.25rem;
     font-family: 'Pretendard-Regular';
 

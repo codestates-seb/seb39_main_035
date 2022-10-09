@@ -1,4 +1,4 @@
-import { RootState } from './../store';
+import { RootState, store } from './../store';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -8,25 +8,15 @@ export interface CalendarItem {
   readEndDate: string;
   cover: string;
 }
-
-interface AbandonItem {
-  bookId: number;
-  createdAt: string;
-  title: string;
-  cover: string;
-}
-
 interface statReducer {
-  calendar: CalendarItem[];
-  abandon: AbandonItem[];
+  calendarList: CalendarItem[];
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;
 }
 
 const initialState: statReducer = {
-  calendar: [],
-  abandon: [],
+  calendarList: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -47,41 +37,11 @@ export const getCalendarData = createAsyncThunk(
           },
           params: {
             page: pageNumber,
-            size: 10,
+            size: 30,
           },
         }
       );
-      return data.item;
-    } catch (error: any) {
-      if (error.response.data.status) {
-        return thunkAPI.rejectWithValue(error.response.data.message);
-      } else {
-        return thunkAPI.rejectWithValue(error.message);
-      }
-    }
-  }
-);
-
-//abandon data get 요청
-export const getAbandonData = createAsyncThunk(
-  'stat/getAbandonData',
-  async (pageNumber: number, thunkAPI) => {
-    try {
-      const state = thunkAPI.getState() as RootState;
-      const { token } = state.user;
-      const { data } = await axios.get(
-        process.env.REACT_APP_API_BASE_URL + '/books/abandon',
-        {
-          headers: {
-            Authorization: token,
-          },
-          params: {
-            page: pageNumber,
-            size: 10,
-          },
-        }
-      );
-      return data.item;
+      return data;
     } catch (error: any) {
       if (error.response.data.status) {
         return thunkAPI.rejectWithValue(error.response.data.message);
@@ -95,7 +55,14 @@ export const getAbandonData = createAsyncThunk(
 export const statSlice = createSlice({
   name: 'stat',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+    },
+    dateTransform: (state) => {},
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCalendarData.pending, (state, _) => {
@@ -104,7 +71,8 @@ export const statSlice = createSlice({
       .addCase(getCalendarData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.calendar = action.payload;
+        state.calendarList = action.payload.item;
+        // console.log(action.payload);
       })
       .addCase(
         getCalendarData.rejected,
@@ -113,20 +81,7 @@ export const statSlice = createSlice({
           state.isError = true;
           toast.error(action.payload);
         }
-      )
-      .addCase(getAbandonData.pending, (state, _) => {
-        state.isLoading = true;
-      })
-      .addCase(getAbandonData.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.abandon = action.payload;
-      })
-      .addCase(getAbandonData.rejected, (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = true;
-        toast.error(action.payload);
-      });
+      );
   },
 });
 

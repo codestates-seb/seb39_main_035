@@ -2,6 +2,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
 import bookReducer from './book/bookSlice';
 import statReducer from './stat/statSlice';
+import memoReducer from './memo/memoSlice';
+import imageReducer from './ui/imageSlice';
 import storage from 'redux-persist/lib/storage/session';
 import {
   persistReducer,
@@ -12,17 +14,21 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import themeReducer from './themeSlice';
 
 const rootReducers = combineReducers({
   user: userReducer,
   book: bookReducer,
   stat: statReducer,
+  memo: memoReducer,
+  theme: themeReducer,
+  memobg: imageReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whiteList: ['user'],
+  // whitelist: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

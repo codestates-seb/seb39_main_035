@@ -17,6 +17,10 @@ import { toast } from 'react-toastify';
 interface EditBookInfoProps {
   exitEditMode: () => void;
 }
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
 
 const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
   const { id } = useParams();
@@ -38,9 +42,9 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
     bookDetail.readEndDate
   );
   const selectList = [
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
   const modalHandler = () => {
     setOpenModal(!openModal);
@@ -79,9 +83,9 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
           onChange={handleChangeSelect}
           value={bookStatus}
         >
-          {selectList.map((item) => (
-            <option value={item} key={item}>
-              {item}
+          {selectList.map((item, idx) => (
+            <option value={item.typeValue} key={idx}>
+              {item.typeText}
             </option>
           ))}
         </select>
@@ -89,9 +93,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
       {bookStatus === 'ING' ? (
         <>
           <BookStateBox>
-            <label htmlFor='readStartDate'>
-              읽기 시작한 날 : {readStartdateFormat}
-            </label>
+            <label htmlFor='readStartDate'>읽기 시작한 날</label>
+            <p>{readStartdateFormat}</p>
             <input
               id='readStartDate'
               type='datetime-local'
@@ -110,7 +113,7 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
                 id='currentPage'
                 type='range'
                 min='0'
-                max='300'
+                max={bookDetail.itemPage}
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
               />
@@ -121,9 +124,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
       {bookStatus === 'DONE' ? (
         <>
           <BookStateBox>
-            <label htmlFor='readStartDate'>
-              읽기 시작한 날 : {readStartdateFormat}
-            </label>
+            <label htmlFor='readStartDate'>읽기 시작한 날</label>
+            <p>{readStartdateFormat}</p>
             <input
               id='readStartDate'
               type='datetime-local'
@@ -131,9 +133,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
             />
           </BookStateBox>
           <BookStateBox>
-            <label htmlFor='readEndDate'>
-              다 읽은 날 : {readEnddateFormat}
-            </label>
+            <label htmlFor='readEndDate'>다 읽은 날</label>
+            <p>{readEnddateFormat}</p>
             <input
               id='readEndDate'
               type='datetime-local'
@@ -152,7 +153,7 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
                 id='currentPage'
                 type='range'
                 min='0'
-                max='300'
+                max={bookDetail.itemPage}
                 value={currentPage}
                 onChange={(e) => setCurrentPage(Number(e.target.value))}
               />
@@ -178,7 +179,7 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
             <Button
               color='skyblue'
               onClick={() => {
-                return handleEditBookData(), modalHandler();
+                return handleEditBookData(), modalHandler(), exitEditMode();
               }}
             >
               수정하기

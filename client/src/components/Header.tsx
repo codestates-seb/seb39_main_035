@@ -7,19 +7,31 @@ import { TbBooks, TbCalendarStats } from 'react-icons/tb';
 import { BiBookHeart } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { GiArchiveResearch } from 'react-icons/gi';
+import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
-
+  const navigate = useNavigate();
   return (
     <>
       <HeaderWrapper>
         {!isLoggedIn && (
-          <Link to='/'>
-            <Logo>
-              <img src={logo} alt='logo_icon' />
-            </Logo>
-          </Link>
+          <>
+            <Link to='/'>
+              <Logo>
+                <img src={logo} alt='logo_icon' />
+              </Logo>
+            </Link>
+            <SignBtn>
+              <Button color='mint' onClick={() => navigate('/members/sign-in')}>
+                로그인
+              </Button>
+              <Button color='mint' onClick={() => navigate('/members/sign-up')}>
+                회원가입
+              </Button>
+            </SignBtn>
+          </>
         )}
         {isLoggedIn && (
           <>
@@ -37,7 +49,7 @@ const Header = () => {
                 <BiBookHeart />
                 <p>추천 책</p>
               </StyledLink>
-              <StyledLink to='/'>
+              <StyledLink to='/books/memoBooks'>
                 <GiArchiveResearch />
                 <p>나만의 작은책</p>
               </StyledLink>
@@ -60,7 +72,7 @@ const Header = () => {
 export default Header;
 
 const HeaderWrapper = styled.header`
-  background-color: #f9f9f9;
+  background-color: ${(props) => props.theme.colors.bg};
   height: 60px;
   padding: 0 10px;
   position: sticky;
@@ -68,7 +80,10 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 6px rgb(32 33 36 / 10%);
+  box-shadow: ${(props) => props.theme.colors.boxShadow};
+  z-index: 1;
+  /* 추가 */
+  min-width: 375px;
 `;
 
 const Logo = styled.div`
@@ -77,6 +92,9 @@ const Logo = styled.div`
   cursor: pointer;
   img {
     height: 60px;
+    @media screen and (max-width: 390px) {
+      height: 45px;
+    }
   }
 `;
 
@@ -101,13 +119,21 @@ const StyledLink = styled(Link)`
     cursor: pointer;
     padding: 10px auto;
     font-size: 24px;
-    color: #b3dbd8;
-    margin: 0 10px;
+    color: ${(props) => props.theme.colors.icons};
   }
   p {
-    font-size: 12px;
+    font-size: 10px;
     text-align: center;
-    color: var(--gray);
+    color: ${(props) => props.theme.colors.font};
     white-space: nowrap;
+    @media screen and (max-width: 390px) {
+      display: none;
+    }
   }
+`;
+// 로그인, 회원가입 버튼
+export const SignBtn = styled.div`
+  display: flex;
+  width: 15rem;
+  margin-top: 10px;
 `;

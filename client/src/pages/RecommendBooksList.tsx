@@ -1,56 +1,56 @@
 import Layout from '../components/Layout';
 import PageTitle from '../components/PageTitle';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
-import Button from '../components/Button';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: ${(props) => props.theme.colors.border};
   &:hover {
-    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
-    transform: translate(-0.1rem);
+    box-shadow: ${(props) => props.theme.colors.boxShadow};
     cursor: pointer;
   }
   .noResults {
     margin-left: 1rem;
   }
 `;
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-right: 1rem;
-`;
+
 const BookContentKeyword = styled.div`
   font-weight: 700;
   font-size: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin-left: 1rem;
 `;
-
-const FirstContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: 700;
-  font-size: 2rem;
-`;
-
-const ButtonContainer = styled.div`
-  width: 100%;
+const RecommendBtnWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  button {
-    margin: 0px;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+`;
+const RecommendBtn = styled.button`
+  cursor: pointer;
+  border: 1px solid rgba(0 0 0 / 20%);
+  font-size: 1rem;
+  padding: 0.8rem;
+  border-radius: 0.4rem;
+  background-color: ${(props) => props.theme.colors.bg};
+  color: ${(props) => props.theme.colors.font};
+  width: 12rem;
+  &:hover {
+    box-shadow: ${(props) => props.theme.colors.boxShadow};
+    transform: translate(-0.1rem);
+  }
+  &:focus {
+    color: ${(props) => props.theme.colors.bg};
+    background-color: ${(props) => props.theme.colors.font};
   }
 `;
 
@@ -58,7 +58,6 @@ const RecommendBooksList = () => {
   const [recommendBooks, setRecommendBooks] = useState<RecommendBooks[]>([]);
   const navigate = useNavigate();
 
-  // aladin API axios GET 요청
   const getRecommendBooksList = async (path: string) => {
     try {
       const { data } = await axios.get(
@@ -75,18 +74,28 @@ const RecommendBooksList = () => {
     }
   };
 
+  useEffect(() => {
+    getRecommendBooksList('best-seller');
+  }, []);
+
   return (
     <Layout>
-      <PageTitle title='이달의 설렘을 추천해요' />
-      <button color='pink' onClick={() => getRecommendBooksList('best-seller')}>
-        이달의 베스트셀러
-      </button>
-      <button
-        color='mint'
-        onClick={() => getRecommendBooksList('item-new-special')}
-      >
-        이달의 주목할만한 신간리스트
-      </button>
+      <PageTitle title='추천' />
+      <RecommendBtnWrapper>
+        <RecommendBtn
+          color='pink'
+          onClick={() => getRecommendBooksList('best-seller')}
+          autoFocus={true}
+        >
+          베스트셀러
+        </RecommendBtn>
+        <RecommendBtn
+          color='mint'
+          onClick={() => getRecommendBooksList('item-new-special')}
+        >
+          주목할만한 신간리스트
+        </RecommendBtn>
+      </RecommendBtnWrapper>
       <ul>
         {recommendBooks.map((book, idx) => {
           return (
@@ -96,7 +105,7 @@ const RecommendBooksList = () => {
                 navigate(`/books/search/${book.title}`, { state: book })
               }
             >
-              <BookContentImg src={book.cover} alt='책 이미지' />
+              <BookCoverItem src={book.cover} />
               <BookContentKeyword>
                 <div>{book.title}</div>
                 <div>{book.author}</div>

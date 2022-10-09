@@ -6,6 +6,7 @@ type BookCoverItemProps = {
   book?: Book;
   src: string;
   onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
+  width?: string;
 };
 
 const Wrapper = styled.div`
@@ -22,6 +23,7 @@ const Img = styled.img`
   &:hover {
     transform: scale(1.02);
   }
+  width: ${(props) => props.width || '85px'};
 `;
 
 // const ItemInfo = styled.div`
@@ -30,7 +32,7 @@ const Img = styled.img`
 //   }
 // `;
 
-const BookCoverItem = ({ src, onClick }: BookCoverItemProps) => {
+const BookCoverItem = ({ src, onClick, width }: BookCoverItemProps) => {
   return (
     <Wrapper>
       <Img
@@ -38,6 +40,7 @@ const BookCoverItem = ({ src, onClick }: BookCoverItemProps) => {
         alt='book_cover'
         // onMouseEnter={() => console.log('hi')}
         onClick={onClick}
+        width={width}
       />
     </Wrapper>
   );

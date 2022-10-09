@@ -41,7 +41,6 @@ export interface EditBookDetail {
 }
 // 책 상세 페이지 조회 response type
 export interface BookDetail {
-  bookId?: string;
   title: string;
   cover: string;
   author: string;
@@ -53,10 +52,58 @@ export interface BookDetail {
   bookStatus: string;
   readStartDate: string | null;
   readEndDate: string | null;
+  memosList: MemoResponse[];
+  memoCount: number;
+}
+
+export interface BookDetailResponse extends BookDetail {
+  bookId: number;
 }
 
 export interface User {
   name?: string;
   email: string;
   password?: string;
+}
+
+export interface Memo {
+  memoType: string; //'BOOK_CONTENT' | 'SUMMARY' | 'THOUGHT' | 'QUESTION';
+  memoBookPage: number;
+  memoContent: string;
+}
+
+export interface MemoResponse extends Memo {
+  memoId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AbandonBook extends Pageinfo {
+  bookId: number;
+  createdAt: string;
+  title: string;
+  cover: string;
+}
+
+export interface Pageinfo {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface MemoBook extends Pageinfo {
+  bookId: number;
+  title: string;
+  cover: string;
+  memoCount: number;
+}
+
+export interface MemoBookDetail extends Pageinfo {
+  memoId: number;
+  memoType: string; //'BOOK_CONTENT' | 'SUMMARY' | 'THOUGHT' | 'QUESTION';
+  memoBookPage: number;
+  memoContent: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -16,6 +16,12 @@ const GlobalStyle = createGlobalStyle`
     font-weight: normal;
     font-style: normal;
   }
+  @font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
   // color 변수 설정
   :root {
     --light-blue: #A8D1E7;
@@ -37,15 +43,14 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #f9f9f9;
     font-family: 'Pretendard-Regular';
-    color: #747474;
     max-width: 640px;
     margin: 0 auto;
     padding-bottom: 0px;
     min-height: 100vh;
     overflow: scroll;
-    /* position: relative; */
+    background-color: ${(props) => props.theme.colors.bg};
+    color: ${(props) => props.theme.colors.font};
   }
   `;
 export default GlobalStyle;

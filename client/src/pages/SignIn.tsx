@@ -104,7 +104,7 @@ const SignIn = (): JSX.Element => {
   }, [isError, isLoggedIn, navigate, dispatch]);
 
   // typescript: handling form onSubmit event
-  const submitSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSignIn = (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
 
@@ -171,7 +171,7 @@ const SignIn = (): JSX.Element => {
             type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='이메일을 입력해주세요.'
+            placeholder='이메일'
             autoFocus={true}
             onBlur={(e) => checkRegex(e.target)}
           />
@@ -183,7 +183,7 @@ const SignIn = (): JSX.Element => {
             id='pw'
             type='password'
             value={pw}
-            placeholder='비밀번호를 입력해주세요.'
+            placeholder='비밀번호'
             onChange={(e) => setPw(e.target.value)}
             onBlur={(e) => checkRegex(e.target)}
           />

@@ -15,8 +15,9 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(160, 158, 158, 0.5);
+  z-index: 10;
 `;
-const ModatContainer = styled.div`
+const ModalContainer = styled.div`
   padding: 30px;
   padding-top: 50px;
   border-radius: 5px;
@@ -26,6 +27,7 @@ const ModatContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
+  color: ${(props) => props.theme.colors.font};
   > button {
     color: white;
     cursor: pointer;
@@ -39,12 +41,12 @@ const ModatContainer = styled.div`
 const Modal = ({ closeModal, children }: ModalProps) => {
   return (
     <ModalBackground onClick={closeModal}>
-      <ModatContainer
+      <ModalContainer
         onClick={(event: React.MouseEvent) => event.stopPropagation()}
       >
         <button onClick={closeModal}>X</button>
         {children}
-      </ModatContainer>
+      </ModalContainer>
     </ModalBackground>
   );
 };

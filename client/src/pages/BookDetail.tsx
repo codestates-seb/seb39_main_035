@@ -19,18 +19,21 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
+import MemoList from '../components/MemoList';
+import { reset as memoStatusReset } from '../stores/memo/memoSlice';
+
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
 
 const BookDetail = () => {
-  // const location = useLocation();
-  // const book = location.state as BooksDetail;
-  // console.log('location:', location);
-  // console.log('location.state:', location.state);
-  // console.log('book:', book);
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const { bookDetail } = useSelector((state: RootState) => state.book);
   const { token } = useSelector((state: RootState) => state.user);
+  const { isSuccess } = useSelector((state: RootState) => state.memo);
   const [openModal, setOpenModal] = useState(false);
   const [star, setStar] = useState<number>(bookDetail.star);
 
@@ -48,12 +51,13 @@ const BookDetail = () => {
 
   useEffect(() => {
     dispatch(getBookDetailData(id));
-  }, []);
+    dispatch(memoStatusReset());
+  }, [isSuccess, dispatch, id]);
 
   const selectList = [
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
 
   const exitEditMode = () => {
@@ -70,7 +74,7 @@ const BookDetail = () => {
         },
       });
       toast.success('🗑️ 등록하신 책이 삭제되었어요');
-      await navigate('/books/library');
+      navigate('/books/library');
     } catch (error: any) {
       toast.error(error);
     }
@@ -78,9 +82,9 @@ const BookDetail = () => {
 
   return (
     <Layout>
-      <PageTitle title={bookDetail.title} />
+      <PageTitle title={bookDetail.title} path='/books/library' />
       <BookWrapper>
-        <BookCoverItem src={bookDetail.cover} />
+        <BookCoverItem src={bookDetail.cover} width='200px' />
         <BookSummary>
           <p>저자 : {bookDetail.author}</p>
           <p>출판사 : {bookDetail.publisher}</p>
@@ -91,9 +95,9 @@ const BookDetail = () => {
               <BookStateBox>
                 <label htmlFor='bookStatus'>읽기 상태</label>
                 <select id='bookStatus' value={bookDetail.bookStatus} disabled>
-                  {selectList.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
+                  {selectList.map((item, idx) => (
+                    <option value={item.typeValue} key={idx}>
+                      {item.typeText}
                     </option>
                   ))}
                 </select>
@@ -110,14 +114,14 @@ const BookDetail = () => {
                   <Boxcontainer containerTitle='독서 진행 상황'>
                     <BookStatusBox>
                       <label htmlFor='currentPage'>
-                        {bookDetail.currentPage} page / {bookDetail.itemPage}{' '}
+                        {bookDetail.currentPage} page / {bookDetail.itemPage}
                         page
                       </label>
                       <input
                         id='currentPage'
                         type='range'
                         min='0'
-                        max='300'
+                        max={bookDetail.itemPage}
                         value={bookDetail.currentPage}
                         onChange={(e) => setCurrentPage(Number(e.target.value))}
                         disabled
@@ -183,6 +187,7 @@ const BookDetail = () => {
           )}
         </BookSummary>
       </BookWrapper>
+      <MemoList />
     </Layout>
   );
 };
@@ -196,9 +201,13 @@ const BookWrapper = styled.section`
   padding: 30px;
   font-size: 18px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 const BookSummary = styled.div`
-  margin-left: 30px;
+  margin-top: 25px;
+  line-height: 25px;
   display: flex;
   flex-direction: column;
   width: 100%;

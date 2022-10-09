@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HorizontalContainer from '../components/HorizontalContainer';
 import Layout from '../components/Layout';
@@ -33,14 +31,14 @@ const BookAddButton = styled.div`
   padding: 20px;
   border-radius: 5px;
   margin-bottom: 20px;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: ${(props) => props.theme.colors.border};
   transition: transfrom 300ms ease-in;
   svg {
     margin-right: 30px;
   }
   &:hover {
     cursor: pointer;
-    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+    box-shadow: ${(props) => props.theme.colors.boxShadow};
     transform: translate(-0.1rem);
   }
 `;

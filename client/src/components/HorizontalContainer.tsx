@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import BookCoverItem from './BookCoverItem';
 import axios from 'axios';
 import Carousel from './Carousel';
+import Loading from './Loading';
 
 type HorizontalContainerProps = {
   bookStatus: 'YET' | 'ING' | 'DONE';
@@ -25,35 +26,44 @@ const HorizontalContainer = ({
   const [pageNumber, setPageNumber] = useState(1);
   const [bookList, setBookList] = useState<BookListItem[]>([]);
   const [hasMore, setHasMore] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const { token } = useSelector((state: RootState) => state.user);
   const handleClick = (id: number) => {
     navigate(`/books/library/${id}`);
   };
 
-  const fetchBookData = async (pageNumber: number) => {
-    await axios
-      .get(process.env.REACT_APP_API_BASE_URL + '/books/library', {
-        headers: {
-          Authorization: token,
-        },
-        params: {
-          page: pageNumber,
-          size: 5,
-          bookStatus: bookStatus,
-        },
-      })
-      .then((res) => {
-        setBookList((prev) => [...prev, ...res.data.item]);
-        setHasMore(pageNumber < res.data.pageInfo.totalPages);
-      })
-      .catch((e) => {
-        if (axios.isCancel(e)) return;
-      });
-  };
-
+  const fetchBookData = useCallback(
+    async (pageNumber: number) => {
+      try {
+        const { data } = await axios.get(
+          process.env.REACT_APP_API_BASE_URL + '/books/library',
+          {
+            headers: {
+              Authorization: token,
+            },
+            params: {
+              page: pageNumber,
+              size: 10,
+              bookStatus: bookStatus,
+            },
+          }
+        );
+        setIsLoading(false);
+        setBookList((prev) => [...prev, ...data.item]);
+        setHasMore(pageNumber < data.pageInfo.totalPages);
+      } catch (error: any) {
+        if (error.response && error.response.data.message) {
+          setIsError(true);
+        }
+      }
+    },
+    [bookStatus, token]
+  );
   useEffect(() => {
     fetchBookData(pageNumber);
-  }, [pageNumber]);
+  }, [pageNumber, fetchBookData]);
+
   const loader = useRef(null);
   const handleObserver = useCallback(
     (entries: any) => {
@@ -75,6 +85,9 @@ const HorizontalContainer = ({
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
+  if (isLoading) return <Loading />;
+
+  if (isError) return <p>cannot load data</p>;
   return (
     <Wrapper>
       <h1>{title}</h1>
@@ -102,19 +115,12 @@ const Wrapper = styled.div`
   h1 {
     font-weight: 600;
     font-size: 18px;
+    margin-bottom: 5px;
+    margin-left: 10px;
   }
 `;
 
 const WindowWrapper = styled.div`
   overflow: hidden;
-  height: 160px;
   width: 100%;
-`;
-
-const ListWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  overflow-x: auto;
-  white-space: nowrap;
 `;

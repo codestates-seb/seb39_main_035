@@ -2,13 +2,12 @@ import { RootState } from './../store';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Books } from '../../types/basic';
+import { BookDetailResponse, Books } from '../../types/basic';
 import { EditBookDetail } from '../../types/basic';
-import { BookDetail } from '../../types/basic';
 
 export interface BookReducer {
   book: Books;
-  bookDetail: BookDetail;
+  bookDetail: BookDetailResponse;
   editBookDetail: EditBookDetail;
   isError: boolean;
   isSuccess: boolean;
@@ -27,7 +26,7 @@ const initialState: BookReducer = {
     readEndDate: null,
   },
   bookDetail: {
-    bookId: '',
+    bookId: 0,
     title: '',
     cover: '',
     author: '',
@@ -39,6 +38,8 @@ const initialState: BookReducer = {
     bookStatus: '',
     readStartDate: null,
     readEndDate: null,
+    memosList: [],
+    memoCount: 0,
   },
   editBookDetail: {
     author: '',
@@ -86,7 +87,7 @@ export const register = createAsyncThunk(
 
 // 책 상세페이지 조회
 export const getBookDetailData = createAsyncThunk<
-  BookDetail,
+  BookDetailResponse,
   string | undefined,
   { rejectValue: string }
 >(
@@ -157,9 +158,12 @@ export const bookSlice = createSlice({
     builder
       .addCase(register.pending, (state, _) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         toast.success('📖 책 등록에 성공했어요.'); // "책 등록 성공"
         state.book = { ...action.payload };
@@ -167,13 +171,17 @@ export const bookSlice = createSlice({
       .addCase(register.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
         toast.error(action.payload);
       })
       .addCase(getBookDetailData.pending, (state, _) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(getBookDetailData.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         state.bookDetail = { ...action.payload };
       })
@@ -182,14 +190,18 @@ export const bookSlice = createSlice({
         (state, action: PayloadAction<any>) => {
           state.isLoading = false;
           state.isError = true;
+          state.isSuccess = false;
           toast.error(action.payload);
         }
       )
       .addCase(editBookDetail.pending, (state, _) => {
         state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
       })
       .addCase(editBookDetail.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         // state.editBookDetail = { ...action.payload };
         state.bookDetail = { ...state.bookDetail, ...action.payload };
@@ -197,6 +209,7 @@ export const bookSlice = createSlice({
       .addCase(editBookDetail.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
         toast.error(action.payload);
       });
   },

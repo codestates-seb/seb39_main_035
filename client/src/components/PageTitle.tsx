@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type PageTitleProps = {
   title: string;
+  path?: string;
   children?: React.ReactNode;
 };
 
 const Wrapper = styled.div`
+  min-width: 355px;
   font-size: 26px;
   display: flex;
-  color: #747474;
+  color: ${(props) => props.theme.colors.font};
   padding-top: 12px;
   padding-bottom: 12px;
   margin-bottom: 20px;
@@ -18,14 +20,32 @@ const Wrapper = styled.div`
   svg {
     cursor: pointer;
     margin-right: 20px;
+    &:focus {
+      color: var(--scandal);
+    }
+  }
+`;
+const StyledLink = styled(Link)`
+  cursor: pointer;
+  margin-right: 20px;
+  text-decoration: none;
+  color: ${(props) => props.theme.colors.font};
+
+  &:focus {
+    color: var(--scandal);
   }
 `;
 
-const PageTitle = ({ title, children }: PageTitleProps) => {
+const PageTitle = ({ title, path, children }: PageTitleProps) => {
   const navigate = useNavigate();
   return (
     <Wrapper>
-      <AiOutlineArrowLeft onClick={() => navigate(-1)} />
+      {path && (
+        <StyledLink to={path}>
+          <AiOutlineArrowLeft />
+        </StyledLink>
+      )}
+      {!path && <AiOutlineArrowLeft onClick={() => navigate(-1)} />}
       <h1>{title}</h1>
       {children}
     </Wrapper>

@@ -1,58 +1,75 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
 
 export const Container = styled.section`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 1.5rem 2rem;
-  border-radius: 0.25rem;
-  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
-  width: 300px;
-`;
 
-// 캐러셀
-export const Carousel = styled.div`
-  margin-bottom: 10px;
-`;
-
-// 로그인, 회원가입 버튼
-export const SignBtn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  a {
-    text-decoration: none;
-    color: black;
+  h1 {
+    display: flex;
+    line-height: 7.5rem;
   }
-  /* button {
-    background-color: var(--misty-rose);
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
-    border-radius: 0.25rem;
-    font-family: 'Pretendard-Regular';
 
-    &:hover {
-      background-color: var(--pink);
-      cursor: pointer;
+  h1 span {
+    position: relative;
+    top: 5px;
+    display: inline-block;
+    animation: bounce 0.9s ease infinite alternate;
+    font-family: 'RIDIBatang', cursive;
+    font-size: 80px;
+    color: var(--misty-rose);
+    text-shadow: 0 1px 0 #ffbfc5, 0 2px 0 #ffbfc5, 0 3px 0 #ffbfc5,
+      0 4px 0 #ffbfc5, 0 5px 0 #ffbfc5, 0 6px 0 transparent, 0 7px 0 transparent,
+      0 8px 0 transparent, 0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  h1 span:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  h1 span:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  h1 span:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  h1 span:nth-child(5) {
+    animation-delay: 0.4s;
+  }
+  h1 span:nth-child(6) {
+    animation-delay: 0.5s;
+  }
+  h1 span:nth-child(7) {
+    animation-delay: 0.6s;
+  }
+  h1 span:nth-child(8) {
+    animation-delay: 0.7s;
+  }
+
+  @keyframes bounce {
+    100% {
+      top: -5px;
+      text-shadow: 0 1px 0 #ffbfc5, 0 2px 0 #ffbfc5, 0 3px 0 #ffbfc5,
+        0 4px 0 #ffbfc5, 0 5px 0 #ffbfc5, 0 6px 0 #ffbfc5, 0 7px 0 #ffbfc5,
+        0 8px 0 #ffbfc5, 0 9px 0 #ffbfc5, 0 50px 25px rgba(0, 0, 0, 0.2);
     }
-  } */
+  }
 `;
 
 const Landing = () => {
-  const navigate = useNavigate();
   return (
     <Container>
-      <Carousel>여기는 캐러셀 영역입니다.</Carousel>
-      <SignBtn>
-        <Button color='mint' onClick={() => navigate('/members/sign-in')}>
-          로그인
-        </Button>
-        <Button color='mint' onClick={() => navigate('/members/sign-up')}>
-          회원가입
-        </Button>
-      </SignBtn>
+      <h1>
+        <span>나</span>
+        <span>만</span>
+        <span>의</span>
+      </h1>
+      <h1>
+        <span>작</span>
+        <span>은</span>
+        <span>설</span>
+        <span>렘</span>
+      </h1>
     </Container>
   );
 };

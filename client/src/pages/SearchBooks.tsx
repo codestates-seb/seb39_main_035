@@ -7,15 +7,16 @@ import Search from '../components/Search';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { Book } from '../types/basic';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: ${(props) => props.theme.colors.border};
   &:hover {
-    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+    box-shadow: ${(props) => props.theme.colors.boxShadow};
     transform: translate(-0.1rem);
     cursor: pointer;
   }
@@ -23,26 +24,20 @@ const BookContents = styled.li`
     margin-left: 1rem;
   }
 `;
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-right: 1rem;
-`;
 const BookContentKeyword = styled.div`
   font-weight: 700;
   font-size: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin-left: 1rem;
 `;
 
-const FirstContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const FirstContent = styled.p`
   font-weight: 700;
-  font-size: 2rem;
-  line-height: 2.5rem;
+  font-size: 1.2rem;
+  line-height: 2rem;
+  text-align: center;
 `;
 
 const SearchBooks = () => {
@@ -68,19 +63,19 @@ const SearchBooks = () => {
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 찾아볼까요?' />
+      <PageTitle title='검색' />
       <Search path={path} setPath={setPath} getBookList={getBookList} />
       {books.length === 0 || path === '' ? (
-        <FirstContent>
-          <p>찾으시는 책이 없네요😅</p>
-          <p>다시 검색해보세요</p>
-        </FirstContent>
+        <FirstContent>찾으시는 책이 없어요😖 다시 검색해보세요</FirstContent>
       ) : (
         <ul>
           <BookContents>
             <BsPlusSquare />
-            <div className='noResults'>
-              찾으시는 책이 없으시면 직접 등록해보세요
+            <div
+              className='noResults'
+              onClick={() => navigate('/books/register')}
+            >
+              찾으시는 책이 없다면 직접 등록해보세요
             </div>
           </BookContents>
           {books.map((book, idx) => {
@@ -91,7 +86,7 @@ const SearchBooks = () => {
                   navigate(`/books/search/${book.title}`, { state: book })
                 }
               >
-                <BookContentImg src={book.cover} alt='책 이미지' />
+                <BookCoverItem src={book.cover} width='125px' />
                 <BookContentKeyword>
                   <div>{book.title}</div>
                   <div>{book.author}</div>

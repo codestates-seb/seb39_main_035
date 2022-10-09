@@ -10,6 +10,10 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { register } from '../stores/book/bookSlice';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import { reset } from '../stores/book/bookSlice';
+import BookCoverItem from '../components/BookCoverItem';
 
 const BookContainer = styled.section`
   display: flex;
@@ -19,12 +23,6 @@ const BookContainer = styled.section`
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
   box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
-`;
-
-const BookContentImg = styled.img`
-  border-radius: 0.4rem;
-  margin-bottom: 1rem;
-  width: 20%;
 `;
 
 export const FormWrapper = styled.div`
@@ -62,30 +60,35 @@ export const FormWrapper = styled.div`
   }
 `;
 
+interface selectList {
+  typeValue: string;
+  typeText: string;
+}
+
 const SearchBook = () => {
   const { state } = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const [book, setBook] = useState<Books[]>([]);
-
   const [cover, setCover] = useState(state.cover);
   const [title, setTitle] = useState(state.title);
   const [author, setAuthor] = useState(state.author);
   const [publisher, setPublisher] = useState(state.publisher);
   const [itemPage, setItemPage] = useState(state.itemPage);
-  const [bookStatus, setBookStatus] = useState('📖 읽기 상태를 선택해주세요');
+  const [bookStatus, setBookStatus] =
+    useState<string>('📖 읽기 상태를 선택해주세요');
   const [currentPage, setCurrentPage] = useState(0);
   const [readStartDate, setReadStartDate] = useState<string | null>(null);
   const [readEndDate, setReadEndDate] = useState<string | null>(null);
-  const dispatch = useDispatch<AppDispatch>();
 
   const selectList = [
-    '📖 읽기 상태를 선택해주세요',
-    // 숫자로도 가능
-    'YET', // '읽고 싶은 책',
-    'ING', // '읽고 있는 책',
-    'DONE', // '다 읽은 책',
+    { typeValue: '', typeText: '📖 읽기 상태를 선택해주세요' },
+    { typeValue: 'YET', typeText: '읽고 싶은 책' },
+    { typeValue: 'ING', typeText: '읽고 있는 책' },
+    { typeValue: 'DONE', typeText: '다 읽은 책' },
   ];
+
   const getBookContents = async (path: string) => {
     try {
       const { data } = await axios.get(
@@ -102,19 +105,19 @@ const SearchBook = () => {
     }
   };
 
+  useEffect(() => {
+    getBookContents(title);
+    dispatch(reset());
+  }, []);
+
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBookStatus(e.target.value);
   };
 
-  useEffect(() => {
-    getBookContents(title);
-  }, []);
-
   // typescript: handling form onSubmit event
-  const registerBook = (event: React.FormEvent<HTMLFormElement>) => {
+  const registerBook = async (event: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
     event.preventDefault();
-
     // 책 상세 내용
     const bookData = {
       title,
@@ -127,15 +130,19 @@ const SearchBook = () => {
       readStartDate,
       readEndDate,
     };
-    dispatch(register(bookData));
+    await dispatch(register(bookData));
   };
+  const { isSuccess } = useSelector((state: RootState) => state.book);
+  if (isSuccess) {
+    navigate('/books/library');
+  }
 
   return (
     <Layout>
-      <PageTitle title='같이 한 번 등록해볼까요?' />
+      <PageTitle title='등록' />
       <BookContainer>
         <form onSubmit={registerBook}>
-          <BookContentImg src={cover} alt='책 이미지' />
+          <BookCoverItem src={cover} width='200px' />
           <FormWrapper>
             <label htmlFor='title'>책 제목</label>
             <input
@@ -190,9 +197,9 @@ const SearchBook = () => {
               onChange={handleChangeSelect}
               value={bookStatus}
             >
-              {selectList.map((item) => (
-                <option value={item} key={item}>
-                  {item}
+              {selectList.map((item, idx) => (
+                <option value={item.typeValue} key={idx}>
+                  {item.typeText}
                 </option>
               ))}
             </select>
@@ -228,9 +235,7 @@ const SearchBook = () => {
             </>
           ) : null}
 
-          <Button color='pink' onClick={() => navigate('/books/library')}>
-            등록하기
-          </Button>
+          <Button color='pink'>등록하기</Button>
         </form>
       </BookContainer>
     </Layout>
