@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class ExternalLibraryController {
 
     private final RestTemplateConfig restTemplateConfig;
+    private final ApiKey apiKey;
 
 
     @GetMapping("best-seller")
@@ -38,7 +39,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemList.aspx")
-                        .queryParam("ttbkey", ApiKey.getInstance())
+                        .queryParam("ttbkey", apiKey.getKey())
                         .queryParam("QueryType", "Bestseller")
                         .queryParam("SearchTarget", "Book")
                         .queryParam("output", "JS")
@@ -88,7 +89,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemSearch.aspx")
-                        .queryParam("ttbkey", ApiKey.getInstance())
+                        .queryParam("ttbkey", apiKey.getKey())
                         .queryParam("Query",input)
                         .queryParam("QueryType", "Keyword")
                         .queryParam("SearchTarget", "Book")
@@ -140,7 +141,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemList.aspx")
-                        .queryParam("ttbkey", ApiKey.getInstance())
+                        .queryParam("ttbkey", apiKey.getKey())
                         .queryParam("QueryType", "ItemNewSpecial")
                         .queryParam("SearchTarget", "Book")
                         .queryParam("output", "JS")
@@ -192,7 +193,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemLookUp.aspx")
-                        .queryParam("ttbkey", ApiKey.getInstance())
+                        .queryParam("ttbkey", apiKey.getKey())
                         .queryParam("itemIdType", "ISBN")
                         .queryParam("ItemId", isbn)
                         .queryParam("Cover", "Big")
