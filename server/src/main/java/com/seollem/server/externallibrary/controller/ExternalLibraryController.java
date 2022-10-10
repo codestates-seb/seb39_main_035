@@ -1,6 +1,8 @@
 package com.seollem.server.externallibrary.controller;
 
 import com.seollem.server.externallibrary.config.RestTemplateConfig;
+import com.seollem.server.util.ApiKey;
+import lombok.AllArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,14 +21,12 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/ext-lib")
+@AllArgsConstructor
 @SuppressWarnings("unchecked")
 public class ExternalLibraryController {
 
     private final RestTemplateConfig restTemplateConfig;
 
-    public ExternalLibraryController(RestTemplateConfig restTemplateConfig) {
-        this.restTemplateConfig = restTemplateConfig;
-    }
 
     @GetMapping("best-seller")
     public ResponseEntity getBestSeller() throws JSONException {
@@ -38,7 +38,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemList.aspx")
-                        .queryParam("ttbkey", "ttbii123210947001")
+                        .queryParam("ttbkey", ApiKey.getInstance())
                         .queryParam("QueryType", "Bestseller")
                         .queryParam("SearchTarget", "Book")
                         .queryParam("output", "JS")
@@ -88,7 +88,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemSearch.aspx")
-                        .queryParam("ttbkey", "ttbii123210947001")
+                        .queryParam("ttbkey", ApiKey.getInstance())
                         .queryParam("Query",input)
                         .queryParam("QueryType", "Keyword")
                         .queryParam("SearchTarget", "Book")
@@ -140,7 +140,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemList.aspx")
-                        .queryParam("ttbkey", "ttbii123210947001")
+                        .queryParam("ttbkey", ApiKey.getInstance())
                         .queryParam("QueryType", "ItemNewSpecial")
                         .queryParam("SearchTarget", "Book")
                         .queryParam("output", "JS")
@@ -192,7 +192,7 @@ public class ExternalLibraryController {
                         .scheme("http")
                         .host("www.aladin.co.kr")
                         .path("/ttb/api/ItemLookUp.aspx")
-                        .queryParam("ttbkey", "ttbii123210947001")
+                        .queryParam("ttbkey", ApiKey.getInstance())
                         .queryParam("itemIdType", "ISBN")
                         .queryParam("ItemId", isbn)
                         .queryParam("Cover", "Big")
