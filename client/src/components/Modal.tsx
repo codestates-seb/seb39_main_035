@@ -36,6 +36,7 @@ const ModalContainer = styled.div`
     top: 10px;
     right: 10px;
   }
+  color: #747474;
 `;
 
 const Modal = ({ closeModal, children }: ModalProps) => {

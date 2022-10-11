@@ -149,7 +149,7 @@ const EditUserInfo = ({ exitEditMode }: EditUserInfoProps) => {
       </LinkButton>
       {openModal && (
         <Modal closeModal={modalHandler}>
-          <ModalMessage>🥲정말 탈퇴하시겠습니까?</ModalMessage>
+          <p>🥲정말 탈퇴하시겠습니까?</p>
           <ButtonContainer>
             <Button color='skyblue' onClick={modalHandler}>
               취소하기
@@ -187,13 +187,9 @@ const LinkButton = styled.div`
   color: #747474;
   text-align: right;
   > span:hover {
-    color: black;
+    color: ${(props) => props.theme.colors.font};
   }
   > span {
     cursor: pointer;
   }
-`;
-
-const ModalMessage = styled.p`
-  margin-bottom: 10px;
 `;
