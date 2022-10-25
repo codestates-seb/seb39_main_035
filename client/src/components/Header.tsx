@@ -73,8 +73,8 @@ export default Header;
 
 const HeaderWrapper = styled.header`
   background-color: ${(props) => props.theme.colors.bg};
-  height: 60px;
-  padding: 0 10px;
+  height: 3.75rem;
+  padding: 0 0.6rem;
   position: sticky;
   top: 0;
   display: flex;
@@ -91,9 +91,9 @@ const Logo = styled.div`
   margin: auto;
   cursor: pointer;
   img {
-    height: 60px;
+    height: 3.75rem;
     @media screen and (max-width: 390px) {
-      height: 45px;
+      height: 2.8rem;
     }
   }
 `;
@@ -108,21 +108,21 @@ const Menu = styled.ul`
 `;
 
 const StyledLink = styled(Link)`
-  border-radius: 5px;
+  border-radius: 0.3rem;
   text-align: center;
-  padding: 5px;
+  padding: 0.3rem;
   text-decoration: none;
   &:hover {
     background-color: #ececec;
   }
   svg {
     cursor: pointer;
-    padding: 10px auto;
-    font-size: 24px;
+    padding: 0.6rem auto;
+    font-size: 1.5rem;
     color: ${(props) => props.theme.colors.icons};
   }
   p {
-    font-size: 10px;
+    font-size: 0.6rem;
     text-align: center;
     color: ${(props) => props.theme.colors.font};
     white-space: nowrap;
@@ -135,5 +135,5 @@ const StyledLink = styled(Link)`
 export const SignBtn = styled.div`
   display: flex;
   width: 15rem;
-  margin-top: 10px;
+  margin-top: 0.6rem;
 `;

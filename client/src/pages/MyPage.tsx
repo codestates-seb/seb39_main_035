@@ -71,23 +71,23 @@ const Mypage = () => {
 export default Mypage;
 
 export const InfoTitle = styled.h1`
-  margin-bottom: 5px;
+  margin-bottom: 0.4rem;
 `;
 export const InfoText = styled.p`
   text-align: center;
   border: 1px solid var(--gray);
   border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-  height: 40px;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+  height: 2.5rem;
 `;
 
 export const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   button {
-    margin: 0px;
+    margin: 0;
   }
 `;

@@ -27,13 +27,13 @@ export default RandomMemo;
 const Wrapper = styled.div<{ imgUrl: string; fontColor: string }>`
   background: ${(props) => `url(${props.imgUrl})`} center;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 0.3rem;
   color: ${(props) => props.fontColor};
   .toastui-editor-contents {
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'RIDIBatang';
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     p {
       color: ${(props) => props.fontColor};
     }
@@ -42,6 +42,6 @@ const Wrapper = styled.div<{ imgUrl: string; fontColor: string }>`
 
 const MemoInfo = styled.div`
   text-align: right;
-  margin-bottom: 5px;
-  font-size: 13px;
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
 `;

@@ -110,13 +110,13 @@ const HorizontalContainer = ({
 export default HorizontalContainer;
 
 const Wrapper = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 
   h1 {
     font-weight: 600;
-    font-size: 18px;
-    margin-bottom: 5px;
-    margin-left: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    margin-left: 0.6rem;
   }
 `;
 
