@@ -106,9 +106,9 @@ export const ModeButton = styled.button`
   border-radius: 50%;
   border: none;
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 1.875rem;
+  right: 1.875rem;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.15);
   background: #f9f9f9;
 `;

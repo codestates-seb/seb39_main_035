@@ -195,19 +195,19 @@ const BookDetail = () => {
 export default BookDetail;
 
 const BookWrapper = styled.section`
-  min-width: 300px;
+  min-width: 18.75rem;
   box-shadow: ${(props) => props.theme.colors.boxShadow};
-  border-radius: 5px;
-  padding: 30px;
-  font-size: 18px;
+  border-radius: 0.313rem;
+  padding: 1.875rem;
+  font-size: 1.125rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 const BookSummary = styled.div`
-  margin-top: 25px;
-  line-height: 25px;
+  margin-top: 1.563rem;
+  line-height: 1.563rem;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -221,7 +221,7 @@ const BookStateBox = styled.div`
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
@@ -232,7 +232,7 @@ const BookStateBox = styled.div`
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
@@ -258,8 +258,8 @@ const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   button {
-    margin: 0px;
+    margin: 0rem;
   }
 `;

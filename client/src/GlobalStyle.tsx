@@ -44,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Pretendard-Regular';
-    max-width: 640px;
+    max-width: 40rem;
     margin: 0 auto;
     padding-bottom: 0px;
     min-height: 100vh;

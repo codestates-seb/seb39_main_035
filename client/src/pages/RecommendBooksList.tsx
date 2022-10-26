@@ -37,7 +37,7 @@ const RecommendBtnWrapper = styled.div`
 `;
 const RecommendBtn = styled.button`
   cursor: pointer;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: 0.063rem solid rgba(0 0 0 / 20%);
   font-size: 1rem;
   padding: 0.8rem;
   border-radius: 0.4rem;
