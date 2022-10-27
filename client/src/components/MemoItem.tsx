@@ -49,7 +49,7 @@ const MemoItem = ({ memo }: MemoItemProps) => {
 export default MemoItem;
 
 const Wrapper = styled.div`
-  box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+  box-shadow: ${(props) => props.theme.colors.boxShadow};
   border-radius: 0.3rem;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -71,7 +71,6 @@ const PageContainter = styled.div`
 
 const Type = styled.div`
   padding: 0.5rem;
-  opacity: 80%;
   text-align: center;
   background-color: var(--light-blue);
   width: 10rem;
