@@ -17,15 +17,15 @@ const Boxcontainer = ({ containerTitle, children }: BoxContainerProps) => {
 export default Boxcontainer;
 
 const Title = styled.h1`
-  font-size: 22px;
-  margin: 15px 0;
-  margin-left: 15px;
+  font-size: 1.3rem;
+  margin: 1rem 0;
+  margin-left: 1rem;
 `;
 
 const Wrapper = styled.section`
   box-shadow: ${(props) => props.theme.colors.boxShadow};
   border: ${(props) => props.theme.colors.border};
-  border-radius: 5px;
-  padding: 30px;
-  font-size: 18px;
+  border-radius: 0.6rem;
+  padding: 1.9rem;
+  font-size: 1.1rem;
 `;

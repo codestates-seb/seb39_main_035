@@ -55,14 +55,14 @@ const MIDDLEWIDTH = css`
 const Wrapper = styled.button<ButtonProps>`
   cursor: pointer;
   border: none;
-  font-size: 14px;
-  padding: 10px 20px;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.25rem;
   white-space: nowrap;
   text-align: center;
   color: #f9f9f9;
-  border-radius: 5px;
-  margin: 10px auto;
-  width: 90px;
+  border-radius: 0.3rem;
+  margin: 0.6rem auto;
+  width: 5.6rem;
   ${(props) => props.color && COLOR[props.color]}
   ${(props) => props.disabled && DISABLED}
   ${(props) => props.fullWidth && FULLWIDTH}

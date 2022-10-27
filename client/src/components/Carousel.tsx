@@ -74,7 +74,8 @@ const StyledSlider = styled(Slider)`
   .slick-track {
     display: flex;
     align-items: baseline;
-    margin-left: 10px;
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
   }
 
   .slick-prev::before,
@@ -82,32 +83,32 @@ const StyledSlider = styled(Slider)`
     /* opacity: 0;
     display: none; */
     color: var(--gray);
-    font-size: 30px;
+    font-size: 2rem;
   }
 `;
 
 const Div = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   position: absolute;
-  right: 1px;
+  right: 0.3rem;
   z-index: 99;
   text-align: right;
-  line-height: 30px;
-  border-radius: 5px;
+  line-height: 1.88rem;
+  border-radius: 0.6rem;
   /* .left-arrow {
     font-size: 30px;
     color: var(--gray);
   } */
 `;
 const DivPre = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   position: absolute;
-  left: 1px;
+  left: 0.3rem;
   z-index: 99;
   text-align: left;
-  line-height: 30px;
+  line-height: 1.88rem;
   border-radius: 5px;
   /* .right-arrow {
     font-size: 30px;

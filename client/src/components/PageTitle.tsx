@@ -10,16 +10,16 @@ type PageTitleProps = {
 
 const Wrapper = styled.div`
   min-width: 355px;
-  font-size: 26px;
+  font-size: 1.5rem;
   display: flex;
   color: ${(props) => props.theme.colors.font};
-  padding-top: 12px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 1.2rem;
   border-bottom: solid 0.5px #747474;
   svg {
     cursor: pointer;
-    margin-right: 20px;
+    margin-right: 1.2rem;
     &:focus {
       color: var(--scandal);
     }

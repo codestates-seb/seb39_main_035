@@ -50,14 +50,13 @@ export default MemoItem;
 
 const Wrapper = styled.div`
   box-shadow: ${(props) => props.theme.colors.boxShadow};
-  border-radius: 5px;
+  border-radius: 0.3rem;
   padding: 1rem;
   margin-bottom: 1rem;
-  font-size: 18px;
-  cursor: pointer;
   font-size: 1rem;
+  cursor: pointer;
   .toastui-editor-contents {
-    font-size: 18px;
+    font-size: 1.1rem;
   }
 `;
 
