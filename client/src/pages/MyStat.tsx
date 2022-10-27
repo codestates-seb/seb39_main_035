@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import Boxcontainer from '../components/BoxContainer';
-import BookCalendar from '../components/BookCalendar';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Boxcontainer from '../components/common/BoxContainer';
+import BookCalendar from '../components/Mystat/BookCalendar';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import { getCalendarData } from '../stores/stat/statSlice';
 import { AppDispatch, RootState } from '../stores/store';
 import { getRandomMemo } from '../stores/memo/memoSlice';
-import AbandonBooks from '../components/AbandonBooks';
-import RandomMemo from '../components/RandomMemo';
+import AbandonBooks from '../components/Mystat/AbandonBooks';
+import RandomMemo from '../components/Mystat/RandomMemo';
 import useScrollTop from '../util/useScrollTop';
 
 const MyStat = () => {

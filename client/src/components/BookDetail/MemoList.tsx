@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import { RootState } from '../../stores/store';
 import styled from 'styled-components';
-import Button from './Button';
+import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import MemoItem from './MemoItem';
 

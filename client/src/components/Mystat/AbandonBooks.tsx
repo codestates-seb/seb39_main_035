@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../stores/store';
+import { RootState } from '../../stores/store';
 import styled from 'styled-components';
-import BookCoverItem from './BookCoverItem';
-import { AppDispatch } from '../stores/store';
-import Carousel from './Carousel';
-import Loading from './Loading';
-import { AbandonBook } from '../types/basic';
+import BookCoverItem from '../common/BookCoverItem';
+import { AppDispatch } from '../../stores/store';
+import Carousel from '../common/Carousel';
+import Loading from '../common/Loading';
+import { AbandonBook } from '../../types/basic';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import HorizontalContainer from '../components/HorizontalContainer';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import HorizontalContainer from '../components/Library/HorizontalContainer';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import useScrollTop from '../util/useScrollTop';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';

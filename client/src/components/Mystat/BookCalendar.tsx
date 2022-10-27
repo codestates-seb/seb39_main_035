@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
-import { CalendarItem } from '../stores/stat/statSlice';
+import { RootState } from '../../stores/store';
+import { CalendarItem } from '../../stores/stat/statSlice';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import dayjs from 'dayjs';

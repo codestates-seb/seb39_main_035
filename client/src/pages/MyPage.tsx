@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
-import Button from '../components/Button';
-import BoxContainer from '../components/BoxContainer';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
+import Button from '../components/common/Button';
+import BoxContainer from '../components/common/BoxContainer';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserInfo, reset } from '../stores/user/userSlice';
 import { AppDispatch, RootState } from '../stores/store';
 import { useNavigate } from 'react-router-dom';
 import { persistor } from '..';
 import { toast } from 'react-toastify';
-import EditUserInfo from '../components/EditUserInfo';
+import EditUserInfo from '../components/Mypage/EditUserInfo';
 
 const Mypage = () => {
   const navigate = useNavigate();
