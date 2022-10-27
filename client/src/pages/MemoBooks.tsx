@@ -81,7 +81,7 @@ const MemoBooks = () => {
 export default MemoBooks;
 
 const Wrapper = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const WindowWrapper = styled.div`

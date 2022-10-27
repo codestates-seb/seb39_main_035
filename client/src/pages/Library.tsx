@@ -28,13 +28,13 @@ export default Library;
 
 const BookAddButton = styled.div`
   display: flex;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  padding: 1.25rem;
+  border-radius: 0.3rem;
+  margin-bottom: 1.25rem;
   border: ${(props) => props.theme.colors.border};
   transition: transfrom 300ms ease-in;
   svg {
-    margin-right: 30px;
+    margin-right: 1.875rem;
   }
   &:hover {
     cursor: pointer;

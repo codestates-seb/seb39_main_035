@@ -140,11 +140,11 @@ const StyledSelect = styled.ul`
   align-items: center;
   list-style: none;
   color: #f9f9f9;
-  font-size: 14px;
+  font-size: 0.8rem;
   li {
-    padding: 10px;
-    border-radius: 50px;
-    margin-right: 10px;
+    padding: 0.625rem;
+    border-radius: 2rem;
+    margin-right: 0.6rem;
   }
 
   .inactive {
