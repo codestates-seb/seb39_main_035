@@ -47,40 +47,18 @@ function App() {
           <Route path='/' element={<Landing />} />
           <Route path='/members/sign-in' element={<SignIn />} />
           <Route path='/members/sign-up' element={<SignUp />} />
-          <Route path='/books/search' element={<PrivateRoute />}>
+          <Route element={<PrivateRoute />}>
             <Route path='/books/search' element={<SearchBooks />} />
-          </Route>
-          <Route path='/books/search/:id' element={<PrivateRoute />}>
             <Route path='/books/search/:id' element={<SearchBook />} />
-          </Route>
-          <Route path='/books/register' element={<PrivateRoute />}>
             <Route path='/books/register' element={<RegisterBook />} />
-          </Route>
-          <Route path='/books/library' element={<PrivateRoute />}>
             <Route path='/books/library' element={<Library />} />
-          </Route>
-          <Route path='/books/library/:id' element={<PrivateRoute />}>
             <Route path='/books/library/:id' element={<BookDetail />} />
-          </Route>
-          <Route path='books/recommend' element={<PrivateRoute />}>
             <Route path='/books/recommend' element={<RecommendBooksList />} />
-          </Route>
-          <Route path='/mystat' element={<PrivateRoute />}>
             <Route path='/mystat' element={<MyStat />} />
-          </Route>
-          <Route path='/mypage' element={<PrivateRoute />}>
             <Route path='/mypage' element={<Mypage />} />
-          </Route>
-          <Route path='/memo' element={<PrivateRoute />}>
             <Route path='/memo' element={<MemoForm />} />
-          </Route>
-          <Route path='/memo/:id' element={<PrivateRoute />}>
             <Route path='/memo/:id' element={<MemoForm />} />
-          </Route>
-          <Route path='/books/memoBooks' element={<PrivateRoute />}>
             <Route path='/books/memoBooks' element={<MemoBooks />} />
-          </Route>
-          <Route path='/books/:id/memos' element={<PrivateRoute />}>
             <Route path='/books/:id/memos' element={<BookMemoDetail />} />
           </Route>
         </Routes>
