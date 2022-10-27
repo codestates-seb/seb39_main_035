@@ -29,7 +29,7 @@ export default Library;
 const BookAddButton = styled.div`
   display: flex;
   padding: 1.25rem;
-  border-radius: 0.3rem;
+  border-radius: 0.313rem;
   margin-bottom: 1.25rem;
   border: ${(props) => props.theme.colors.border};
   transition: transfrom 300ms ease-in;

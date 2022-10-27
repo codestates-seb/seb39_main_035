@@ -25,14 +25,14 @@ export const Container = styled.section`
     align-items: center;
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
-    box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+    box-shadow: 0rem 0rem 0.25rem 0rem rgba(0 0 0 / 20%);
   }
 
   // 로그인하기 버튼
   button {
     background-color: var(--misty-rose);
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     width: 100%;
     margin-bottom: 0.5rem;
@@ -62,8 +62,8 @@ export const FormWrapper = styled.div`
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 700;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
   input {
     margin-bottom: 0.5rem;
