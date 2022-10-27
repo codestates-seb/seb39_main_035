@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
-import logo from '../assets/1.png';
+import { RootState } from '../../stores/store';
+import logo from '../../assets/1.png';
 import { TbBooks, TbCalendarStats } from 'react-icons/tb';
 import { BiBookHeart } from 'react-icons/bi';
 import { BsPersonCircle } from 'react-icons/bs';
 import { GiArchiveResearch } from 'react-icons/gi';
-import Button from '../components/Button';
+import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {

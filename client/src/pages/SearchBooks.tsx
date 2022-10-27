@@ -1,13 +1,13 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
-import Search from '../components/Search';
+import Search from '../components/SearchBook/Search';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { Book } from '../types/basic';
-import BookCoverItem from '../components/BookCoverItem';
+import BookCoverItem from '../components/common/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;

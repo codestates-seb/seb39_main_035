@@ -1,12 +1,12 @@
 import { useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Button from '../components/Button';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
-import Boxcontainer from '../components/BoxContainer';
-import BookCoverItem from '../components/BookCoverItem';
-import StarRating from '../components/StarRating';
+import Button from '../components/common/Button';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
+import Boxcontainer from '../components/common/BoxContainer';
+import BookCoverItem from '../components/common/BookCoverItem';
+import StarRating from '../components/BookDetail/StarRating';
 import { getBookDetailData } from '../stores/book/bookSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
@@ -14,12 +14,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import EditBookInfo from '../components/EditBookInfo';
+import EditBookInfo from '../components/BookDetail/EditBookInfo';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../components/Modal';
-import MemoList from '../components/MemoList';
+import Modal from '../components/common/Modal';
+import MemoList from '../components/BookDetail/MemoList';
 import { reset as memoStatusReset } from '../stores/memo/memoSlice';
 
 interface selectList {

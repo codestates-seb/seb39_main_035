@@ -2,16 +2,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { persistor } from '..';
+import { persistor } from '../..';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { editUserInfo } from '../stores/user/userSlice';
-import { AppDispatch, RootState } from '../stores/store';
-import { User } from '../types/basic';
-import { InfoTitle, InfoText, ButtonContainer } from '../pages/MyPage';
-import BoxContainer from './BoxContainer';
-import Button from './Button';
-import Modal from './Modal';
+import { editUserInfo } from '../../stores/user/userSlice';
+import { AppDispatch, RootState } from '../../stores/store';
+import { User } from '../../types/basic';
+import { InfoTitle, InfoText, ButtonContainer } from '../../pages/MyPage';
+import BoxContainer from '../common/BoxContainer';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
 
 interface Member extends User {
   confirmPassword?: string;
@@ -197,4 +197,3 @@ const LinkButton = styled.div`
 const ModalMessage = styled.p`
   margin-bottom: 0.6rem;
 `;
-

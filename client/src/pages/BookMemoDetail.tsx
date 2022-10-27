@@ -1,10 +1,10 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import '../styles/Pagination.css';
-import MemoHorizontalContainer from '../components/MemoHorizontalContainer';
+import MemoHorizontalContainer from '../components/BookMemoDetail/MemoHorizontalContainer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import {

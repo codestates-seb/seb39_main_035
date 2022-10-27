@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import { RootState } from '../../stores/store';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import useCompareDate from '../util/useCompareDate';
-import useFindTypeText from '../util/useFindTypeText';
+import useCompareDate from '../../util/useCompareDate';
+import useFindTypeText from '../../util/useFindTypeText';
 
 const RandomMemo = () => {
   const { memo } = useSelector((state: RootState) => state.memo);

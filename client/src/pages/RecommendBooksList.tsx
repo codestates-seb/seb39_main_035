@@ -1,11 +1,11 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
-import BookCoverItem from '../components/BookCoverItem';
+import BookCoverItem from '../components/common/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;

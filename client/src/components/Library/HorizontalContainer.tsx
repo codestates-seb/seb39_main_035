@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../stores/store';
-import { Books } from '../types/basic';
+import { RootState } from '../../stores/store';
+import { Books } from '../../types/basic';
 import styled from 'styled-components';
-import BookCoverItem from './BookCoverItem';
+import BookCoverItem from '../common/BookCoverItem';
 import axios from 'axios';
-import Carousel from './Carousel';
-import Loading from './Loading';
+import Carousel from '../common/Carousel';
+import Loading from '../common/Loading';
 
 type HorizontalContainerProps = {
   bookStatus: 'YET' | 'ING' | 'DONE';

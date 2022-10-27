@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import PrivateRoute from './components/PrivateRoute';
+import Header from './components/layout/Header';
+import PrivateRoute from './router/PrivateRoute';
 import GlobalStyle from './GlobalStyle';
 import Landing from './pages/Landing';
 import Library from './pages/Library';

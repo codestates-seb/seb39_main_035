@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Boxcontainer from '../components/BoxContainer';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
-import Button from '../components/Button';
+import Boxcontainer from '../components/common/BoxContainer';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
+import Button from '../components/common/Button';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../stores/store';
 import { createMemo, editMemo } from '../stores/memo/memoSlice';

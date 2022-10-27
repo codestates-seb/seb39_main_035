@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import { RootState } from '../../stores/store';
 import styled from 'styled-components';
 import axios from 'axios';
 import Carousel from './MemoCarousel';
-import Loading from './Loading';
-import { MemoBookDetail } from '../types/basic';
+import Loading from '../common/Loading';
+import { MemoBookDetail } from '../../types/basic';
 import { useLocation } from 'react-router-dom';
-import MemoBoxContainer from '../components/MemoBoxContainer';
+import MemoBoxContainer from './MemoBoxContainer';
 
 type MemoHorizontalContainerProps = {
   memoStatus: string;

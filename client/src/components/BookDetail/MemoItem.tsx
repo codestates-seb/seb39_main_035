@@ -1,14 +1,14 @@
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../stores/store';
+import { AppDispatch } from '../../stores/store';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteMemo } from '../stores/memo/memoSlice';
-import { MemoResponse } from '../types/basic';
+import { deleteMemo } from '../../stores/memo/memoSlice';
+import { MemoResponse } from '../../types/basic';
 import { BsTrashFill } from 'react-icons/bs';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import useCompareDate from '../util/useCompareDate';
-import useFindTypeText from '../util/useFindTypeText';
+import useCompareDate from '../../util/useCompareDate';
+import useFindTypeText from '../../util/useFindTypeText';
 
 interface MemoItemProps {
   memo: MemoResponse;

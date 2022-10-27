@@ -1,8 +1,8 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/Button';
+import Button from '../components/common/Button';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Books } from '../types/basic';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
 import { reset } from '../stores/book/bookSlice';
-import BookCoverItem from '../components/BookCoverItem';
+import BookCoverItem from '../components/common/BookCoverItem';
 
 const BookContainer = styled.section`
   display: flex;
