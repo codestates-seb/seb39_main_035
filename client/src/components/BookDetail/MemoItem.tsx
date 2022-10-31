@@ -7,8 +7,8 @@ import { MemoResponse } from '../../types/basic';
 import { BsTrashFill } from 'react-icons/bs';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import useCompareDate from '../../util/useCompareDate';
-import useFindTypeText from '../../util/useFindTypeText';
+import useCompareDate from '../../hooks/useCompareDate';
+import useFindTypeText from '../../hooks/useFindTypeText';
 
 interface MemoItemProps {
   memo: MemoResponse;
