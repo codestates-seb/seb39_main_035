@@ -3,7 +3,7 @@ import { RootState } from '../../stores/store';
 import styled from 'styled-components';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import useCompareDate from '../../util/useCompareDate';
+import useCompareDate from '../../hooks/useCompareDate';
 interface MemoBoxContainerProps {
   memoBookPage: number;
   memoContent: string;

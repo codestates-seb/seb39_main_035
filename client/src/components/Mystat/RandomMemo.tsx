@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../stores/store';
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import useCompareDate from '../../util/useCompareDate';
-import useFindTypeText from '../../util/useFindTypeText';
+import useCompareDate from '../../hooks/useCompareDate';
+import useFindTypeText from '../../hooks/useFindTypeText';
 
 const RandomMemo = () => {
   const { memo } = useSelector((state: RootState) => state.memo);

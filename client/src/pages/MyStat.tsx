@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from '../stores/store';
 import { getRandomMemo } from '../stores/memo/memoSlice';
 import AbandonBooks from '../components/Mystat/AbandonBooks';
 import RandomMemo from '../components/Mystat/RandomMemo';
-import useScrollTop from '../util/useScrollTop';
+import useScrollTop from '../hooks/useScrollTop';
 
 const MyStat = () => {
   const dispatch = useDispatch<AppDispatch>();
