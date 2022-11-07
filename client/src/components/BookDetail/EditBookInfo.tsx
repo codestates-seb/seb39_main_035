@@ -2,10 +2,6 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores/store';
 import { useState } from 'react';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
-import Boxcontainer from '../common/BoxContainer';
-import StarRating from './StarRating';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import { useParams } from 'react-router-dom';
@@ -13,13 +9,11 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../stores/store';
 import { editBookDetail } from '../../stores/book/bookSlice';
 import { toast } from 'react-toastify';
+import EditIngBookState from '../EditBookState/EditIngBookState';
+import EditDoneBookState from '../EditBookState/EditDoneBookState';
 
 interface EditBookInfoProps {
   exitEditMode: () => void;
-}
-interface selectList {
-  typeValue: string;
-  typeText: string;
 }
 
 const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
@@ -51,12 +45,6 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
   };
 
   const dispatch = useDispatch<AppDispatch>();
-  // 날짜 표현
-  dayjs.locale('ko');
-  const startDate = dayjs(readStartDate);
-  const readStartdateFormat = startDate.format('YYYY.MM.DD A HH:mm');
-  const endDate = dayjs(readEndDate);
-  const readEnddateFormat = endDate.format('YYYY.MM.DD A HH:mm');
 
   const handleEditBookData = async () => {
     const editBookDetailData = {
@@ -90,77 +78,8 @@ const EditBookInfo = ({ exitEditMode }: EditBookInfoProps) => {
           ))}
         </select>
       </BookStateBox>
-      {bookStatus === 'ING' ? (
-        <>
-          <BookStateBox>
-            <label htmlFor='readStartDate'>읽기 시작한 날</label>
-            <p>{readStartdateFormat}</p>
-            <input
-              id='readStartDate'
-              type='datetime-local'
-              onChange={(e) => setReadStartDate(`${e.target.value}:00`)}
-            />
-          </BookStateBox>
-          <Boxcontainer containerTitle='별점'>
-            <StarRating star={star} setStar={setStar} />
-          </Boxcontainer>
-          <Boxcontainer containerTitle='독서 진행 상황'>
-            <BookStatusBox>
-              <label htmlFor='currentPage'>
-                {currentPage} page / {bookDetail.itemPage} page
-              </label>
-              <input
-                id='currentPage'
-                type='range'
-                min='0'
-                max={bookDetail.itemPage}
-                value={currentPage}
-                onChange={(e) => setCurrentPage(Number(e.target.value))}
-              />
-            </BookStatusBox>
-          </Boxcontainer>
-        </>
-      ) : null}
-      {bookStatus === 'DONE' ? (
-        <>
-          <BookStateBox>
-            <label htmlFor='readStartDate'>읽기 시작한 날</label>
-            <p>{readStartdateFormat}</p>
-            <input
-              id='readStartDate'
-              type='datetime-local'
-              onChange={(e) => setReadStartDate(`${e.target.value}:00`)}
-            />
-          </BookStateBox>
-          <BookStateBox>
-            <label htmlFor='readEndDate'>다 읽은 날</label>
-            <p>{readEnddateFormat}</p>
-            <input
-              id='readEndDate'
-              type='datetime-local'
-              onChange={(e) => setReadEndDate(`${e.target.value}:00`)}
-            />
-          </BookStateBox>
-          <Boxcontainer containerTitle='별점'>
-            <StarRating star={star} setStar={setStar} />
-          </Boxcontainer>
-          <Boxcontainer containerTitle='독서 진행 상황'>
-            <BookStatusBox>
-              <label htmlFor='currentPage'>
-                {currentPage} page / {bookDetail.itemPage} page
-              </label>
-              <input
-                id='currentPage'
-                type='range'
-                min='0'
-                max={bookDetail.itemPage}
-                value={currentPage}
-                onChange={(e) => setCurrentPage(Number(e.target.value))}
-              />
-            </BookStatusBox>
-          </Boxcontainer>
-        </>
-      ) : null}
+      {bookStatus === 'ING' ? <EditIngBookState /> : null}
+      {bookStatus === 'DONE' ? <EditDoneBookState /> : null}
       <ButtonContainer>
         <Button color='skyblue' onClick={exitEditMode}>
           취소하기
@@ -218,16 +137,6 @@ const BookStateBox = styled.div`
       font-size: 0.8rem;
       font-family: 'Pretendard-Regular';
     }
-  }
-`;
-const BookStatusBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  label {
-    margin: 0 auto;
-  }
-  input {
-    margin-top: 0.5rem;
   }
 `;
 const ButtonContainer = styled.div`

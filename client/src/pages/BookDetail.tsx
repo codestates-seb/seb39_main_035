@@ -1,19 +1,15 @@
-import { useLocation, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/common/Button';
 import Layout from '../components/layout/Layout';
 import PageTitle from '../components/common/PageTitle';
-import Boxcontainer from '../components/common/BoxContainer';
 import BookCoverItem from '../components/common/BookCoverItem';
-import StarRating from '../components/BookDetail/StarRating';
 import { getBookDetailData } from '../stores/book/bookSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
 import EditBookInfo from '../components/BookDetail/EditBookInfo';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -21,11 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../components/common/Modal';
 import MemoList from '../components/BookDetail/MemoList';
 import { reset as memoStatusReset } from '../stores/memo/memoSlice';
-
-interface selectList {
-  typeValue: string;
-  typeText: string;
-}
+import IngBookState from '../components/BookState/IngBookState';
+import DoneBookState from '../components/BookState/DoneBookState';
 
 const BookDetail = () => {
   const navigate = useNavigate();
@@ -35,19 +28,7 @@ const BookDetail = () => {
   const { token } = useSelector((state: RootState) => state.user);
   const { isSuccess } = useSelector((state: RootState) => state.memo);
   const [openModal, setOpenModal] = useState(false);
-  const [star, setStar] = useState<number>(bookDetail.star);
-
-  const [currentPage, setCurrentPage] = useState<number>(
-    bookDetail.currentPage
-  );
   const [editMode, setEditMode] = useState(false);
-
-  // 날짜 표현
-  dayjs.locale('ko');
-  const startDate = dayjs(bookDetail.readStartDate);
-  const readStartdateFormat = startDate.format('YYYY.MM.DD A HH:mm');
-  const endDate = dayjs(bookDetail.readEndDate);
-  const readEnddateFormat = endDate.format('YYYY.MM.DD A HH:mm');
 
   useEffect(() => {
     dispatch(getBookDetailData(id));
@@ -102,66 +83,8 @@ const BookDetail = () => {
                   ))}
                 </select>
               </BookStateBox>
-              {bookDetail.bookStatus === 'ING' ? (
-                <>
-                  <BookStateBox>
-                    <p>읽기 시작한 날</p>
-                    <p>{readStartdateFormat}</p>
-                  </BookStateBox>
-                  <Boxcontainer containerTitle='별점'>
-                    <StarRating star={bookDetail.star} setStar={setStar} />
-                  </Boxcontainer>
-                  <Boxcontainer containerTitle='독서 진행 상황'>
-                    <BookStatusBox>
-                      <label htmlFor='currentPage'>
-                        {bookDetail.currentPage} page / {bookDetail.itemPage}
-                        page
-                      </label>
-                      <input
-                        id='currentPage'
-                        type='range'
-                        min='0'
-                        max={bookDetail.itemPage}
-                        value={bookDetail.currentPage}
-                        onChange={(e) => setCurrentPage(Number(e.target.value))}
-                        disabled
-                      />
-                    </BookStatusBox>
-                  </Boxcontainer>
-                </>
-              ) : null}
-              {bookDetail.bookStatus === 'DONE' ? (
-                <>
-                  <BookStateBox>
-                    <p>읽기 시작한 날</p>
-                    <p>{readStartdateFormat}</p>
-                  </BookStateBox>
-                  <BookStateBox>
-                    <p>다 읽은 날</p>
-                    <p>{readEnddateFormat}</p>
-                  </BookStateBox>
-                  <Boxcontainer containerTitle='별점'>
-                    <StarRating star={bookDetail.star} setStar={setStar} />
-                  </Boxcontainer>
-                  <Boxcontainer containerTitle='독서 진행 상황'>
-                    <BookStatusBox>
-                      <label htmlFor='currentPage'>
-                        {bookDetail.currentPage} page / {bookDetail.itemPage}
-                        page
-                      </label>
-                      <input
-                        id='currentPage'
-                        type='range'
-                        min='0'
-                        max={bookDetail.itemPage}
-                        value={bookDetail.currentPage}
-                        onChange={(e) => setCurrentPage(Number(e.target.value))}
-                        disabled
-                      />
-                    </BookStatusBox>
-                  </Boxcontainer>
-                </>
-              ) : null}
+              {bookDetail.bookStatus === 'ING' ? <IngBookState /> : null}
+              {bookDetail.bookStatus === 'DONE' ? <DoneBookState /> : null}
               <ButtonContainer>
                 <Button color='pink' onClick={exitEditMode}>
                   변경하기
@@ -215,7 +138,6 @@ const BookSummary = styled.div`
     margin-bottom: 0.5rem;
   }
 `;
-
 const BookStateBox = styled.div`
   select {
     margin-top: 0.5rem;
@@ -242,16 +164,6 @@ const BookStateBox = styled.div`
       font-size: 0.8rem;
       font-family: 'Pretendard-Regular';
     }
-  }
-`;
-const BookStatusBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  label {
-    margin: 0 auto;
-  }
-  input {
-    margin-top: 0.5rem;
   }
 `;
 const ButtonContainer = styled.div`
