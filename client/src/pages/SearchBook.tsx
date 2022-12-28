@@ -1,8 +1,8 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/Button';
+import Button from '../components/common/Button';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Books } from '../types/basic';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
 import { reset } from '../stores/book/bookSlice';
-import BookCoverItem from '../components/BookCoverItem';
+import BookCoverItem from '../components/common/BookCoverItem';
 
 const BookContainer = styled.section`
   display: flex;
@@ -22,7 +22,7 @@ const BookContainer = styled.section`
   align-items: center;
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
-  box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+  box-shadow: 0rem 0rem 0.25rem 0rem rgba(0 0 0 / 20%);
 `;
 
 export const FormWrapper = styled.div`
@@ -31,13 +31,12 @@ export const FormWrapper = styled.div`
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 700;
-    font-size: 1.2rem;
-    line-height: 20px;
+    font-size: 1.25rem;
   }
   input {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
@@ -51,7 +50,7 @@ export const FormWrapper = styled.div`
   select {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);

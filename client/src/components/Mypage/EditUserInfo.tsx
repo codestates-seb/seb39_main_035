@@ -2,16 +2,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { persistor } from '..';
+import { persistor } from '../..';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { editUserInfo } from '../stores/user/userSlice';
-import { AppDispatch, RootState } from '../stores/store';
-import { User } from '../types/basic';
-import { InfoTitle, InfoText, ButtonContainer } from '../pages/MyPage';
-import BoxContainer from './BoxContainer';
-import Button from './Button';
-import Modal from './Modal';
+import { editUserInfo } from '../../stores/user/userSlice';
+import { AppDispatch, RootState } from '../../stores/store';
+import { User } from '../../types/basic';
+import { InfoTitle, InfoText, ButtonContainer } from '../../pages/MyPage';
+import BoxContainer from '../common/BoxContainer';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
 
 interface Member extends User {
   confirmPassword?: string;
@@ -169,20 +169,20 @@ export default EditUserInfo;
 const InputEdit = styled.input`
   text-align: center;
   border: 1px solid var(--gray);
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
+  border-radius: 0.6rem;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
   width: 100%;
-  height: 40px;
-  font-size: 18px;
+  height: 2.5rem;
+  font-size: 1.125rem;
   color: var(--gray);
 `;
 
 // 회원 탈퇴하기 버튼
 const LinkButton = styled.div`
-  font-size: 14px;
+  font-size: 0.875rem;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   text-decoration: none;
   color: #747474;
   text-align: right;
@@ -192,4 +192,8 @@ const LinkButton = styled.div`
   > span {
     cursor: pointer;
   }
+`;
+
+const ModalMessage = styled.p`
+  margin-bottom: 0.6rem;
 `;

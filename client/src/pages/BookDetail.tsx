@@ -1,25 +1,24 @@
 import { useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Button from '../components/Button';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
-import Boxcontainer from '../components/BoxContainer';
-import BookCoverItem from '../components/BookCoverItem';
-import StarRating from '../components/StarRating';
+import Button from '../components/common/Button';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
+import Boxcontainer from '../components/common/BoxContainer';
+import BookCoverItem from '../components/common/BookCoverItem';
+import StarRating from '../components/BookDetail/StarRating';
 import { getBookDetailData } from '../stores/book/bookSlice';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../stores/store';
+import { AppDispatch, RootState } from '../stores/store';
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import EditBookInfo from '../components/EditBookInfo';
+import EditBookInfo from '../components/BookDetail/EditBookInfo';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../components/Modal';
-import MemoList from '../components/MemoList';
+import Modal from '../components/common/Modal';
+import MemoList from '../components/BookDetail/MemoList';
 import { reset as memoStatusReset } from '../stores/memo/memoSlice';
 
 interface selectList {
@@ -195,19 +194,19 @@ const BookDetail = () => {
 export default BookDetail;
 
 const BookWrapper = styled.section`
-  min-width: 300px;
+  min-width: 18.75rem;
   box-shadow: ${(props) => props.theme.colors.boxShadow};
-  border-radius: 5px;
-  padding: 30px;
-  font-size: 18px;
+  border-radius: 0.313rem;
+  padding: 1.875rem;
+  font-size: 1.125rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 const BookSummary = styled.div`
-  margin-top: 25px;
-  line-height: 25px;
+  margin-top: 1.563rem;
+  line-height: 1.563rem;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -221,7 +220,7 @@ const BookStateBox = styled.div`
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
@@ -232,7 +231,7 @@ const BookStateBox = styled.div`
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
@@ -258,8 +257,8 @@ const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   button {
-    margin: 0px;
+    margin: 0rem;
   }
 `;

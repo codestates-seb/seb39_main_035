@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Boxcontainer from '../components/BoxContainer';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
-import Button from '../components/Button';
+import Boxcontainer from '../components/common/BoxContainer';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
+import Button from '../components/common/Button';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../stores/store';
 import { createMemo, editMemo } from '../stores/memo/memoSlice';
@@ -173,34 +173,34 @@ const FormWrapper = styled(Boxcontainer)`
 `;
 
 const StyledInput = styled.input`
-  margin-bottom: 10px;
-  font-size: 16px;
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
 `;
 
 const StyledTilte = styled.div`
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 0.6rem;
 `;
 
 const StyledEditor = styled(ToastEditor)`
   .toast-editor-contents {
-    font-size: 18px;
+    font-size: 1.2rem;
   }
 `;
 
 const StyledSelect = styled.ul`
-  margin-bottom: 10px;
+  margin-bottom: 0.6rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   list-style: none;
   color: #f9f9f9;
-  font-size: 14px;
+  font-size: 0.88rem;
   li {
-    padding: 10px;
-    border-radius: 50px;
-    margin-right: 10px;
+    padding: 0.6rem;
+    border-radius: 3rem;
+    margin-right: 0.6rem;
   }
 
   .inactive {

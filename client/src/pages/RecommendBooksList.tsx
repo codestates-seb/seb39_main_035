@@ -1,11 +1,11 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { RecommendBooks } from '../types/basic';
-import BookCoverItem from '../components/BookCoverItem';
+import BookCoverItem from '../components/common/BookCoverItem';
 
 const BookContents = styled.li`
   display: flex;
@@ -37,7 +37,7 @@ const RecommendBtnWrapper = styled.div`
 `;
 const RecommendBtn = styled.button`
   cursor: pointer;
-  border: 1px solid rgba(0 0 0 / 20%);
+  border: 0.063rem solid rgba(0 0 0 / 20%);
   font-size: 1rem;
   padding: 0.8rem;
   border-radius: 0.4rem;

@@ -18,9 +18,9 @@ const ModalBackground = styled.div`
   z-index: 10;
 `;
 const ModalContainer = styled.div`
-  padding: 30px;
-  padding-top: 50px;
-  border-radius: 5px;
+  padding: 1.875rem;
+  padding-top: 3rem;
+  border-radius: 0.3rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -33,8 +33,8 @@ const ModalContainer = styled.div`
     cursor: pointer;
     position: absolute;
     border: none;
-    top: 10px;
-    right: 10px;
+    top: 0.6rem;
+    right: 0.6rem;
   }
   color: #747474;
 `;

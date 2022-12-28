@@ -1,4 +1,5 @@
 # seb39_main_035
+
 ![로고-핑크 thin](https://user-images.githubusercontent.com/96093996/194739561-874ba27d-c514-49e7-8ac5-9582a8bc956d.png)
 
 
@@ -24,11 +25,7 @@
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=black"> <img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=black"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=black">
 
 ### 🔧 Backend </br>
-<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
-<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jwt&logoColor=white">
-<img src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white">
 
-  
 ## ✨프로젝트 아키텍쳐
 ![39기-Team035-나만의 작은 설렘-발표문서](https://user-images.githubusercontent.com/96093996/194739507-3caf46d6-4bb7-4f9a-9c62-af8b05c61314.png)
 

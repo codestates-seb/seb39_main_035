@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import HorizontalContainer from '../components/HorizontalContainer';
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
-import useScrollTop from '../util/useScrollTop';
+import HorizontalContainer from '../components/Library/HorizontalContainer';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
+import useScrollTop from '../hooks/useScrollTop';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,13 +28,13 @@ export default Library;
 
 const BookAddButton = styled.div`
   display: flex;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  padding: 1.25rem;
+  border-radius: 0.313rem;
+  margin-bottom: 1.25rem;
   border: ${(props) => props.theme.colors.border};
   transition: transfrom 300ms ease-in;
   svg {
-    margin-right: 30px;
+    margin-right: 1.875rem;
   }
   &:hover {
     cursor: pointer;

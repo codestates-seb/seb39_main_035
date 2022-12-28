@@ -1,11 +1,11 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores/store';
-import BookCoverItem from '../components/BookCoverItem';
+import BookCoverItem from '../components/common/BookCoverItem';
 import { MemoBook } from '../types/basic';
 import Pagination from 'react-js-pagination';
 import '../styles/Pagination.css';
@@ -81,7 +81,7 @@ const MemoBooks = () => {
 export default MemoBooks;
 
 const Wrapper = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const WindowWrapper = styled.div`

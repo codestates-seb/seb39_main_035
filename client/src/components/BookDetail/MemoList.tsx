@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import { RootState } from '../../stores/store';
 import styled from 'styled-components';
-import Button from './Button';
+import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import MemoItem from './MemoItem';
 
@@ -36,13 +36,13 @@ const Wrapper = styled.div`
 
 const BoxTitle = styled.div`
   width: 100%;
-  margin-top: 10px;
+  margin-top: 0.6rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   h1 {
-    font-size: 22px;
-    margin-left: 15px;
+    font-size: 1.375rem;
+    margin-left: 1rem;
     white-space: nowrap;
   }
 `;

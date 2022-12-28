@@ -13,15 +13,16 @@ export const Container = styled.section`
 
   h1 span {
     position: relative;
-    top: 5px;
+    top: 0.313rem;
     display: inline-block;
     animation: bounce 0.9s ease infinite alternate;
     font-family: 'RIDIBatang', cursive;
-    font-size: 80px;
+    font-size: 5rem;
     color: var(--misty-rose);
-    text-shadow: 0 1px 0 #ffbfc5, 0 2px 0 #ffbfc5, 0 3px 0 #ffbfc5,
-      0 4px 0 #ffbfc5, 0 5px 0 #ffbfc5, 0 6px 0 transparent, 0 7px 0 transparent,
-      0 8px 0 transparent, 0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0.063rem 0 #ffbfc5, 0 0.125rem 0 #ffbfc5,
+      0 0.188rem 0 #ffbfc5, 0 0.25rem 0 #ffbfc5, 0 0.313rem 0 #ffbfc5,
+      0 0.375rem 0 transparent, 0 0.438rem 0 transparent, 0 0.5rem 0 transparent,
+      0 0.563rem 0 transparent, 0 0.625rem 0.625rem rgba(0, 0, 0, 0.4);
   }
 
   h1 span:nth-child(2) {
@@ -48,10 +49,11 @@ export const Container = styled.section`
 
   @keyframes bounce {
     100% {
-      top: -5px;
-      text-shadow: 0 1px 0 #ffbfc5, 0 2px 0 #ffbfc5, 0 3px 0 #ffbfc5,
-        0 4px 0 #ffbfc5, 0 5px 0 #ffbfc5, 0 6px 0 #ffbfc5, 0 7px 0 #ffbfc5,
-        0 8px 0 #ffbfc5, 0 9px 0 #ffbfc5, 0 50px 25px rgba(0, 0, 0, 0.2);
+      top: -0.313rem;
+      text-shadow: 0 0.063rem 0 #ffbfc5, 0 0.125rem 0 #ffbfc5,
+        0 0.188rem 0 #ffbfc5, 0 0.25rem 0 #ffbfc5, 0 0.313rem 0 #ffbfc5,
+        0 0.375rem 0 #ffbfc5, 0 0.438rem 0 #ffbfc5, 0 0.5rem 0 #ffbfc5,
+        0 0.563rem 0 #ffbfc5, 0 3.125rem 1.563rem rgba(0, 0, 0, 0.2);
     }
   }
 `;

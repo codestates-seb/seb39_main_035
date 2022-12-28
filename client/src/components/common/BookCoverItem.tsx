@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Book } from '../types/basic';
+import { Book } from '../../types/basic';
 
 type BookCoverItemProps = {
   book?: Book;
@@ -11,37 +11,24 @@ type BookCoverItemProps = {
 
 const Wrapper = styled.div`
   display: inline-block;
-  padding: 5px;
+  padding: 0.3rem;
 `;
 
 const Img = styled.img`
-  border-radius: 5px;
+  border-radius: 0.3rem;
   box-shadow: 0 4px 6px rgb(32 33 36 / 28%);
   cursor: pointer;
   transition: transfrom 300ms ease-in;
-  /* margin: 10px; */
   &:hover {
     transform: scale(1.02);
   }
-  width: ${(props) => props.width || '85px'};
+  width: ${(props) => props.width || '5.3rem'};
 `;
-
-// const ItemInfo = styled.div`
-//   transition: top 1s ease-in;
-//   &:hover {
-//   }
-// `;
 
 const BookCoverItem = ({ src, onClick, width }: BookCoverItemProps) => {
   return (
     <Wrapper>
-      <Img
-        src={src}
-        alt='book_cover'
-        // onMouseEnter={() => console.log('hi')}
-        onClick={onClick}
-        width={width}
-      />
+      <Img src={src} alt='book_cover' onClick={onClick} width={width} />
     </Wrapper>
   );
 };

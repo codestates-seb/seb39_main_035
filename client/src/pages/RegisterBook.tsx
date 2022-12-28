@@ -1,7 +1,7 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import styled from 'styled-components';
-import Button from '../components/Button';
+import Button from '../components/common/Button';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ const BookContainer = styled.section`
   align-items: center;
   padding: 1rem 1.5rem;
   border-radius: 0.25rem;
-  box-shadow: 0px 0px 4px 0px rgba(0 0 0 / 20%);
+  box-shadow: 0rem 0rem 0.25rem 0rem rgba(0 0 0 / 20%);
 `;
 
 export const FormWrapper = styled.div`
@@ -29,12 +29,12 @@ export const FormWrapper = styled.div`
     margin-bottom: 0.5rem;
     font-weight: 700;
     font-size: 1.2rem;
-    line-height: 20px;
+    line-height: 1.25rem;
   }
   input {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);
@@ -48,7 +48,7 @@ export const FormWrapper = styled.div`
   select {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--clear-day);
+    border: 0.063rem solid var(--clear-day);
     border-radius: 0.25rem;
     outline-color: var(--scandal);
     color: rgba(0 0 0 / 70%);

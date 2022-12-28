@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { RootState } from '../stores/store';
+import { RootState } from '../../stores/store';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import Boxcontainer from './BoxContainer';
+import Boxcontainer from '../common/BoxContainer';
 import StarRating from './StarRating';
-import Button from './Button';
-import Modal from './Modal';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../stores/store';
-import { editBookDetail } from '../stores/book/bookSlice';
+import { AppDispatch } from '../../stores/store';
+import { editBookDetail } from '../../stores/book/bookSlice';
 import { toast } from 'react-toastify';
 
 interface EditBookInfoProps {

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  margin: 15px 12px 20px 12px;
+  margin: 0.9rem 0.75rem 1.25rem 0.75rem;
   display: flex;
   flex-direction: column;
-  /* 추가  */
   min-width: 355px;
 `;
 type LayoutProps = {

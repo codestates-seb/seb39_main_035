@@ -1,10 +1,10 @@
-import Layout from '../components/Layout';
-import PageTitle from '../components/PageTitle';
+import Layout from '../components/layout/Layout';
+import PageTitle from '../components/common/PageTitle';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import '../styles/Pagination.css';
-import MemoHorizontalContainer from '../components/MemoHorizontalContainer';
+import MemoHorizontalContainer from '../components/BookMemoDetail/MemoHorizontalContainer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../stores/store';
 import {
@@ -140,11 +140,11 @@ const StyledSelect = styled.ul`
   align-items: center;
   list-style: none;
   color: #f9f9f9;
-  font-size: 14px;
+  font-size: 0.8rem;
   li {
-    padding: 10px;
-    border-radius: 50px;
-    margin-right: 10px;
+    padding: 0.625rem;
+    border-radius: 2rem;
+    margin-right: 0.6rem;
   }
 
   .inactive {

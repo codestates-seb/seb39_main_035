@@ -9,7 +9,7 @@ interface StarRatingProps {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 150px;
+  width: 9.375rem;
   justify-content: space-between;
   .inactive {
     color: #c9c8c8;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 const Star = styled(BsStarFill)`
   cursor: pointer;
-  font-size: 22px;
+  font-size: 1.375rem;
 `;
 
 const StarRating = ({ star, setStar }: StarRatingProps) => {

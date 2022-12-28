@@ -1,30 +1,21 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../stores/store';
-import { Books } from '../types/basic';
+import { RootState } from '../../stores/store';
 import styled from 'styled-components';
-import BookCoverItem from './BookCoverItem';
+import BookCoverItem from '../common/BookCoverItem';
+import { AppDispatch } from '../../stores/store';
+import Carousel from '../common/Carousel';
+import Loading from '../common/Loading';
+import { AbandonBook } from '../../types/basic';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import Carousel from './Carousel';
-import Loading from './Loading';
 
-type HorizontalContainerProps = {
-  bookStatus: 'YET' | 'ING' | 'DONE';
-  title: string;
-};
-
-interface BookListItem extends Books {
-  bookId: number;
-}
-
-const HorizontalContainer = ({
-  title,
-  bookStatus,
-}: HorizontalContainerProps) => {
+const AbandonBooks = () => {
   const navigate = useNavigate();
-  const [pageNumber, setPageNumber] = useState(1);
-  const [bookList, setBookList] = useState<BookListItem[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [abandonBookList, setAbandonBookList] = useState<AbandonBook[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -33,11 +24,11 @@ const HorizontalContainer = ({
     navigate(`/books/library/${id}`);
   };
 
-  const fetchBookData = useCallback(
-    async (pageNumber: number) => {
+  useEffect(() => {
+    const fetcAbandonBookData = async (pageNumber: number) => {
       try {
         const { data } = await axios.get(
-          process.env.REACT_APP_API_BASE_URL + '/books/library',
+          process.env.REACT_APP_API_BASE_URL + '/books/abandon',
           {
             headers: {
               Authorization: token,
@@ -45,24 +36,21 @@ const HorizontalContainer = ({
             params: {
               page: pageNumber,
               size: 10,
-              bookStatus: bookStatus,
             },
           }
         );
         setIsLoading(false);
-        setBookList((prev) => [...prev, ...data.item]);
+        setAbandonBookList(data.item);
         setHasMore(pageNumber < data.pageInfo.totalPages);
       } catch (error: any) {
         if (error.response && error.response.data.message) {
           setIsError(true);
+          console.log('error:', error);
         }
       }
-    },
-    [bookStatus, token]
-  );
-  useEffect(() => {
-    fetchBookData(pageNumber);
-  }, [pageNumber, fetchBookData]);
+    };
+    fetcAbandonBookData(pageNumber);
+  }, [pageNumber, token]);
 
   const loader = useRef(null);
   const handleObserver = useCallback(
@@ -90,14 +78,13 @@ const HorizontalContainer = ({
   if (isError) return <p>cannot load data</p>;
   return (
     <Wrapper>
-      <h1>{title}</h1>
       <WindowWrapper>
         <Carousel>
-          {bookList.map((book, index) => (
+          {abandonBookList.map((abandonBook) => (
             <BookCoverItem
-              key={book.bookId}
-              src={book.cover}
-              onClick={handleClick.bind(null, book.bookId)}
+              key={abandonBook.bookId}
+              src={abandonBook.cover}
+              onClick={handleClick.bind(null, abandonBook.bookId)}
             />
           ))}
           <div ref={loader} />
@@ -107,17 +94,10 @@ const HorizontalContainer = ({
   );
 };
 
-export default HorizontalContainer;
+export default AbandonBooks;
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
-
-  h1 {
-    font-weight: 600;
-    font-size: 18px;
-    margin-bottom: 5px;
-    margin-left: 10px;
-  }
 `;
 
 const WindowWrapper = styled.div`
